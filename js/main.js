@@ -7,7 +7,7 @@
 
 // ── Config ──────────────────────────────────
 const CONFIG = {
-  AMAZON_TAG:     'homegymcalc-20',           // Replace with your Amazon Associates tag
+  AMAZON_TAG:     'homegymcalc20-20',           // Replace with your Amazon Associates tag
   MAILCHIMP_URL:  'YOUR_MAILCHIMP_URL',   // Replace after Mailchimp setup
   CLAUDE_API_URL: '/api/claude',          // Netlify function endpoint
   SITE_NAME:      'HomeGymCalc',
