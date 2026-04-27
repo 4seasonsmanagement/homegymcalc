@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>HomeGymCalc — Free Home Gym Calculators & Equipment Planner</title>
+  <meta name="description" content="Free AI-powered home gym calculators. Get a personalized equipment plan, calculate your ROI, build your gym in phases, and compare equipment — all in minutes." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://homegymcalc.com/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="HomeGymCalc — Free Home Gym Calculators" />
+  <meta property="og:description" content="Free AI-powered tools to plan, budget, and build your perfect home gym." />
+  <meta property="og:url" content="https://homegymcalc.com/" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="HomeGymCalc — Free Home Gym Calculators" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/main.css" />
+
+  <style>
+    /* Homepage-specific styles */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+
+    .why-item {
+      padding: var(--space-5);
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+    }
+
+    .why-item__icon {
+      font-size: 2rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .why-item h3 {
+      font-size: 1.1rem;
+      color: var(--white);
+      margin-bottom: var(--space-3);
+      text-transform: uppercase;
+    }
+
+    .why-item p { font-size: 0.9rem; }
+
+    .trust-bar {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: var(--space-5) 0;
+    }
+
+    .trust-items {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .trust-item__icon { font-size: 1.2rem; }
+
+    .featured-calc {
+      background: linear-gradient(135deg, var(--dark) 0%, rgba(255,92,0,0.08) 100%);
+      border: 1px solid rgba(255,92,0,0.3);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-8);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      align-items: center;
+    }
+
+    .featured-calc__steps {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      margin: var(--space-5) 0;
+    }
+
+    .featured-step {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .featured-step__num {
+      width: 36px;
+      height: 36px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+
+    .featured-step__text {
+      font-size: 0.95rem;
+      color: var(--gray-light);
+    }
+
+    .mock-result {
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+    }
+
+    .mock-result__header {
+      background: var(--orange);
+      padding: var(--space-4) var(--space-5);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .mock-result__items {
+      padding: var(--space-4) var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .mock-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3);
+      background: var(--dark-3);
+      border-radius: var(--border-radius);
+    }
+
+    .mock-item__name {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .mock-item__price {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--orange);
+    }
+
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+
+    .testimonial {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-5);
+    }
+
+    .testimonial__stars {
+      color: var(--orange);
+      font-size: 1rem;
+      margin-bottom: var(--space-3);
+    }
+
+    .testimonial__text {
+      font-size: 0.9rem;
+      color: var(--gray-light);
+      line-height: 1.6;
+      margin-bottom: var(--space-4);
+    }
+
+    .testimonial__author {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .testimonial__role {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 900px) {
+      .featured-calc { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr; }
+      .testimonials { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="/index.html" class="nav__logo">HomeGym<span>Calc</span></a>
+        <ul class="nav__links" role="list">
+          <li><a href="/index.html" class="nav__link active">Home</a></li>
+          <li><a href="/pages/calculators.html" class="nav__link">Calculators</a></li>
+          <li><a href="/pages/blog.html" class="nav__link">Guides</a></li>
+          <li><a href="/pages/about.html" class="nav__link">About</a></li>
+          <li><a href="/pages/equipment-recommender.html" class="nav__link nav__cta">Get My Plan →</a></li>
+        </ul>
+        <button class="nav__mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero__eyebrow">🏋️ Free AI-Powered Tools</div>
+        <h1 class="hero__title">
+          Build Your<br>
+          <em>Perfect Home Gym.</em><br>
+          Without the Guesswork.
+        </h1>
+        <p class="hero__subtitle">
+          Free calculators that tell you exactly what equipment to buy, what to spend, and in what order — based on your goals, space, and budget.
+        </p>
+        <div class="hero__actions">
+          <a href="/pages/equipment-recommender.html" class="btn btn--primary btn--lg">
+            Get My Equipment Plan →
+          </a>
+          <a href="/pages/calculators.html" class="btn btn--secondary btn--lg">
+            View All Calculators
+          </a>
+        </div>
+
+        <div class="hero__stats">
+          <div>
+            <div class="hero__stat-value">6</div>
+            <div class="hero__stat-label">Free Calculators</div>
+          </div>
+          <div>
+            <div class="hero__stat-value">100%</div>
+            <div class="hero__stat-label">Free, No Signup Required</div>
+          </div>
+          <div>
+            <div class="hero__stat-value">AI</div>
+            <div class="hero__stat-label">Powered Recommendations</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Bar -->
+    <div class="trust-bar">
+      <div class="container">
+        <div class="trust-items">
+          <div class="trust-item">
+            <span class="trust-item__icon">✓</span>
+            <span>No signup required</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-item__icon">✓</span>
+            <span>100% free tools</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-item__icon">✓</span>
+            <span>AI-powered recommendations</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-item__icon">✓</span>
+            <span>Unbiased — no brand partnerships</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-item__icon">✓</span>
+            <span>Updated for 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Calculator -->
+    <section class="section">
+      <div class="container">
+        <div class="featured-calc">
+          <div>
+            <div class="hero__eyebrow">⭐ Most Popular Tool</div>
+            <h2>Equipment Recommender</h2>
+            <p class="lead">Answer 5 questions. Get a complete, personalized equipment list with exact products and prices — in under 2 minutes.</p>
+
+            <div class="featured-calc__steps">
+              <div class="featured-step">
+                <div class="featured-step__num">1</div>
+                <div class="featured-step__text">Tell us your fitness goals and experience level</div>
+              </div>
+              <div class="featured-step">
+                <div class="featured-step__num">2</div>
+                <div class="featured-step__text">Enter your available space and budget</div>
+              </div>
+              <div class="featured-step">
+                <div class="featured-step__num">3</div>
+                <div class="featured-step__text">Get your AI-generated equipment plan with buy links</div>
+              </div>
+            </div>
+
+            <a href="/pages/equipment-recommender.html" class="btn btn--primary btn--lg">
+              Start Free — Takes 2 Minutes →
+            </a>
+          </div>
+
+          <div class="mock-result" aria-hidden="true">
+            <div class="mock-result__header">
+              Your Equipment Plan — $1,200 Budget
+            </div>
+            <div class="mock-result__items">
+              <div class="mock-item">
+                <div>
+                  <div class="mock-item__name">Adjustable Dumbbells</div>
+                  <div style="font-size:0.75rem;color:var(--text-muted)">Essential • Ships free</div>
+                </div>
+                <div class="mock-item__price">$329</div>
+              </div>
+              <div class="mock-item">
+                <div>
+                  <div class="mock-item__name">Adjustable Bench</div>
+                  <div style="font-size:0.75rem;color:var(--text-muted)">Essential • Top-rated</div>
+                </div>
+                <div class="mock-item__price">$189</div>
+              </div>
+              <div class="mock-item">
+                <div>
+                  <div class="mock-item__name">Pull-Up Bar</div>
+                  <div style="font-size:0.75rem;color:var(--text-muted)">Highly recommended</div>
+                </div>
+                <div class="mock-item__price">$45</div>
+              </div>
+              <div class="mock-item">
+                <div>
+                  <div class="mock-item__name">Resistance Bands</div>
+                  <div style="font-size:0.75rem;color:var(--text-muted)">Recommended</div>
+                </div>
+                <div class="mock-item__price">$35</div>
+              </div>
+              <div class="mock-item" style="background:rgba(255,92,0,0.1);border:1px solid rgba(255,92,0,0.3);">
+                <div>
+                  <div class="mock-item__name">Total Budget Used</div>
+                  <div style="font-size:0.75rem;color:var(--text-muted)">$246 remaining for upgrades</div>
+                </div>
+                <div class="mock-item__price">$954</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- All Calculators -->
+    <section class="section" style="background:var(--dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+      <div class="container">
+        <div class="section-header section-header--center">
+          <div class="section-header__eyebrow">All Tools</div>
+          <h2>Every Calculator You Need</h2>
+          <p>From picking your first dumbbell to planning a full garage gym — we have a free tool for every stage of your journey.</p>
+        </div>
+
+        <div class="grid-3" id="calc-grid">
+          <!-- Cards injected by JS -->
+        </div>
+
+        <div style="text-align:center;margin-top:var(--space-7);">
+          <a href="/pages/calculators.html" class="btn btn--secondary">
+            View All Calculators →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Section -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-header__eyebrow">Why GymCalc</div>
+          <h2>Built Different</h2>
+        </div>
+
+        <div class="why-grid">
+          <div class="why-item">
+            <div class="why-item__icon">🎯</div>
+            <h3>Actually Personalized</h3>
+            <p>Not a generic list. Our AI analyzes your specific goals, space, budget, and experience to give you a plan that actually fits your life.</p>
+          </div>
+          <div class="why-item">
+            <div class="why-item__icon">⚖️</div>
+            <h3>100% Unbiased</h3>
+            <p>We don't sell equipment and we don't have brand partnerships. Every recommendation is based on what's actually best for your situation.</p>
+          </div>
+          <div class="why-item">
+            <div class="why-item__icon">💰</div>
+            <h3>Any Budget</h3>
+            <p>Whether you have $200 or $5,000, our tools work for you. We'll show you how to get the most out of every dollar you spend.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section" style="background:var(--dark);border-top:1px solid var(--border);">
+      <div class="container">
+        <div class="section-header section-header--center">
+          <div class="section-header__eyebrow">Reviews</div>
+          <h2>Real Home Gym Builders</h2>
+        </div>
+
+        <div class="testimonials">
+          <div class="testimonial">
+            <div class="testimonial__stars">★★★★★</div>
+            <p class="testimonial__text">"I spent weeks researching and was completely overwhelmed. Used the Equipment Recommender and had my entire list in 3 minutes. Saved me $400 compared to what I was about to buy."</p>
+            <div class="testimonial__author">Marcus T.</div>
+            <div class="testimonial__role">Built a garage gym on $800</div>
+          </div>
+          <div class="testimonial">
+            <div class="testimonial__stars">★★★★★</div>
+            <p class="testimonial__text">"The Phase Builder is genius. I couldn't afford everything at once, so it showed me exactly what to buy first, second, and third. My gym is now complete 8 months later."</p>
+            <div class="testimonial__author">Jessica K.</div>
+            <div class="testimonial__role">Apartment gym, $1,400 total</div>
+          </div>
+          <div class="testimonial">
+            <div class="testimonial__stars">★★★★★</div>
+            <p class="testimonial__text">"The ROI calculator finally convinced my wife that a home gym was worth it. Showed her we'd break even in 14 months. She was sold immediately."</p>
+            <div class="testimonial__author">Dave R.</div>
+            <div class="testimonial__role">Former gym member, $150/month saved</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Email Capture -->
+    <section class="section--sm">
+      <div class="container--narrow">
+        <div class="email-capture">
+          <div class="hero__eyebrow">📖 Free Download</div>
+          <h3>The Complete Home Gym Starter Guide</h3>
+          <p>22 pages. Equipment checklists, budget templates, setup tips, and the exact order to buy everything. Free for subscribers.</p>
+          <form class="email-form" data-source="homepage" novalidate>
+            <input type="email" class="form-input" placeholder="your@email.com" aria-label="Email address" required autocomplete="email" />
+            <button type="submit" class="btn btn--primary">Get Free Guide</button>
+          </form>
+          <small style="display:block;margin-top:12px;text-align:center;">No spam. Unsubscribe anytime.</small>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__logo">HomeGym<span>Calc</span></div>
+          <p class="footer__desc">Free home gym calculators and tools to help you build smarter, spend less, and train better.</p>
+        </div>
+        <div>
+          <div class="footer__heading">Calculators</div>
+          <ul class="footer__links" role="list">
+            <li><a href="/pages/equipment-recommender.html" class="footer__link">Equipment Recommender</a></li>
+            <li><a href="/pages/roi-calculator.html" class="footer__link">ROI Calculator</a></li>
+            <li><a href="/pages/phase-builder.html" class="footer__link">Phase Builder</a></li>
+            <li><a href="/pages/dumbbells-quiz.html" class="footer__link">Dumbbells Quiz</a></li>
+            <li><a href="/pages/cardio-quiz.html" class="footer__link">Cardio Quiz</a></li>
+            <li><a href="/pages/budget-allocator.html" class="footer__link">Budget Allocator</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__heading">Guides</div>
+          <ul class="footer__links" role="list">
+            <li><a href="/pages/blog.html" class="footer__link">All Guides</a></li>
+            <li><a href="/pages/blog/home-gym-setup-guide.html" class="footer__link">Beginner's Guide</a></li>
+            <li><a href="/pages/blog/small-space-gym.html" class="footer__link">Small Space Gym</a></li>
+            <li><a href="/pages/blog/garage-gym-guide.html" class="footer__link">Garage Gym Guide</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__heading">Company</div>
+          <ul class="footer__links" role="list">
+            <li><a href="/pages/about.html" class="footer__link">About</a></li>
+            <li><a href="/pages/contact.html" class="footer__link">Contact</a></li>
+            <li><a href="/pages/privacy.html" class="footer__link">Privacy Policy</a></li>
+            <li><a href="/pages/affiliate-disclosure.html" class="footer__link">Affiliate Disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 HomeGymCalc.com. All rights reserved.</p>
+        <p class="footer__disclaimer">HomeGymCalc.com participates in the Amazon Services LLC Associates Program. As an Amazon Associate we earn from qualifying purchases at no extra cost to you.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/components.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    // Inject calculator cards
+    const calcGrid = document.getElementById('calc-grid');
+    if (calcGrid) {
+      const calcs = [
+        {
+          icon: '🏋️',
+          title: 'Equipment Recommender',
+          desc: 'Answer 5 questions, get a complete AI-generated equipment list tailored to your goals, space, and budget.',
+          href: '/pages/equipment-recommender.html',
+          isNew: true
+        },
+        {
+          icon: '💰',
+          title: 'ROI Calculator',
+          desc: 'Find out exactly when your home gym pays for itself versus a gym membership — with your real numbers.',
+          href: '/pages/roi-calculator.html',
+          tag: 'Free'
+        },
+        {
+          icon: '📅',
+          title: 'Phase Builder',
+          desc: 'Can\'t afford everything at once? Get a personalized multi-phase buying plan that grows with your budget.',
+          href: '/pages/phase-builder.html',
+          tag: 'Free'
+        },
+        {
+          icon: '🤔',
+          title: 'Dumbbells Quiz',
+          desc: 'Adjustable or fixed? Take our 3-minute quiz and get a clear answer with specific product recommendations.',
+          href: '/pages/dumbbells-quiz.html',
+          tag: 'Free'
+        },
+        {
+          icon: '🚴',
+          title: 'Cardio Machine Quiz',
+          desc: 'Treadmill, rower, or bike? Find the right cardio machine for your goals, space, and joint health.',
+          href: '/pages/cardio-quiz.html',
+          tag: 'Free'
+        },
+        {
+          icon: '📊',
+          title: 'Budget Allocator',
+          desc: 'Enter your total budget and get a recommended split across categories with specific product picks.',
+          href: '/pages/budget-allocator.html',
+          tag: 'Free'
+        }
+      ];
+
+      calcGrid.innerHTML = calcs.map(c => COMPONENTS.calcCard(c)).join('');
+    }
+  </script>
+</body>
+</html>

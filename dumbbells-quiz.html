@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adjustable vs Fixed Dumbbells Quiz — Which Should You Buy? | HomeGymCalc</title>
+  <meta name="description" content="Should you buy adjustable or fixed dumbbells? Take our 3-minute quiz and get a clear answer with specific product recommendations for your budget and goals." />
+  <link rel="canonical" href="https://homegymcalc.com/pages/dumbbells-quiz.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    .calc-page { padding-top: calc(var(--nav-height) + var(--space-7)); padding-bottom: var(--space-9); }
+
+    .quiz-wrapper {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .quiz-header {
+      background: var(--dark-2);
+      border-bottom: 1px solid var(--border);
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .quiz-progress-label {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-light);
+    }
+
+    .quiz-progress-bar {
+      height: 4px;
+      background: var(--dark-3);
+      border-radius: 2px;
+      overflow: hidden;
+      width: 120px;
+    }
+
+    .quiz-progress-fill {
+      height: 100%;
+      background: var(--orange);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    .quiz-body { padding: var(--space-7) var(--space-6); }
+
+    .quiz-question {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: var(--space-3);
+      line-height: 1.2;
+    }
+
+    .quiz-subtext {
+      font-size: 0.9rem;
+      color: var(--gray-light);
+      margin-bottom: var(--space-6);
+    }
+
+    .quiz-options { display: flex; flex-direction: column; gap: var(--space-3); }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      background: var(--dark-2);
+      border: 2px solid var(--border);
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: left;
+      width: 100%;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--orange);
+      background: rgba(255,92,0,0.05);
+    }
+
+    .quiz-option.selected {
+      border-color: var(--orange);
+      background: rgba(255,92,0,0.1);
+    }
+
+    .quiz-option__emoji { font-size: 1.6rem; flex-shrink: 0; }
+
+    .quiz-option__label {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .quiz-option__desc { font-size: 0.82rem; color: var(--gray-light); margin-top: 2px; }
+
+    /* Verdict */
+    .verdict {
+      text-align: center;
+      padding: var(--space-6) 0;
+    }
+
+    .verdict__icon { font-size: 4rem; margin-bottom: var(--space-4); }
+
+    .verdict__badge {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 14px;
+      border-radius: 100px;
+      margin-bottom: var(--space-4);
+    }
+
+    .verdict__title {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: var(--space-3);
+    }
+
+    .verdict__reason {
+      font-size: 1rem;
+      color: var(--gray-light);
+      max-width: 480px;
+      margin: 0 auto var(--space-6);
+      line-height: 1.6;
+    }
+
+    .score-meter {
+      display: flex;
+      gap: var(--space-4);
+      justify-content: center;
+      margin-bottom: var(--space-6);
+    }
+
+    .score-side {
+      flex: 1;
+      max-width: 180px;
+      text-align: center;
+    }
+
+    .score-side__label {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-2);
+    }
+
+    .score-side__bar {
+      height: 8px;
+      background: var(--dark-3);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: var(--space-2);
+    }
+
+    .score-side__fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+    .score-side__fill--adj { background: var(--orange); }
+    .score-side__fill--fix { background: var(--info); }
+
+    .score-side__pct {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 900;
+    }
+
+    .picks-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-top: var(--space-5);
+      text-align: left;
+    }
+
+    .pick-card {
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius);
+      padding: var(--space-4);
+    }
+
+    .pick-card--winner { border-color: var(--orange); }
+
+    .pick-card__badge {
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--orange);
+      margin-bottom: var(--space-2);
+    }
+
+    .pick-card__name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: var(--space-1);
+    }
+
+    .pick-card__price { font-size: 0.85rem; color: var(--orange); font-weight: 600; margin-bottom: var(--space-3); }
+    .pick-card__pros { font-size: 0.8rem; color: var(--gray-light); line-height: 1.5; }
+
+    @media (max-width: 600px) {
+      .quiz-body { padding: var(--space-5) var(--space-4); }
+      .picks-grid { grid-template-columns: 1fr; }
+      .score-meter { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="/index.html" class="nav__logo">HomeGym<span>Calc</span></a>
+        <ul class="nav__links">
+          <li><a href="/index.html" class="nav__link">Home</a></li>
+          <li><a href="/pages/calculators.html" class="nav__link active">Calculators</a></li>
+          <li><a href="/pages/blog.html" class="nav__link">Guides</a></li>
+          <li><a href="/pages/equipment-recommender.html" class="nav__link nav__cta">Get My Plan →</a></li>
+        </ul>
+        <button class="nav__mobile-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="calc-page">
+    <div class="container">
+
+      <div style="text-align:center;margin-bottom:var(--space-7);">
+        <div class="hero__eyebrow">🤔 Free Quiz</div>
+        <h1 style="font-size:clamp(2rem,5vw,3.5rem);margin-bottom:var(--space-3);">Adjustable vs. Fixed Dumbbells</h1>
+        <p class="lead" style="max-width:520px;margin:0 auto;">7 questions. 3 minutes. A clear answer and specific product picks for your budget.</p>
+      </div>
+
+      <div class="quiz-wrapper" id="quiz">
+
+        <div class="quiz-header">
+          <span class="quiz-progress-label" id="progress-label">Question 1 of 7</span>
+          <div class="quiz-progress-bar">
+            <div class="quiz-progress-fill" id="progress-fill" style="width:14%"></div>
+          </div>
+        </div>
+
+        <div class="quiz-body" id="quiz-body">
+          <!-- Injected by JS -->
+        </div>
+
+      </div>
+
+      <!-- Comparison table below quiz -->
+      <div style="max-width:680px;margin:var(--space-8) auto 0;" id="comparison-section">
+        <h2 style="font-size:1.5rem;margin-bottom:var(--space-5);text-align:center;">Quick Comparison</h2>
+        <div class="card">
+          <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+            <thead>
+              <tr>
+                <th style="text-align:left;padding:12px 8px;font-family:var(--font-display);text-transform:uppercase;font-size:0.75rem;letter-spacing:0.05em;color:var(--text-muted);border-bottom:1px solid var(--border);">Factor</th>
+                <th style="text-align:center;padding:12px 8px;font-family:var(--font-display);text-transform:uppercase;font-size:0.75rem;letter-spacing:0.05em;color:var(--orange);border-bottom:1px solid var(--border);">Adjustable</th>
+                <th style="text-align:center;padding:12px 8px;font-family:var(--font-display);text-transform:uppercase;font-size:0.75rem;letter-spacing:0.05em;color:var(--info);border-bottom:1px solid var(--border);">Fixed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:10px 8px;color:var(--gray-light);border-bottom:1px solid var(--border);">Space Required</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--success);border-bottom:1px solid var(--border);">✓ Minimal</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--error);border-bottom:1px solid var(--border);">✗ Needs rack</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 8px;color:var(--gray-light);border-bottom:1px solid var(--border);">Weight Range</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--success);border-bottom:1px solid var(--border);">✓ 5–90 lbs</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--gray-light);border-bottom:1px solid var(--border);">What you buy</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 8px;color:var(--gray-light);border-bottom:1px solid var(--border);">Change Speed</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--error);border-bottom:1px solid var(--border);">✗ 5–15 sec</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--success);border-bottom:1px solid var(--border);">✓ Instant</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 8px;color:var(--gray-light);border-bottom:1px solid var(--border);">Durability</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--warning);border-bottom:1px solid var(--border);">⚠ Mechanism wears</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--success);border-bottom:1px solid var(--border);">✓ Lasts forever</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 8px;color:var(--gray-light);border-bottom:1px solid var(--border);">Upfront Cost</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--success);border-bottom:1px solid var(--border);">✓ $200–$400</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--error);border-bottom:1px solid var(--border);">✗ $400–$1,500+</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 8px;color:var(--gray-light);border-bottom:1px solid var(--border);">Drop Safety</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--error);border-bottom:1px solid var(--border);">✗ Don't drop</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--success);border-bottom:1px solid var(--border);">✓ Can drop</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 8px;color:var(--gray-light);">Portability</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--success);">✓ One pair</td>
+                <td style="text-align:center;padding:10px 8px;color:var(--error);">✗ Heavy rack</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div><div class="footer__logo">HomeGym<span>Calc</span></div><p class="footer__desc">Free home gym calculators and tools.</p></div>
+        <div>
+          <div class="footer__heading">Calculators</div>
+          <ul class="footer__links">
+            <li><a href="/pages/equipment-recommender.html" class="footer__link">Equipment Recommender</a></li>
+            <li><a href="/pages/roi-calculator.html" class="footer__link">ROI Calculator</a></li>
+            <li><a href="/pages/dumbbells-quiz.html" class="footer__link">Dumbbells Quiz</a></li>
+            <li><a href="/pages/cardio-quiz.html" class="footer__link">Cardio Quiz</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__heading">Legal</div>
+          <ul class="footer__links">
+            <li><a href="/pages/privacy.html" class="footer__link">Privacy Policy</a></li>
+            <li><a href="/pages/affiliate-disclosure.html" class="footer__link">Affiliate Disclosure</a></li>
+          </ul>
+        </div>
+        <div></div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 HomeGymCalc.com</p>
+        <p class="footer__disclaimer">As an Amazon Associate we earn from qualifying purchases.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/components.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    const QUESTIONS = [
+      {
+        id: 'space',
+        q: 'How much space do you have for dumbbells?',
+        sub: 'Be honest — this is the #1 factor.',
+        options: [
+          { emoji:'🏠', label:'Very Limited', desc:'A drawer, small shelf, or corner — storage is tight', adj:3, fix:-2 },
+          { emoji:'🛋️', label:'Some Space', desc:'A dedicated shelf or small rack area is fine', adj:1, fix:1 },
+          { emoji:'🏭', label:'Plenty of Space', desc:'A full dumbbell rack fits comfortably', adj:0, fix:3 },
+        ]
+      },
+      {
+        id: 'budget',
+        q: 'What\'s your dumbbell budget?',
+        sub: 'Just for the dumbbells themselves.',
+        options: [
+          { emoji:'💵', label:'Under $200', desc:'Looking for the most cost-effective option', adj:3, fix:-1 },
+          { emoji:'💴', label:'$200–$500', desc:'Willing to invest for quality', adj:2, fix:1 },
+          { emoji:'💰', label:'$500+', desc:'Want the best option regardless of cost', adj:1, fix:3 },
+        ]
+      },
+      {
+        id: 'workout_style',
+        q: 'How do you typically work out?',
+        sub: 'This affects how often you\'ll change weights mid-session.',
+        options: [
+          { emoji:'⚡', label:'Circuits & Supersets', desc:'I change weights frequently — fast-paced training', adj:-2, fix:3 },
+          { emoji:'📋', label:'Straight Sets', desc:'I do all sets at the same weight before moving on', adj:2, fix:1 },
+          { emoji:'🔄', label:'Both / Not Sure', desc:'Mix of circuit and straight set training', adj:1, fix:1 },
+        ]
+      },
+      {
+        id: 'experience',
+        q: 'How long have you been lifting?',
+        sub: 'Beginners and advanced lifters often have different needs.',
+        options: [
+          { emoji:'🌱', label:'Beginner (under 1 year)', desc:'Still learning movements and building base strength', adj:2, fix:0 },
+          { emoji:'📈', label:'Intermediate (1–3 years)', desc:'Consistent training, know my lifts well', adj:1, fix:2 },
+          { emoji:'🏆', label:'Advanced (3+ years)', desc:'Serious lifter, high volume, varied weights', adj:0, fix:3 },
+        ]
+      },
+      {
+        id: 'household',
+        q: 'Who else will use the dumbbells?',
+        sub: 'Multiple users often need a wider weight range at once.',
+        options: [
+          { emoji:'🧍', label:'Just Me', desc:'Solo use only', adj:2, fix:1 },
+          { emoji:'👫', label:'Me + Partner', desc:'Two people with similar strength levels', adj:1, fix:2 },
+          { emoji:'👨‍👩‍👧', label:'Whole Family', desc:'Multiple people at different strength levels', adj:-1, fix:3 },
+        ]
+      },
+      {
+        id: 'drop',
+        q: 'Do you do any exercises that involve dropping the weights?',
+        sub: 'Snatches, cleans, or just prefer to drop between sets.',
+        options: [
+          { emoji:'✅', label:'Yes — I drop weights', desc:'Olympic-style lifts or I prefer to drop them down', adj:-3, fix:2 },
+          { emoji:'❌', label:'No — I always set them down', desc:'Controlled lowering every time', adj:2, fix:0 },
+          { emoji:'🤷', label:'Not Sure Yet', desc:'Still figuring out my training style', adj:1, fix:0 },
+        ]
+      },
+      {
+        id: 'priority',
+        q: 'What matters most to you?',
+        sub: 'Pick the single most important factor.',
+        options: [
+          { emoji:'💾', label:'Save Space', desc:'Minimizing footprint is the top priority', adj:3, fix:-2 },
+          { emoji:'⚡', label:'Speed & Convenience', desc:'I want to change weights as fast as possible', adj:-2, fix:3 },
+          { emoji:'🛡️', label:'Durability', desc:'I want equipment that lasts decades', adj:-1, fix:3 },
+          { emoji:'💰', label:'Best Value', desc:'Maximum capability per dollar spent', adj:3, fix:-1 },
+        ]
+      }
+    ];
+
+    const PRODUCT_PICKS = {
+      adjustable: {
+        budget_low: { name:'Bowflex SelectTech 552', price:'$299–$349', pros:'5–52 lbs, 15 settings, compact, great warranty', key:'bowflex-dumbbells' },
+        budget_mid: { name:'NÜO Bell (5–70 lbs)', price:'$399–$499', pros:'Widest weight range, quick-change dial, premium feel', key:'nuobell-dumbbells' },
+        budget_high: { name:'PowerBlock Elite EXP', price:'$429–$599', pros:'5–90 lbs expandable, most durable mechanism, gym quality', key:'powerblock-dumbbells' }
+      },
+      fixed: {
+        budget_low: { name:'CAP Barbell Hex Dumbbell Set', price:'$150–$300', pros:'5–50 lbs set, rubber coated, solid hex design', key:'fixed-dumbbells' },
+        budget_mid: { name:'Rogue Rubber Hex Dumbbells', price:'$300–$600', pros:'Commercial grade, perfect balance, lifetime durability', key:'fixed-dumbbells' },
+        budget_high: { name:'Full Hex Set + Heavy Rack', price:'$600–$1,500', pros:'Complete range 5–100 lbs, pro-gym quality, long-term value', key:'dumbbell-rack' }
+      }
+    };
+
+    let currentQ = 0;
+    let scores = { adjustable: 0, fixed: 0 };
+    let answers = {};
+
+    function renderQuestion() {
+      const q = QUESTIONS[currentQ];
+      const pct = Math.round(((currentQ + 1) / QUESTIONS.length) * 100);
+
+      document.getElementById('progress-label').textContent = `Question ${currentQ + 1} of ${QUESTIONS.length}`;
+      document.getElementById('progress-fill').style.width = pct + '%';
+
+      document.getElementById('quiz-body').innerHTML = `
+        <div class="quiz-question">${q.q}</div>
+        <p class="quiz-subtext">${q.sub}</p>
+        <div class="quiz-options">
+          ${q.options.map((opt, i) => `
+            <button class="quiz-option" onclick="selectOption(${i})" data-idx="${i}">
+              <span class="quiz-option__emoji">${opt.emoji}</span>
+              <div>
+                <div class="quiz-option__label">${opt.label}</div>
+                <div class="quiz-option__desc">${opt.desc}</div>
+              </div>
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function selectOption(idx) {
+      const q = QUESTIONS[currentQ];
+      const opt = q.options[idx];
+
+      // Visual feedback
+      document.querySelectorAll('.quiz-option').forEach(el => el.classList.remove('selected'));
+      document.querySelectorAll('.quiz-option')[idx].classList.add('selected');
+
+      // Score
+      scores.adjustable += opt.adj;
+      scores.fixed += opt.fix;
+      answers[q.id] = opt.label;
+
+      // Next question after brief delay
+      setTimeout(() => {
+        currentQ++;
+        if (currentQ < QUESTIONS.length) {
+          renderQuestion();
+        } else {
+          showResult();
+        }
+      }, 350);
+    }
+
+    function showResult() {
+      const totalScore = Math.abs(scores.adjustable) + Math.abs(scores.fixed);
+      const adjPct = Math.round(((scores.adjustable + totalScore / 2) / totalScore) * 100);
+      const fixPct = 100 - adjPct;
+
+      const winner = scores.adjustable >= scores.fixed ? 'adjustable' : 'fixed';
+      const margin = Math.abs(scores.adjustable - scores.fixed);
+      const confidence = margin >= 8 ? 'strong' : margin >= 4 ? 'moderate' : 'slight';
+
+      const budgetAnswer = answers.budget || '$200–$500';
+      const budgetKey = budgetAnswer.includes('Under') ? 'budget_low' : budgetAnswer.includes('500+') ? 'budget_high' : 'budget_mid';
+
+      const winnerPick = PRODUCT_PICKS[winner][budgetKey];
+      const otherType = winner === 'adjustable' ? 'fixed' : 'adjustable';
+      const otherPick = PRODUCT_PICKS[otherType][budgetKey];
+
+      const verdictText = {
+        adjustable: {
+          strong: 'Adjustable dumbbells are clearly the right choice for you. Your space, budget, and training style all point the same direction.',
+          moderate: 'Adjustable dumbbells are the better fit for your situation. The space savings and cost efficiency tip the scales.',
+          slight: 'Adjustable dumbbells edge out fixed for your needs — mainly due to space efficiency and upfront cost.'
+        },
+        fixed: {
+          strong: 'Fixed dumbbells are clearly the right call. Your training style and priorities align perfectly with a fixed set.',
+          moderate: 'Fixed dumbbells are the stronger choice for you. The speed of use and durability outweigh the space trade-off.',
+          slight: 'Fixed dumbbells barely edge out adjustable for your situation — mainly due to your training pace and priorities.'
+        }
+      };
+
+      document.getElementById('progress-label').textContent = 'Results Ready!';
+      document.getElementById('progress-fill').style.width = '100%';
+
+      document.getElementById('quiz-body').innerHTML = `
+        <div class="verdict">
+          <div class="verdict__icon">${winner === 'adjustable' ? '🎛️' : '🏋️'}</div>
+          <div class="verdict__badge">${confidence === 'strong' ? '✓ Clear Winner' : confidence === 'moderate' ? 'Recommended' : 'Slight Edge'}</div>
+          <div class="verdict__title">Go With ${winner === 'adjustable' ? 'Adjustable' : 'Fixed'} Dumbbells</div>
+          <p class="verdict__reason">${verdictText[winner][confidence]}</p>
+
+          <div class="score-meter">
+            <div class="score-side">
+              <div class="score-side__label" style="color:var(--orange);">Adjustable</div>
+              <div class="score-side__bar"><div class="score-side__fill score-side__fill--adj" style="width:${adjPct}%"></div></div>
+              <div class="score-side__pct" style="color:var(--orange);">${adjPct}%</div>
+            </div>
+            <div style="display:flex;align-items:center;color:var(--text-muted);font-size:0.8rem;">vs</div>
+            <div class="score-side">
+              <div class="score-side__label" style="color:var(--info);">Fixed</div>
+              <div class="score-side__bar"><div class="score-side__fill score-side__fill--fix" style="width:${fixPct}%"></div></div>
+              <div class="score-side__pct" style="color:var(--info);">${fixPct}%</div>
+            </div>
+          </div>
+
+          <h3 style="font-family:var(--font-display);text-transform:uppercase;font-size:1rem;margin-bottom:var(--space-4);">Top Picks For Your Budget</h3>
+
+          <div class="picks-grid">
+            <div class="pick-card ${winner === (winner === 'adjustable' ? 'adjustable' : 'fixed') ? 'pick-card--winner' : ''}">
+              <div class="pick-card__badge">✓ Our Pick For You</div>
+              <div class="pick-card__name">${winnerPick.name}</div>
+              <div class="pick-card__price">${winnerPick.price}</div>
+              <div class="pick-card__pros">${winnerPick.pros}</div>
+              <a href="${getAffiliateLink(winnerPick.key)}" target="_blank" rel="noopener sponsored"
+                 class="btn btn--primary btn--sm btn--full" style="margin-top:12px;"
+                 onclick="trackEvent('affiliate_click',{item:'${winnerPick.key}',source:'dumbbells-quiz'})">
+                View on Amazon →
+              </a>
+            </div>
+            <div class="pick-card">
+              <div class="pick-card__badge" style="color:var(--gray-light);">Alternative Option</div>
+              <div class="pick-card__name">${otherPick.name}</div>
+              <div class="pick-card__price">${otherPick.price}</div>
+              <div class="pick-card__pros">${otherPick.pros}</div>
+              <a href="${getAffiliateLink(otherPick.key)}" target="_blank" rel="noopener sponsored"
+                 class="btn btn--secondary btn--sm btn--full" style="margin-top:12px;"
+                 onclick="trackEvent('affiliate_click',{item:'${otherPick.key}',source:'dumbbells-quiz-alt'})">
+                View on Amazon →
+              </a>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap;margin-top:var(--space-6);">
+            <a href="/pages/equipment-recommender.html" class="btn btn--primary">Get Full Equipment Plan →</a>
+            <button class="btn btn--secondary" onclick="restartQuiz()">↩ Retake Quiz</button>
+          </div>
+        </div>
+      `;
+
+      trackEvent('quiz_complete', { quiz: 'dumbbells', winner, confidence });
+    }
+
+    function restartQuiz() {
+      currentQ = 0;
+      scores = { adjustable: 0, fixed: 0 };
+      answers = {};
+      renderQuestion();
+    }
+
+    // Init
+    renderQuestion();
+  </script>
+</body>
+</html>

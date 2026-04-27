@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Home Gym Calculators — HomeGymCalc.com</title>
+  <meta name="description" content="All free home gym calculators in one place. Equipment recommender, ROI calculator, phase builder, dumbbell quiz, cardio quiz, and budget allocator." />
+  <link rel="canonical" href="https://homegymcalc.com/pages/calculators.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    .calc-page { padding-top: calc(var(--nav-height) + var(--space-7)); padding-bottom: var(--space-9); }
+
+    .calc-category { margin-bottom: var(--space-8); }
+    .calc-category__title {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--orange);
+      margin-bottom: var(--space-5);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="/index.html" class="nav__logo">HomeGym<span>Calc</span></a>
+        <ul class="nav__links">
+          <li><a href="/index.html" class="nav__link">Home</a></li>
+          <li><a href="/pages/calculators.html" class="nav__link active">Calculators</a></li>
+          <li><a href="/pages/blog.html" class="nav__link">Guides</a></li>
+          <li><a href="/pages/equipment-recommender.html" class="nav__link nav__cta">Get My Plan →</a></li>
+        </ul>
+        <button class="nav__mobile-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="calc-page">
+    <div class="container">
+      <div style="margin-bottom:var(--space-8);">
+        <div class="hero__eyebrow">🧮 Free Tools</div>
+        <h1 style="font-size:clamp(2rem,5vw,3.5rem);margin-bottom:var(--space-3);">All Calculators</h1>
+        <p class="lead" style="max-width:560px;">Every tool you need to plan, build, and optimize your home gym. 100% free, no signup required.</p>
+      </div>
+
+      <!-- Planning Calculators -->
+      <div class="calc-category">
+        <div class="calc-category__title">🎯 Planning & Buying</div>
+        <div class="grid-3" id="planning-grid"></div>
+      </div>
+
+      <!-- Comparison Tools -->
+      <div class="calc-category">
+        <div class="calc-category__title">⚖️ Comparison Tools</div>
+        <div class="grid-3" id="comparison-grid"></div>
+      </div>
+
+      <!-- Financial Tools -->
+      <div class="calc-category">
+        <div class="calc-category__title">💰 Financial Tools</div>
+        <div class="grid-3" id="financial-grid"></div>
+      </div>
+
+      <!-- Coming Soon -->
+      <div class="calc-category">
+        <div class="calc-category__title">🔜 Coming Soon</div>
+        <div class="grid-3" id="coming-grid"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__logo">HomeGym<span>Calc</span></div>
+          <p class="footer__desc">Free home gym calculators and tools.</p>
+        </div>
+        <div>
+          <div class="footer__heading">Calculators</div>
+          <ul class="footer__links">
+            <li><a href="/pages/equipment-recommender.html" class="footer__link">Equipment Recommender</a></li>
+            <li><a href="/pages/roi-calculator.html" class="footer__link">ROI Calculator</a></li>
+            <li><a href="/pages/phase-builder.html" class="footer__link">Phase Builder</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__heading">Legal</div>
+          <ul class="footer__links">
+            <li><a href="/pages/privacy.html" class="footer__link">Privacy Policy</a></li>
+            <li><a href="/pages/affiliate-disclosure.html" class="footer__link">Affiliate Disclosure</a></li>
+          </ul>
+        </div>
+        <div></div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 HomeGymCalc.com</p>
+        <p class="footer__disclaimer">As an Amazon Associate we earn from qualifying purchases.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/components.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    const planning = [
+      { icon:'🏋️', title:'Equipment Recommender', desc:'AI-powered plan based on your goals, space, and budget.', href:'/pages/equipment-recommender.html', isNew:true },
+      { icon:'📅', title:'Phase Builder', desc:'Plan purchases over time when you can\'t buy everything at once.', href:'/pages/phase-builder.html', tag:'Free' },
+      { icon:'📊', title:'Budget Allocator', desc:'How to split your budget across all equipment categories.', href:'/pages/budget-allocator.html', tag:'Free' }
+    ];
+
+    const comparison = [
+      { icon:'🤔', title:'Dumbbells Quiz', desc:'Adjustable vs. fixed — get a clear answer with specific picks.', href:'/pages/dumbbells-quiz.html', tag:'Free' },
+      { icon:'🚴', title:'Cardio Machine Quiz', desc:'Treadmill, bike, or rower — which is right for you?', href:'/pages/cardio-quiz.html', tag:'Free' }
+    ];
+
+    const financial = [
+      { icon:'💰', title:'ROI Calculator', desc:'Find out exactly when your home gym pays for itself.', href:'/pages/roi-calculator.html', tag:'Free' }
+    ];
+
+    const coming = [
+      { icon:'📐', title:'Space Planner', desc:'Layout your equipment based on room dimensions.', href:'#', comingSoon:true },
+      { icon:'🏆', title:'1RM Calculator', desc:'Estimate your one-rep max for any lift.', href:'#', comingSoon:true },
+      { icon:'🥩', title:'Protein Calculator', desc:'Daily protein target based on your goals and weight.', href:'#', comingSoon:true }
+    ];
+
+    document.getElementById('planning-grid').innerHTML = planning.map(c => COMPONENTS.calcCard(c)).join('');
+    document.getElementById('comparison-grid').innerHTML = comparison.map(c => COMPONENTS.calcCard(c)).join('');
+    document.getElementById('financial-grid').innerHTML = financial.map(c => COMPONENTS.calcCard(c)).join('');
+    document.getElementById('coming-grid').innerHTML = coming.map(c => COMPONENTS.calcCard(c)).join('');
+  </script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cardio Machine Quiz — Treadmill vs Rower vs Bike vs Elliptical | HomeGymCalc</title>
+  <meta name="description" content="Which cardio machine is right for your home gym? Take our quiz to find out if you should buy a treadmill, rowing machine, stationary bike, or elliptical — with specific product picks." />
+  <link rel="canonical" href="https://homegymcalc.com/pages/cardio-quiz.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    .calc-page { padding-top: calc(var(--nav-height) + var(--space-7)); padding-bottom: var(--space-9); }
+
+    .quiz-wrapper {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .quiz-header {
+      background: var(--dark-2);
+      border-bottom: 1px solid var(--border);
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .quiz-progress-label { font-family: var(--font-display); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray-light); }
+
+    .quiz-progress-bar { height: 4px; background: var(--dark-3); border-radius: 2px; overflow: hidden; width: 140px; }
+    .quiz-progress-fill { height: 100%; background: var(--orange); border-radius: 2px; transition: width 0.4s ease; }
+
+    .quiz-body { padding: var(--space-7) var(--space-6); }
+
+    .quiz-question { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; text-transform: uppercase; color: var(--white); margin-bottom: var(--space-2); line-height: 1.2; }
+    .quiz-subtext { font-size: 0.9rem; color: var(--gray-light); margin-bottom: var(--space-6); }
+
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+    .quiz-options.single-col { grid-template-columns: 1fr; }
+
+    .quiz-option {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-4);
+      background: var(--dark-2);
+      border: 2px solid var(--border);
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: left;
+      width: 100%;
+    }
+
+    .quiz-option:hover { border-color: var(--orange); background: rgba(255,92,0,0.05); }
+    .quiz-option.selected { border-color: var(--orange); background: rgba(255,92,0,0.1); }
+
+    .quiz-option__emoji { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+    .quiz-option__label { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; color: var(--white); }
+    .quiz-option__desc { font-size: 0.8rem; color: var(--gray-light); margin-top: 2px; line-height: 1.4; }
+
+    /* Results */
+    .machine-winner {
+      text-align: center;
+      padding: var(--space-5) 0 var(--space-4);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--space-6);
+    }
+
+    .machine-icon { font-size: 4rem; margin-bottom: var(--space-3); }
+
+    .machine-badge {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 14px;
+      border-radius: 100px;
+      margin-bottom: var(--space-4);
+    }
+
+    .machine-title { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; text-transform: uppercase; color: var(--white); margin-bottom: var(--space-3); }
+    .machine-reason { font-size: 1rem; color: var(--gray-light); max-width: 500px; margin: 0 auto; line-height: 1.6; }
+
+    .machine-scores {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-3);
+      margin-bottom: var(--space-6);
+    }
+
+    .machine-score-card {
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius);
+      padding: var(--space-3);
+      text-align: center;
+    }
+
+    .machine-score-card--winner { border-color: var(--orange); background: rgba(255,92,0,0.08); }
+
+    .machine-score-card__icon { font-size: 1.5rem; margin-bottom: var(--space-2); }
+    .machine-score-card__name { font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--white); margin-bottom: var(--space-2); }
+
+    .machine-score-bar { height: 6px; background: var(--dark-3); border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
+    .machine-score-fill { height: 100%; border-radius: 3px; background: var(--orange); transition: width 0.6s ease; }
+
+    .machine-score-pct { font-family: var(--font-display); font-size: 0.9rem; font-weight: 700; color: var(--orange); }
+
+    .product-picks { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-6); }
+
+    .product-pick {
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius);
+      padding: var(--space-4);
+    }
+
+    .product-pick--top { border-color: var(--orange); }
+    .product-pick__badge { font-family: var(--font-display); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--orange); margin-bottom: var(--space-2); }
+    .product-pick__name { font-family: var(--font-display); font-size: 1rem; font-weight: 700; text-transform: uppercase; color: var(--white); margin-bottom: 4px; }
+    .product-pick__price { font-size: 0.85rem; color: var(--orange); font-weight: 600; margin-bottom: var(--space-3); }
+    .product-pick__pros { font-size: 0.8rem; color: var(--gray-light); line-height: 1.5; }
+
+    .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-5); }
+
+    .pros-cons__col { background: var(--dark-2); border: 1px solid var(--border); border-radius: var(--border-radius); padding: var(--space-4); }
+
+    .pros-cons__title { font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--space-3); }
+
+    .pros-cons__item { display: flex; gap: 8px; align-items: flex-start; font-size: 0.82rem; color: var(--gray-light); line-height: 1.4; margin-bottom: 6px; }
+
+    @media (max-width: 640px) {
+      .quiz-options { grid-template-columns: 1fr; }
+      .machine-scores { grid-template-columns: repeat(2, 1fr); }
+      .product-picks { grid-template-columns: 1fr; }
+      .pros-cons { grid-template-columns: 1fr; }
+      .quiz-body { padding: var(--space-5) var(--space-4); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="/index.html" class="nav__logo">HomeGym<span>Calc</span></a>
+        <ul class="nav__links">
+          <li><a href="/index.html" class="nav__link">Home</a></li>
+          <li><a href="/pages/calculators.html" class="nav__link active">Calculators</a></li>
+          <li><a href="/pages/blog.html" class="nav__link">Guides</a></li>
+          <li><a href="/pages/equipment-recommender.html" class="nav__link nav__cta">Get My Plan →</a></li>
+        </ul>
+        <button class="nav__mobile-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="calc-page">
+    <div class="container">
+
+      <div style="text-align:center;margin-bottom:var(--space-7);">
+        <div class="hero__eyebrow">🚴 Free Quiz</div>
+        <h1 style="font-size:clamp(2rem,5vw,3.5rem);margin-bottom:var(--space-3);">Which Cardio Machine?</h1>
+        <p class="lead" style="max-width:540px;margin:0 auto;">Treadmill, rower, bike, or elliptical — 8 questions to find your perfect match.</p>
+      </div>
+
+      <div class="quiz-wrapper" id="quiz">
+        <div class="quiz-header">
+          <span class="quiz-progress-label" id="progress-label">Question 1 of 8</span>
+          <div class="quiz-progress-bar">
+            <div class="quiz-progress-fill" id="progress-fill" style="width:12%"></div>
+          </div>
+        </div>
+        <div class="quiz-body" id="quiz-body"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div><div class="footer__logo">HomeGym<span>Calc</span></div><p class="footer__desc">Free home gym calculators and tools.</p></div>
+        <div>
+          <div class="footer__heading">Calculators</div>
+          <ul class="footer__links">
+            <li><a href="/pages/equipment-recommender.html" class="footer__link">Equipment Recommender</a></li>
+            <li><a href="/pages/roi-calculator.html" class="footer__link">ROI Calculator</a></li>
+            <li><a href="/pages/cardio-quiz.html" class="footer__link">Cardio Quiz</a></li>
+            <li><a href="/pages/dumbbells-quiz.html" class="footer__link">Dumbbells Quiz</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__heading">Legal</div>
+          <ul class="footer__links">
+            <li><a href="/pages/privacy.html" class="footer__link">Privacy Policy</a></li>
+            <li><a href="/pages/affiliate-disclosure.html" class="footer__link">Affiliate Disclosure</a></li>
+          </ul>
+        </div>
+        <div></div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 HomeGymCalc.com</p>
+        <p class="footer__disclaimer">As an Amazon Associate we earn from qualifying purchases.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/components.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    // Scores: treadmill, rower, bike, elliptical
+    const QUESTIONS = [
+      {
+        q: 'What\'s your main cardio goal?',
+        sub: 'This is the single biggest factor.',
+        cols: 2,
+        options: [
+          { emoji:'🏃', label:'Running / Lose Weight', desc:'Burn max calories, train for running events', scores:[3,1,1,1] },
+          { emoji:'💪', label:'Full-Body Conditioning', desc:'Cardio that also builds upper body strength', scores:[0,3,0,1] },
+          { emoji:'🦵', label:'Low Impact / Joint Safe', desc:'Knee, hip or back issues — need easy on joints', scores:[-2,1,2,3] },
+          { emoji:'⚡', label:'HIIT / Interval Training', desc:'Short intense bursts, max heart rate spikes', scores:[1,3,1,2] },
+        ]
+      },
+      {
+        q: 'How much floor space do you have?',
+        sub: 'Measure your open area before buying any cardio machine.',
+        cols: 2,
+        options: [
+          { emoji:'📦', label:'Very Small (under 30 sq ft)', desc:'Only small foldable equipment will work', scores:[-1,1,2,-1] },
+          { emoji:'🛋️', label:'Medium (30–60 sq ft)', desc:'Standard room or dedicated corner', scores:[1,2,2,1] },
+          { emoji:'🏭', label:'Large (60+ sq ft)', desc:'Dedicated room or large garage space', scores:[3,3,3,3] },
+        ]
+      },
+      {
+        q: 'What\'s your cardio budget?',
+        sub: 'Quality matters a lot for cardio — cheap machines break fast.',
+        cols: 2,
+        options: [
+          { emoji:'💵', label:'Under $500', desc:'Budget is tight — need best value', scores:[-2,0,3,-1] },
+          { emoji:'💴', label:'$500–$1,000', desc:'Mid-range investment', scores:[0,2,2,1] },
+          { emoji:'💰', label:'$1,000+', desc:'Investing in quality equipment', scores:[3,3,2,2] },
+        ]
+      },
+      {
+        q: 'Do you have any joint issues?',
+        sub: 'Honest answer here prevents expensive mistakes.',
+        cols: 1,
+        options: [
+          { emoji:'🦵', label:'Yes — Knee Problems', desc:'Knees hurt with high impact or bending under load', scores:[-2,1,2,3] },
+          { emoji:'🦴', label:'Yes — Back Problems', desc:'Lower back pain, disc issues, or posture concerns', scores:[-1,-1,2,2] },
+          { emoji:'💪', label:'No Issues', desc:'I can handle any type of exercise', scores:[2,2,2,2] },
+        ]
+      },
+      {
+        q: 'How often will you actually use it?',
+        sub: 'Be realistic — this affects which machine is worth the investment.',
+        cols: 2,
+        options: [
+          { emoji:'📅', label:'Daily (5–7x/week)', desc:'Cardio is a core part of my routine', scores:[2,1,2,1] },
+          { emoji:'📆', label:'3–4 Times Per Week', desc:'Consistent but not every day', scores:[2,2,2,2] },
+          { emoji:'🗓️', label:'1–2 Times Per Week', desc:'Occasional cardio as a supplement', scores:[0,2,2,1] },
+        ]
+      },
+      {
+        q: 'Do you live in an apartment or have noise concerns?',
+        sub: 'Neighbors below and light floors change everything.',
+        cols: 2,
+        options: [
+          { emoji:'🏢', label:'Yes — Apartment / Thin Floors', desc:'Noise and vibration are real concerns', scores:[-3,2,3,0] },
+          { emoji:'🏠', label:'House / No Noise Concerns', desc:'Sound and impact aren\'t an issue', scores:[3,3,3,3] },
+        ]
+      },
+      {
+        q: 'Do you enjoy the workout itself?',
+        sub: 'The best machine is the one you\'ll actually use.',
+        cols: 2,
+        options: [
+          { emoji:'🏃', label:'I Love Running', desc:'Running is my preferred form of exercise', scores:[3,-1,-1,0] },
+          { emoji:'🚴', label:'I Prefer Cycling', desc:'Bike riding feels natural and enjoyable', scores:[-1,0,3,0] },
+          { emoji:'🤷', label:'I Just Want Cardio Done', desc:'I don\'t really enjoy cardio — just want efficient', scores:[0,3,1,1] },
+          { emoji:'🔄', label:'I Want Something New', desc:'Looking to try a different type of training', scores:[0,3,0,2] },
+        ]
+      },
+      {
+        q: 'How important is calorie burn per session?',
+        sub: 'All machines work — but output varies significantly.',
+        cols: 2,
+        options: [
+          { emoji:'🔥', label:'Max Burn — Top Priority', desc:'I want the highest calorie output possible', scores:[2,3,1,1] },
+          { emoji:'⚖️', label:'Moderate — Good Enough', desc:'Consistent burn is fine, intensity matters less', scores:[1,1,2,2] },
+          { emoji:'🧘', label:'Low and Steady', desc:'Long easy sessions, not intense intervals', scores:[1,0,2,2] },
+        ]
+      }
+    ];
+
+    const MACHINES = {
+      treadmill: {
+        icon: '🏃',
+        name: 'Treadmill',
+        tagline: 'The classic — best for runners and high calorie burn',
+        reason: 'Your answers point to a treadmill. You prioritize calorie burn, don\'t have joint issues, and likely enjoy running or walking-based cardio.',
+        pros: ['Highest calorie burn per session', 'Natural running movement', 'Variable speed and incline', 'Great for weight loss goals'],
+        cons: ['Loudest — bad for apartments', 'Hardest on joints', 'Large footprint', 'More expensive for quality'],
+        picks: [
+          { badge:'Best Value', name:'NordicTrack T Series', price:'$699–$999', pros:'Incline up to 12%, iFit compatible, folds flat', key:'treadmill' },
+          { badge:'Budget Pick', name:'Sunny Health SF-T4400', price:'$299–$399', pros:'Foldable, quiet motor, good for walking/light running', key:'treadmill' }
+        ]
+      },
+      rower: {
+        icon: '🚣',
+        name: 'Rowing Machine',
+        tagline: 'Most efficient — burns the most calories per minute',
+        reason: 'Your profile points strongly to a rowing machine. It delivers the highest calorie output, works your full body, and is ideal for HIIT intervals.',
+        pros: ['Full-body — works 86% of muscles', 'Highest calorie burn per minute', 'Low impact on joints', 'Compact when stored vertically'],
+        cons: ['Technique takes time to learn', 'Long footprint when in use', 'Seat can be uncomfortable at first', 'Not for pure running training'],
+        picks: [
+          { badge:'Best Overall', name:'Concept2 RowErg', price:'$900–$1,100', pros:'Gold standard, used in gyms worldwide, lasts forever', key:'rowing-machine' },
+          { badge:'Budget Pick', name:'Sunny Health SF-RW5515', price:'$299–$450', pros:'Magnetic resistance, quiet, foldable, solid entry level', key:'rowing-machine' }
+        ]
+      },
+      bike: {
+        icon: '🚴',
+        name: 'Stationary Bike',
+        tagline: 'Easiest on joints — best for apartments and cycling fans',
+        reason: 'A stationary bike is your best fit. It\'s the most joint-friendly option, works well in small spaces, and handles apartments without noise issues.',
+        pros: ['Gentlest on knees and joints', 'Quietest cardio machine', 'Compact footprint', 'Best value at lower price points'],
+        cons: ['Lower calorie burn than rower/treadmill', 'Upper body gets no workout', 'Seat comfort varies', 'Less engaging for non-cyclists'],
+        picks: [
+          { badge:'Best Overall', name:'Schwinn IC4 Indoor Bike', price:'$699–$799', pros:'Magnetic resistance, Bluetooth, HIIT friendly, quiet', key:'stationary-bike' },
+          { badge:'Budget Pick', name:'Sunny Health SF-B1002C', price:'$249–$349', pros:'Chain drive, heavy flywheel, smooth ride, durable', key:'stationary-bike' }
+        ]
+      },
+      elliptical: {
+        icon: '⭕',
+        name: 'Elliptical',
+        tagline: 'Low impact full-body — the joint-friendly all-rounder',
+        reason: 'An elliptical fits your needs perfectly. It gives you a full-body cardio workout with zero impact — ideal for joint issues or long steady-state sessions.',
+        pros: ['Zero joint impact', 'Full body with arm handles', 'Natural stepping motion', 'Very quiet operation'],
+        cons: ['Takes up significant floor space', 'More expensive at quality levels', 'Less intense than rower/treadmill', 'Technique can feel unnatural at first'],
+        picks: [
+          { badge:'Best Overall', name:'NordicTrack FS14i', price:'$1,299–$1,699', pros:'Stride length adjusts, incline, iFit, top rated', key:'elliptical' },
+          { badge:'Budget Pick', name:'Schwinn 430 Elliptical', price:'$599–$799', pros:'22 levels, 29 programs, solid mid-range build quality', key:'elliptical' }
+        ]
+      }
+    };
+
+    let currentQ = 0;
+    let scores = { treadmill: 0, rower: 0, bike: 0, elliptical: 0 };
+
+    function renderQuestion() {
+      const q = QUESTIONS[currentQ];
+      const pct = Math.round(((currentQ + 1) / QUESTIONS.length) * 100);
+      document.getElementById('progress-label').textContent = `Question ${currentQ + 1} of ${QUESTIONS.length}`;
+      document.getElementById('progress-fill').style.width = pct + '%';
+
+      document.getElementById('quiz-body').innerHTML = `
+        <div class="quiz-question">${q.q}</div>
+        <p class="quiz-subtext">${q.sub}</p>
+        <div class="quiz-options ${q.cols === 1 ? 'single-col' : ''}">
+          ${q.options.map((opt, i) => `
+            <button class="quiz-option" onclick="selectOption(${i})">
+              <span class="quiz-option__emoji">${opt.emoji}</span>
+              <div>
+                <div class="quiz-option__label">${opt.label}</div>
+                <div class="quiz-option__desc">${opt.desc}</div>
+              </div>
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function selectOption(idx) {
+      const q = QUESTIONS[currentQ];
+      const opt = q.options[idx];
+
+      document.querySelectorAll('.quiz-option').forEach(el => el.classList.remove('selected'));
+      document.querySelectorAll('.quiz-option')[idx].classList.add('selected');
+
+      const keys = ['treadmill', 'rower', 'bike', 'elliptical'];
+      keys.forEach((k, i) => { scores[k] += opt.scores[i]; });
+
+      setTimeout(() => {
+        currentQ++;
+        if (currentQ < QUESTIONS.length) {
+          renderQuestion();
+        } else {
+          showResult();
+        }
+      }, 350);
+    }
+
+    function showResult() {
+      const keys = Object.keys(scores);
+      const winner = keys.reduce((a, b) => scores[a] >= scores[b] ? a : b);
+      const machine = MACHINES[winner];
+
+      // Normalize scores to percentages
+      const minScore = Math.min(...Object.values(scores));
+      const shifted = {};
+      keys.forEach(k => { shifted[k] = scores[k] - minScore + 1; });
+      const total = Object.values(shifted).reduce((a, b) => a + b, 0);
+      const pcts = {};
+      keys.forEach(k => { pcts[k] = Math.round((shifted[k] / total) * 100); });
+
+      document.getElementById('progress-label').textContent = 'Your Result!';
+      document.getElementById('progress-fill').style.width = '100%';
+
+      document.getElementById('quiz-body').innerHTML = `
+        <div class="machine-winner">
+          <div class="machine-icon">${machine.icon}</div>
+          <div class="machine-badge">✓ Best Match For You</div>
+          <div class="machine-title">${machine.name}</div>
+          <p class="machine-reason">${machine.reason}</p>
+        </div>
+
+        <div class="machine-scores">
+          ${keys.map(k => `
+            <div class="machine-score-card ${k === winner ? 'machine-score-card--winner' : ''}">
+              <div class="machine-score-card__icon">${MACHINES[k].icon}</div>
+              <div class="machine-score-card__name">${MACHINES[k].name}</div>
+              <div class="machine-score-bar"><div class="machine-score-fill" style="width:${pcts[k]}%"></div></div>
+              <div class="machine-score-pct">${pcts[k]}%</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <h3 style="font-family:var(--font-display);text-transform:uppercase;font-size:1rem;margin-bottom:var(--space-4);">Top Picks</h3>
+
+        <div class="product-picks">
+          ${machine.picks.map((pick, i) => `
+            <div class="product-pick ${i === 0 ? 'product-pick--top' : ''}">
+              <div class="product-pick__badge">${pick.badge}</div>
+              <div class="product-pick__name">${pick.name}</div>
+              <div class="product-pick__price">${pick.price}</div>
+              <div class="product-pick__pros">${pick.pros}</div>
+              <a href="${getAffiliateLink(pick.key)}" target="_blank" rel="noopener sponsored"
+                 class="btn btn--${i === 0 ? 'primary' : 'secondary'} btn--sm btn--full" style="margin-top:12px;"
+                 onclick="trackEvent('affiliate_click',{item:'${pick.key}',source:'cardio-quiz'})">
+                View on Amazon →
+              </a>
+            </div>
+          `).join('')}
+        </div>
+
+        <h3 style="font-family:var(--font-display);text-transform:uppercase;font-size:1rem;margin-bottom:var(--space-4);">Pros & Cons</h3>
+        <div class="pros-cons">
+          <div class="pros-cons__col">
+            <div class="pros-cons__title" style="color:var(--success);">✓ Strengths</div>
+            ${machine.pros.map(p => `<div class="pros-cons__item"><span style="color:var(--success);flex-shrink:0;">+</span><span>${p}</span></div>`).join('')}
+          </div>
+          <div class="pros-cons__col">
+            <div class="pros-cons__title" style="color:var(--error);">✗ Limitations</div>
+            ${machine.cons.map(c => `<div class="pros-cons__item"><span style="color:var(--error);flex-shrink:0;">−</span><span>${c}</span></div>`).join('')}
+          </div>
+        </div>
+
+        <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;justify-content:center;padding-top:var(--space-5);border-top:1px solid var(--border);">
+          <a href="/pages/equipment-recommender.html" class="btn btn--primary">Get Full Gym Plan →</a>
+          <a href="/pages/roi-calculator.html" class="btn btn--secondary">Calculate ROI →</a>
+          <button class="btn btn--ghost" onclick="restartQuiz()">↩ Retake</button>
+        </div>
+      `;
+
+      trackEvent('quiz_complete', { quiz: 'cardio', winner });
+    }
+
+    function restartQuiz() {
+      currentQ = 0;
+      scores = { treadmill: 0, rower: 0, bike: 0, elliptical: 0 };
+      renderQuestion();
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>

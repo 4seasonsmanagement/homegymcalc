@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Gym Guides & Tips — HomeGymCalc</title>
+  <meta name="description" content="Free home gym guides, equipment reviews, and setup tips. Learn exactly how to build your perfect home gym at any budget." />
+  <link rel="canonical" href="https://homegymcalc.com/pages/blog.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    .calc-page { padding-top: calc(var(--nav-height) + var(--space-7)); padding-bottom: var(--space-9); }
+
+    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+
+    .blog-card {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .blog-card:hover { border-color: var(--orange); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+    .blog-card__thumb {
+      height: 160px;
+      background: var(--dark-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .blog-card__body { padding: var(--space-5); flex: 1; display: flex; flex-direction: column; }
+
+    .blog-card__category {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--orange);
+      margin-bottom: var(--space-2);
+    }
+
+    .blog-card__title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.3;
+      margin-bottom: var(--space-3);
+    }
+
+    .blog-card__excerpt { font-size: 0.875rem; color: var(--gray-light); line-height: 1.6; flex: 1; margin-bottom: var(--space-4); }
+
+    .blog-card__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--border);
+    }
+
+    .blog-card__read { color: var(--orange); font-weight: 600; }
+
+    .featured-post {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin-bottom: var(--space-7);
+    }
+
+    .featured-post__thumb {
+      background: linear-gradient(135deg, rgba(255,92,0,0.2), var(--dark-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6rem;
+      min-height: 280px;
+      border-right: 1px solid var(--border);
+    }
+
+    .featured-post__body { padding: var(--space-7); display: flex; flex-direction: column; justify-content: center; }
+
+    .featured-label {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--orange);
+      margin-bottom: var(--space-3);
+    }
+
+    .featured-post__title {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: var(--space-4);
+    }
+
+    .featured-post__excerpt { color: var(--gray-light); line-height: 1.6; margin-bottom: var(--space-5); }
+
+    @media (max-width: 900px) {
+      .blog-grid { grid-template-columns: repeat(2, 1fr); }
+      .featured-post { grid-template-columns: 1fr; }
+      .featured-post__thumb { min-height: 160px; border-right: none; border-bottom: 1px solid var(--border); }
+    }
+
+    @media (max-width: 600px) {
+      .blog-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="/index.html" class="nav__logo">HomeGym<span>Calc</span></a>
+        <ul class="nav__links">
+          <li><a href="/index.html" class="nav__link">Home</a></li>
+          <li><a href="/pages/calculators.html" class="nav__link">Calculators</a></li>
+          <li><a href="/pages/blog.html" class="nav__link active">Guides</a></li>
+          <li><a href="/pages/equipment-recommender.html" class="nav__link nav__cta">Get My Plan →</a></li>
+        </ul>
+        <button class="nav__mobile-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="calc-page">
+    <div class="container">
+
+      <div style="margin-bottom:var(--space-7);">
+        <div class="hero__eyebrow">📖 Free Guides</div>
+        <h1 style="font-size:clamp(2rem,5vw,3rem);margin-bottom:var(--space-3);">Home Gym Guides</h1>
+        <p class="lead" style="max-width:560px;">In-depth guides to help you build smarter, spend less, and train better — at every budget level.</p>
+      </div>
+
+      <!-- Featured Post -->
+      <a href="/pages/blog/home-gym-setup-guide.html" class="featured-post" style="text-decoration:none;">
+        <div class="featured-post__thumb">🏋️</div>
+        <div class="featured-post__body">
+          <div class="featured-label">⭐ Most Popular Guide</div>
+          <div class="featured-post__title">The Complete Beginner's Home Gym Setup Guide (2026)</div>
+          <p class="featured-post__excerpt">Everything you need to know to set up your first home gym — from picking a space to buying your first piece of equipment. Includes budget templates for $300, $800, and $2,000 builds.</p>
+          <span class="btn btn--primary" style="display:inline-flex;width:fit-content;">Read Guide →</span>
+        </div>
+      </a>
+
+      <!-- Blog Grid -->
+      <div class="blog-grid" id="blog-grid"></div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div><div class="footer__logo">HomeGym<span>Calc</span></div><p class="footer__desc">Free home gym calculators and tools.</p></div>
+        <div>
+          <div class="footer__heading">Calculators</div>
+          <ul class="footer__links">
+            <li><a href="/pages/equipment-recommender.html" class="footer__link">Equipment Recommender</a></li>
+            <li><a href="/pages/roi-calculator.html" class="footer__link">ROI Calculator</a></li>
+            <li><a href="/pages/phase-builder.html" class="footer__link">Phase Builder</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__heading">Legal</div>
+          <ul class="footer__links">
+            <li><a href="/pages/privacy.html" class="footer__link">Privacy Policy</a></li>
+            <li><a href="/pages/affiliate-disclosure.html" class="footer__link">Affiliate Disclosure</a></li>
+          </ul>
+        </div>
+        <div></div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 HomeGymCalc.com</p>
+        <p class="footer__disclaimer">As an Amazon Associate we earn from qualifying purchases.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/components.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    const posts = [
+      { emoji:'🏠', category:'Setup Guides', title:'Small Space Home Gym: Best Equipment for Under 100 Sq Ft', excerpt:'Live in an apartment or have limited space? These compact, storage-friendly setups deliver a full workout in as little as 6x6 feet.', date:'Jan 2026', read:'8 min read', href:'/pages/blog/small-space-gym.html' },
+      { emoji:'🚗', category:'Garage Gyms', title:'The Ultimate Garage Gym Guide: Build Your Dream Gym for Under $3,000', excerpt:'Garages are the best home gym spaces available. Learn how to plan, organize, and equip yours with the right gear in the right order.', date:'Jan 2026', read:'12 min read', href:'/pages/blog/garage-gym-guide.html' },
+      { emoji:'💰', category:'Cost Analysis', title:'Home Gym vs. Gym Membership: The Real Numbers (2026)', excerpt:'We crunched the numbers across 50+ scenarios. Here\'s exactly when a home gym beats a membership — and when it doesn\'t.', date:'Jan 2026', read:'7 min read', href:'/pages/blog/gym-vs-membership.html' },
+      { emoji:'🎛️', category:'Equipment Guide', title:'Best Adjustable Dumbbells 2026: Tested and Ranked', excerpt:'We compare the top 8 adjustable dumbbell sets on the market — Bowflex, NÜO, PowerBlock, and more. Find the right one for your budget.', date:'Jan 2026', read:'10 min read', href:'/pages/blog/best-adjustable-dumbbells.html' },
+      { emoji:'🚣', category:'Cardio', title:'Rowing Machine vs Treadmill: Which Is Actually Better?', excerpt:'Both are popular. Both burn calories. But one is almost always a better choice for home gym owners. Here\'s the honest breakdown.', date:'Feb 2026', read:'6 min read', href:'/pages/blog/rower-vs-treadmill.html' },
+      { emoji:'📦', category:'Used Equipment', title:'How to Buy Used Gym Equipment (Without Getting Burned)', excerpt:'Facebook Marketplace, Craigslist, and OfferUp are goldmines for gym equipment. Here\'s exactly what to look for — and what to avoid.', date:'Feb 2026', read:'8 min read', href:'/pages/blog/buying-used-gym-equipment.html' },
+    ];
+
+    document.getElementById('blog-grid').innerHTML = posts.map(p => `
+      <a href="${p.href}" class="blog-card" style="text-decoration:none;">
+        <div class="blog-card__thumb">${p.emoji}</div>
+        <div class="blog-card__body">
+          <div class="blog-card__category">${p.category}</div>
+          <div class="blog-card__title">${p.title}</div>
+          <p class="blog-card__excerpt">${p.excerpt}</p>
+          <div class="blog-card__meta">
+            <span>${p.date} · ${p.read}</span>
+            <span class="blog-card__read">Read →</span>
+          </div>
+        </div>
+      </a>
+    `).join('');
+  </script>
+</body>
+</html>

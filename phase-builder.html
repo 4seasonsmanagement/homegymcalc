@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Gym Phase Builder — Plan Your Gym Over Time | HomeGymCalc</title>
+  <meta name="description" content="Can't afford everything at once? The Home Gym Phase Builder creates a personalized multi-phase buying plan so you can build your perfect gym on any timeline." />
+  <link rel="canonical" href="https://homegymcalc.com/pages/phase-builder.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    .calc-page { padding-top: calc(var(--nav-height) + var(--space-7)); padding-bottom: var(--space-9); }
+
+    .phase-card {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      margin-bottom: var(--space-5);
+    }
+
+    .phase-card__header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .phase-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+
+    .phase-num--1 { background: var(--orange); }
+    .phase-num--2 { background: var(--info); }
+    .phase-num--3 { background: var(--success); }
+
+    .phase-card__title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .phase-card__subtitle { font-size: 0.9rem; color: var(--gray-light); }
+
+    .phase-card__budget {
+      margin-left: auto;
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--orange);
+      white-space: nowrap;
+    }
+
+    .phase-card__body { padding: var(--space-5) var(--space-6); }
+
+    .phase-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--border);
+      gap: var(--space-4);
+    }
+
+    .phase-item:last-child { border-bottom: none; }
+
+    .phase-item__name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .phase-item__why { font-size: 0.8rem; color: var(--gray-light); margin-top: 2px; }
+
+    .phase-item__right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      flex-shrink: 0;
+    }
+
+    .phase-item__price {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--orange);
+      white-space: nowrap;
+    }
+
+    .timeline {
+      display: flex;
+      gap: 0;
+      margin-bottom: var(--space-7);
+      overflow-x: auto;
+      padding-bottom: var(--space-2);
+    }
+
+    .timeline-phase {
+      flex: 1;
+      min-width: 140px;
+      text-align: center;
+      position: relative;
+    }
+
+    .timeline-phase::after {
+      content: '';
+      position: absolute;
+      top: 22px;
+      right: 0;
+      width: 50%;
+      height: 2px;
+      background: var(--border);
+    }
+
+    .timeline-phase:last-child::after { display: none; }
+
+    .timeline-dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1rem;
+      margin: 0 auto var(--space-3);
+      color: var(--gray);
+    }
+
+    .timeline-dot--1 { border-color: var(--orange); background: rgba(255,92,0,0.1); color: var(--orange); }
+    .timeline-dot--2 { border-color: var(--info); background: rgba(59,130,246,0.1); color: var(--info); }
+    .timeline-dot--3 { border-color: var(--success); background: rgba(34,197,94,0.1); color: var(--success); }
+
+    .timeline-label {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--gray-light);
+    }
+
+    .timeline-month {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .capability-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .capability-bar:last-child { border-bottom: none; }
+
+    .capability-bar__label {
+      font-size: 0.85rem;
+      color: var(--gray-light);
+      width: 120px;
+      flex-shrink: 0;
+    }
+
+    .capability-bar__track {
+      flex: 1;
+      height: 6px;
+      background: var(--dark-3);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .capability-bar__fill {
+      height: 100%;
+      border-radius: 3px;
+      background: var(--orange);
+      transition: width 0.5s ease;
+    }
+
+    .capability-bar__pct {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--orange);
+      width: 40px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="/index.html" class="nav__logo">HomeGym<span>Calc</span></a>
+        <ul class="nav__links">
+          <li><a href="/index.html" class="nav__link">Home</a></li>
+          <li><a href="/pages/calculators.html" class="nav__link active">Calculators</a></li>
+          <li><a href="/pages/blog.html" class="nav__link">Guides</a></li>
+          <li><a href="/pages/equipment-recommender.html" class="nav__link nav__cta">Get My Plan →</a></li>
+        </ul>
+        <button class="nav__mobile-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="calc-page">
+    <div class="container--narrow">
+
+      <div style="margin-bottom:var(--space-7);">
+        <div class="hero__eyebrow">📅 Free Calculator</div>
+        <h1 style="font-size:clamp(2rem,5vw,3.5rem);margin-bottom:var(--space-3);">Home Gym Phase Builder</h1>
+        <p class="lead">Can't buy everything at once? Build your gym intelligently over time. Tell us your goals and total budget — we'll split it into smart purchase phases.</p>
+      </div>
+
+      <!-- Input Form -->
+      <div id="form-section">
+        <div class="card" style="margin-bottom:var(--space-5);">
+          <h3 style="font-family:var(--font-display);text-transform:uppercase;font-size:1.1rem;margin-bottom:var(--space-5);">Your Setup</h3>
+
+          <div class="grid-2" style="gap:var(--space-5);margin-bottom:var(--space-5);">
+            <div class="form-group">
+              <label class="form-label">Primary Goal</label>
+              <select id="pb-goal" class="form-select">
+                <option value="strength">Build Strength & Muscle</option>
+                <option value="cardio">Cardio & Weight Loss</option>
+                <option value="general">General Fitness</option>
+                <option value="powerlifting">Powerlifting / Barbell</option>
+                <option value="crossfit">CrossFit / Functional</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Experience Level</label>
+              <select id="pb-experience" class="form-select">
+                <option value="beginner">Beginner (0–1 years)</option>
+                <option value="intermediate" selected>Intermediate (1–3 years)</option>
+                <option value="advanced">Advanced (3+ years)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Available Space</label>
+              <select id="pb-space" class="form-select">
+                <option value="tiny">Very Small (under 50 sq ft)</option>
+                <option value="small">Small (50–100 sq ft)</option>
+                <option value="medium" selected>Medium (100–200 sq ft)</option>
+                <option value="large">Large (200+ sq ft)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Number of Phases</label>
+              <select id="pb-phases" class="form-select">
+                <option value="2">2 Phases</option>
+                <option value="3" selected>3 Phases</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:var(--space-5);">
+            <label class="form-label">Total Budget (all phases combined)</label>
+            <div style="position:relative;">
+              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray-light);">$</span>
+              <input type="number" id="pb-budget" class="form-input" style="padding-left:30px;" value="2000" min="300" max="10000" step="100" />
+            </div>
+            <span class="form-hint">Min $300. We'll split this across your phases based on priority.</span>
+          </div>
+
+          <div class="form-group" style="margin-bottom:var(--space-5);">
+            <label class="form-label">Phase Timeline</label>
+            <select id="pb-timeline" class="form-select">
+              <option value="monthly">Monthly (next purchase each month)</option>
+              <option value="quarterly" selected>Quarterly (every 3 months)</option>
+              <option value="biannual">Every 6 Months</option>
+              <option value="annual">Annually</option>
+            </select>
+          </div>
+
+          <button class="btn btn--primary btn--full btn--lg" onclick="buildPhases()">
+            📅 Build My Phase Plan
+          </button>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden">
+
+        <!-- Timeline visual -->
+        <div class="card" style="margin-bottom:var(--space-5);">
+          <h3 style="font-family:var(--font-display);text-transform:uppercase;font-size:1rem;margin-bottom:var(--space-5);">Your Build Timeline</h3>
+          <div class="timeline" id="timeline-visual"></div>
+
+          <div style="padding-top:var(--space-4);border-top:1px solid var(--border);">
+            <h4 style="font-family:var(--font-display);text-transform:uppercase;font-size:0.85rem;margin-bottom:var(--space-4);color:var(--orange);">Training Capability After Each Phase</h4>
+            <div id="capability-bars"></div>
+          </div>
+        </div>
+
+        <!-- Phase cards -->
+        <div id="phase-cards"></div>
+
+        <!-- Summary -->
+        <div class="card card--orange" style="margin-bottom:var(--space-5);">
+          <h4 style="font-family:var(--font-display);text-transform:uppercase;margin-bottom:var(--space-4);">💡 Phase Builder Tips</h4>
+          <div id="phase-tips"></div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-7);">
+          <a href="/pages/equipment-recommender.html" class="btn btn--primary">Get Full Equipment List →</a>
+          <a href="/pages/roi-calculator.html" class="btn btn--secondary">Calculate ROI →</a>
+          <button class="btn btn--ghost" onclick="resetBuilder()">↩ Start Over</button>
+        </div>
+
+        <!-- Email capture -->
+        <div class="email-capture">
+          <div class="hero__eyebrow">📖 Free Download</div>
+          <h3>Get Your Phase Plan by Email</h3>
+          <p>We'll send your plan plus our Home Gym Starter Guide — free.</p>
+          <form class="email-form" data-source="phase-builder" novalidate>
+            <input type="email" class="form-input" placeholder="your@email.com" required autocomplete="email" />
+            <button type="submit" class="btn btn--primary">Send My Plan</button>
+          </form>
+          <small style="display:block;margin-top:12px;text-align:center;">No spam. Unsubscribe anytime.</small>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div><div class="footer__logo">HomeGym<span>Calc</span></div><p class="footer__desc">Free home gym calculators and tools.</p></div>
+        <div>
+          <div class="footer__heading">Calculators</div>
+          <ul class="footer__links">
+            <li><a href="/pages/equipment-recommender.html" class="footer__link">Equipment Recommender</a></li>
+            <li><a href="/pages/roi-calculator.html" class="footer__link">ROI Calculator</a></li>
+            <li><a href="/pages/phase-builder.html" class="footer__link">Phase Builder</a></li>
+            <li><a href="/pages/dumbbells-quiz.html" class="footer__link">Dumbbells Quiz</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__heading">Legal</div>
+          <ul class="footer__links">
+            <li><a href="/pages/privacy.html" class="footer__link">Privacy Policy</a></li>
+            <li><a href="/pages/affiliate-disclosure.html" class="footer__link">Affiliate Disclosure</a></li>
+          </ul>
+        </div>
+        <div></div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 HomeGymCalc.com</p>
+        <p class="footer__disclaimer">As an Amazon Associate we earn from qualifying purchases.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/components.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    const PHASE_PLANS = {
+      strength: {
+        phases: {
+          2: [
+            { name:'Foundation', pct:0.55, emoji:'🏗️',
+              items:[
+                { name:'Adjustable Dumbbells', why:'Replaces 15+ fixed pairs, covers 90% of exercises', est:280, key:'adjustable-dumbbells' },
+                { name:'Adjustable Bench', why:'Unlocks chest press, rows, incline work', est:189, key:'weight-bench' },
+                { name:'Pull-Up Bar', why:'Best back builder, zero footprint', est:45, key:'pull-up-bar' },
+                { name:'Rubber Flooring', why:'Protect floors, reduce noise', est:120, key:'rubber-flooring' },
+              ], capability:{ strength:60, cardio:20, flexibility:30 }
+            },
+            { name:'Full Strength', pct:0.45, emoji:'🏆',
+              items:[
+                { name:'Barbell + Plates (300lb)', why:'Required for serious strength gains', est:350, key:'barbell' },
+                { name:'Squat Stand or Power Rack', why:'Train heavy safely without a spotter', est:400, key:'squat-stand' },
+                { name:'Resistance Bands', why:'Warm-up, mobility, accessory work', est:35, key:'resistance-bands' },
+              ], capability:{ strength:95, cardio:25, flexibility:40 }
+            }
+          ],
+          3: [
+            { name:'Day One', pct:0.35, emoji:'🌱',
+              items:[
+                { name:'Adjustable Dumbbells', why:'Most versatile single purchase', est:280, key:'adjustable-dumbbells' },
+                { name:'Pull-Up Bar', why:'Best bodyweight back builder', est:45, key:'pull-up-bar' },
+                { name:'Resistance Bands', why:'Warm-ups, accessory, bands training', est:35, key:'resistance-bands' },
+              ], capability:{ strength:45, cardio:20, flexibility:30 }
+            },
+            { name:'Upgrade', pct:0.30, emoji:'📈',
+              items:[
+                { name:'Adjustable Bench', why:'Multiplies dumbbell exercises 5x', est:189, key:'weight-bench' },
+                { name:'Rubber Flooring (8x8ft)', why:'Foundation for heavy lifts', est:120, key:'stall-mats' },
+                { name:'Kettlebell (24kg)', why:'Swings, carries, power development', est:85, key:'kettlebell' },
+              ], capability:{ strength:65, cardio:30, flexibility:35 }
+            },
+            { name:'Full Build', pct:0.35, emoji:'🏆',
+              items:[
+                { name:'Barbell + Weight Plates', why:'The king of strength equipment', est:350, key:'barbell' },
+                { name:'Power Rack', why:'Squat and bench heavy — safely', est:500, key:'power-rack' },
+                { name:'Dip Station', why:'Chest and tricep finisher', est:80, key:'dip-station' },
+              ], capability:{ strength:95, cardio:25, flexibility:40 }
+            }
+          ]
+        }
+      },
+      cardio: {
+        phases: {
+          2: [
+            { name:'Cardio Foundation', pct:0.40, emoji:'🏃',
+              items:[
+                { name:'Jump Rope', why:'Best calorie/dollar ratio in fitness', est:25, key:'jump-rope' },
+                { name:'Resistance Bands', why:'Strength work between cardio sessions', est:35, key:'resistance-bands' },
+                { name:'Yoga Mat + Foam Roller', why:'Recovery and mobility', est:55, key:'yoga-mat' },
+                { name:'Adjustable Dumbbells', why:'Circuit training and fat-burning combos', est:280, key:'adjustable-dumbbells' },
+              ], capability:{ strength:35, cardio:55, flexibility:50 }
+            },
+            { name:'Cardio Machine', pct:0.60, emoji:'🚴',
+              items:[
+                { name:'Rowing Machine', why:'Full body, burns most calories/minute', est:600, key:'rowing-machine' },
+                { name:'Rubber Flooring', why:'Protect floor under heavy machine', est:120, key:'rubber-flooring' },
+              ], capability:{ strength:40, cardio:90, flexibility:55 }
+            }
+          ],
+          3: [
+            { name:'Start Moving', pct:0.15, emoji:'🌱',
+              items:[
+                { name:'Jump Rope', why:'Highest calorie burn per dollar', est:25, key:'jump-rope' },
+                { name:'Resistance Bands', why:'Lightweight full-body resistance', est:35, key:'resistance-bands' },
+                { name:'Yoga Mat', why:'Bodyweight workouts and stretching', est:35, key:'yoga-mat' },
+              ], capability:{ strength:20, cardio:40, flexibility:45 }
+            },
+            { name:'Add Strength', pct:0.30, emoji:'💪',
+              items:[
+                { name:'Adjustable Dumbbells', why:'HIIT, circuits, toning', est:280, key:'adjustable-dumbbells' },
+                { name:'Pull-Up Bar', why:'Upper body compound movements', est:45, key:'pull-up-bar' },
+                { name:'Foam Roller', why:'Recovery between hard sessions', est:30, key:'foam-roller' },
+              ], capability:{ strength:45, cardio:50, flexibility:55 }
+            },
+            { name:'Cardio Machine', pct:0.55, emoji:'🏆',
+              items:[
+                { name:'Rowing Machine or Bike', why:'Your primary cardio engine', est:600, key:'rowing-machine' },
+                { name:'Rubber Flooring', why:'Floor protection, noise reduction', est:120, key:'rubber-flooring' },
+              ], capability:{ strength:50, cardio:90, flexibility:60 }
+            }
+          ]
+        }
+      },
+      general: {
+        phases: {
+          2: [
+            { name:'Solid Foundation', pct:0.50, emoji:'🏗️',
+              items:[
+                { name:'Adjustable Dumbbells', why:'Covers 80% of everything you need', est:280, key:'adjustable-dumbbells' },
+                { name:'Adjustable Bench', why:'Opens up dozens more exercises', est:189, key:'weight-bench' },
+                { name:'Resistance Bands', why:'Mobility, warm-up, accessory', est:35, key:'resistance-bands' },
+                { name:'Jump Rope', why:'Cardio without a machine', est:25, key:'jump-rope' },
+              ], capability:{ strength:55, cardio:40, flexibility:35 }
+            },
+            { name:'Complete Gym', pct:0.50, emoji:'🏆',
+              items:[
+                { name:'Pull-Up Bar', why:'Best bodyweight compound movement', est:45, key:'pull-up-bar' },
+                { name:'Rowing Machine or Bike', why:'Dedicated cardio option', est:600, key:'rowing-machine' },
+                { name:'Rubber Flooring', why:'Finish your gym properly', est:120, key:'rubber-flooring' },
+              ], capability:{ strength:65, cardio:85, flexibility:45 }
+            }
+          ],
+          3: [
+            { name:'Essential Kit', pct:0.30, emoji:'🌱',
+              items:[
+                { name:'Adjustable Dumbbells', why:'Most versatile single buy', est:280, key:'adjustable-dumbbells' },
+                { name:'Pull-Up Bar', why:'Bodyweight upper body', est:45, key:'pull-up-bar' },
+                { name:'Jump Rope', why:'Cardio and warm-up', est:25, key:'jump-rope' },
+              ], capability:{ strength:40, cardio:35, flexibility:25 }
+            },
+            { name:'Upgrade Setup', pct:0.35, emoji:'📈',
+              items:[
+                { name:'Adjustable Bench', why:'Massive exercise variety increase', est:189, key:'weight-bench' },
+                { name:'Resistance Bands', why:'Mobility and accessory work', est:35, key:'resistance-bands' },
+                { name:'Rubber Flooring', why:'Professional feel, floor protection', est:120, key:'rubber-flooring' },
+              ], capability:{ strength:60, cardio:40, flexibility:45 }
+            },
+            { name:'Dream Gym', pct:0.35, emoji:'🏆',
+              items:[
+                { name:'Stationary Bike or Rower', why:'Dedicated cardio machine', est:550, key:'stationary-bike' },
+                { name:'Kettlebell Set', why:'Functional strength and power', est:120, key:'kettlebell' },
+                { name:'Foam Roller + Ab Roller', why:'Recovery and core strength', est:55, key:'foam-roller' },
+              ], capability:{ strength:75, cardio:85, flexibility:60 }
+            }
+          ]
+        }
+      },
+      powerlifting: {
+        phases: {
+          2: [
+            { name:'Lift Foundation', pct:0.45, emoji:'🏗️',
+              items:[
+                { name:'Olympic Barbell (quality)', why:'The most important single purchase for powerlifting', est:350, key:'barbell' },
+                { name:'Weight Plates 300lb Set', why:'You need the weight to train heavy', est:400, key:'weight-plates' },
+                { name:'Rubber Flooring (deadlift area)', why:'Essential for dropping weight safely', est:160, key:'stall-mats' },
+              ], capability:{ strength:70, cardio:10, flexibility:20 }
+            },
+            { name:'Full Power Setup', pct:0.55, emoji:'🏆',
+              items:[
+                { name:'Power Rack', why:'Safe squats and bench without a spotter', est:600, key:'power-rack' },
+                { name:'Adjustable Bench', why:'Bench press is a competition lift', est:250, key:'weight-bench' },
+                { name:'Lifting Belt + Straps', why:'Essential safety accessories', est:80, key:'weight-lifting-belt' },
+              ], capability:{ strength:98, cardio:10, flexibility:25 }
+            }
+          ],
+          3: [
+            { name:'Pull Day Ready', pct:0.40, emoji:'🌱',
+              items:[
+                { name:'Olympic Barbell', why:'Foundation of all three lifts', est:350, key:'barbell' },
+                { name:'Weight Plates (200lb starter)', why:'Start training immediately', est:250, key:'weight-plates' },
+                { name:'Stall Mats (deadlift platform)', why:'Essential for heavy pulls', est:160, key:'stall-mats' },
+              ], capability:{ strength:60, cardio:10, flexibility:15 }
+            },
+            { name:'Push Day Ready', pct:0.30, emoji:'📈',
+              items:[
+                { name:'Squat Stand', why:'Start squatting safely now', est:300, key:'squat-stand' },
+                { name:'Adjustable Bench', why:'Competition bench setup', est:250, key:'weight-bench' },
+                { name:'Extra Plates (100lb)', why:'Progressive overload requires weight', est:150, key:'weight-plates' },
+              ], capability:{ strength:82, cardio:10, flexibility:20 }
+            },
+            { name:'Competition Ready', pct:0.30, emoji:'🏆',
+              items:[
+                { name:'Upgrade to Power Rack', why:'Mono-lift style safeties, full cage', est:400, key:'power-rack' },
+                { name:'Lifting Belt + Straps + Wraps', why:'All competition accessories', est:120, key:'weight-lifting-belt' },
+                { name:'More Plates (200lb)', why:'Build your total plate weight', est:200, key:'bumper-plates' },
+              ], capability:{ strength:99, cardio:10, flexibility:25 }
+            }
+          ]
+        }
+      },
+      crossfit: {
+        phases: {
+          2: [
+            { name:'MetCon Starter', pct:0.40, emoji:'🏗️',
+              items:[
+                { name:'Bumper Plates + Barbell', why:'Olympic lifts are core to CrossFit', est:450, key:'bumper-plates' },
+                { name:'Pull-Up Bar (ceiling mount)', why:'Pull-ups, toes-to-bar, kipping', est:80, key:'pull-up-bar' },
+                { name:'Jump Rope (speed)', why:'Double-unders in every WOD', est:35, key:'jump-rope' },
+                { name:'Resistance Bands', why:'Banded pull-ups and mobility', est:35, key:'resistance-bands' },
+              ], capability:{ strength:55, cardio:60, flexibility:40 }
+            },
+            { name:'Full Functional Gym', pct:0.60, emoji:'🏆',
+              items:[
+                { name:'Pull-Up Rig / Power Rack', why:'Muscle-ups, ring work, and more', est:600, key:'power-rack' },
+                { name:'Assault Bike', why:'The CrossFit cardio standard', est:700, key:'assault-bike' },
+                { name:'Adjustable Dumbbells', why:'DB snatches, thrusters, carries', est:280, key:'adjustable-dumbbells' },
+                { name:'Rubber Flooring', why:'Protect floor from drops', est:200, key:'rubber-flooring' },
+              ], capability:{ strength:85, cardio:90, flexibility:55 }
+            }
+          ],
+          3: [
+            { name:'WOD Ready', pct:0.25, emoji:'🌱',
+              items:[
+                { name:'Jump Rope', why:'Double-unders in every WOD', est:35, key:'jump-rope' },
+                { name:'Resistance Bands', why:'Mobility and banded movements', est:35, key:'resistance-bands' },
+                { name:'Pull-Up Bar', why:'Pull-ups, ring rows, toes-to-bar', est:80, key:'pull-up-bar' },
+                { name:'Kettlebell (24kg)', why:'Swings, carries, snatches', est:85, key:'kettlebell' },
+              ], capability:{ strength:35, cardio:45, flexibility:40 }
+            },
+            { name:'Barbell Phase', pct:0.35, emoji:'📈',
+              items:[
+                { name:'Barbell + Bumper Plates', why:'Olympic lifts are the core of CrossFit', est:450, key:'bumper-plates' },
+                { name:'Adjustable Dumbbells', why:'DB snatches and carries', est:280, key:'adjustable-dumbbells' },
+                { name:'Rubber Flooring', why:'Drop weight safely', est:200, key:'rubber-flooring' },
+              ], capability:{ strength:68, cardio:55, flexibility:45 }
+            },
+            { name:'Elite Setup', pct:0.40, emoji:'🏆',
+              items:[
+                { name:'Pull-Up Rig', why:'Muscle-ups, rope climbs, bar work', est:600, key:'power-rack' },
+                { name:'Assault Bike', why:'The CrossFit cardio standard', est:700, key:'assault-bike' },
+                { name:'Gymnastics Rings', why:'Ring muscle-ups and dips', est:45, key:'trx-suspension' },
+              ], capability:{ strength:90, cardio:92, flexibility:60 }
+            }
+          ]
+        }
+      }
+    };
+
+    const TIMELINE_LABELS = {
+      monthly: ['Month 1', 'Month 2', 'Month 3'],
+      quarterly: ['Month 1', 'Month 3', 'Month 6'],
+      biannual: ['Month 1', 'Month 6', 'Month 12'],
+      annual: ['Month 1', 'Year 2', 'Year 3']
+    };
+
+    function buildPhases() {
+      const goal = document.getElementById('pb-goal').value;
+      const numPhases = parseInt(document.getElementById('pb-phases').value);
+      const totalBudget = parseInt(document.getElementById('pb-budget').value);
+      const timeline = document.getElementById('pb-timeline').value;
+      const experience = document.getElementById('pb-experience').value;
+      const space = document.getElementById('pb-space').value;
+
+      const plan = PHASE_PLANS[goal] || PHASE_PLANS.general;
+      const phases = plan.phases[numPhases];
+      const timeLabels = TIMELINE_LABELS[timeline];
+
+      // Scale costs to budget
+      const scaledPhases = phases.map((phase, i) => {
+        const phaseBudget = Math.round(totalBudget * phase.pct);
+        const rawTotal = phase.items.reduce((s, item) => s + item.est, 0);
+        const scaleFactor = phaseBudget / rawTotal;
+
+        return {
+          ...phase,
+          budget: phaseBudget,
+          timeLabel: timeLabels[i] || `Phase ${i+1}`,
+          items: phase.items.map(item => ({
+            ...item,
+            scaledEst: Math.round(item.est * Math.min(scaleFactor, 1.2))
+          }))
+        };
+      });
+
+      // Timeline visual
+      document.getElementById('timeline-visual').innerHTML = scaledPhases.map((phase, i) => `
+        <div class="timeline-phase">
+          <div class="timeline-dot timeline-dot--${i+1}">${i+1}</div>
+          <div class="timeline-label">${phase.name}</div>
+          <div class="timeline-month">${phase.timeLabel}</div>
+          <div style="font-family:var(--font-display);font-size:0.9rem;font-weight:700;color:var(--orange);margin-top:4px;">$${phase.budget.toLocaleString()}</div>
+        </div>
+      `).join('');
+
+      // Capability bars (use last phase values)
+      const lastPhase = scaledPhases[scaledPhases.length - 1];
+      const caps = lastPhase.capability;
+      document.getElementById('capability-bars').innerHTML = `
+        <div class="capability-bar">
+          <div class="capability-bar__label">Strength Training</div>
+          <div class="capability-bar__track"><div class="capability-bar__fill" style="width:${caps.strength}%"></div></div>
+          <div class="capability-bar__pct">${caps.strength}%</div>
+        </div>
+        <div class="capability-bar">
+          <div class="capability-bar__label">Cardio / Endurance</div>
+          <div class="capability-bar__track"><div class="capability-bar__fill" style="width:${caps.cardio}%;background:var(--info)"></div></div>
+          <div class="capability-bar__pct" style="color:var(--info)">${caps.cardio}%</div>
+        </div>
+        <div class="capability-bar">
+          <div class="capability-bar__label">Flexibility / Mobility</div>
+          <div class="capability-bar__track"><div class="capability-bar__fill" style="width:${caps.flexibility}%;background:var(--success)"></div></div>
+          <div class="capability-bar__pct" style="color:var(--success)">${caps.flexibility}%</div>
+        </div>
+      `;
+
+      // Phase cards
+      const colors = ['var(--orange)', 'var(--info)', 'var(--success)'];
+      document.getElementById('phase-cards').innerHTML = scaledPhases.map((phase, i) => `
+        <div class="phase-card">
+          <div class="phase-card__header">
+            <div class="phase-num phase-num--${i+1}">${i+1}</div>
+            <div>
+              <div class="phase-card__title">${phase.emoji} Phase ${i+1}: ${phase.name}</div>
+              <div class="phase-card__subtitle">Buy around ${phase.timeLabel}</div>
+            </div>
+            <div class="phase-card__budget">$${phase.budget.toLocaleString()}</div>
+          </div>
+          <div class="phase-card__body">
+            ${phase.items.map(item => `
+              <div class="phase-item">
+                <div>
+                  <div class="phase-item__name">${item.name}</div>
+                  <div class="phase-item__why">${item.why}</div>
+                </div>
+                <div class="phase-item__right">
+                  <div class="phase-item__price">~$${item.scaledEst}</div>
+                  <a href="${getAffiliateLink(item.key)}" target="_blank" rel="noopener sponsored"
+                     class="btn btn--primary btn--sm"
+                     onclick="trackEvent('affiliate_click',{item:'${item.key}',source:'phase-builder'})">
+                    View →
+                  </a>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      // Tips
+      const tips = [
+        experience === 'beginner'
+          ? 'Start with Phase 1 and train consistently for 2–3 months before buying more. You\'ll learn what you actually use.'
+          : 'Your experience means you know what you need. Stick to the phase order — it\'s optimized for progressive capability.',
+        space === 'tiny' || space === 'small'
+          ? 'In your space, buy Phase 1 and use it fully before adding more. Storage matters — don\'t clutter the space.'
+          : 'Use Phase 1 to organize your layout before Phase 2 arrives. Know where everything will go.',
+        'Check Facebook Marketplace between phases — you can often find Phase 2 items at 40–60% off retail.',
+        `Your total estimated investment: $${totalBudget.toLocaleString()}. ROI vs. a $60/month membership: break-even in about ${Math.ceil(totalBudget/720)} years.`
+      ];
+
+      document.getElementById('phase-tips').innerHTML = tips.map(tip => `
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="color:var(--orange);flex-shrink:0;">→</span>
+          <span style="font-size:0.9rem;color:var(--gray-light);">${tip}</span>
+        </div>
+      `).join('');
+
+      // Show results
+      document.getElementById('form-section').classList.add('hidden');
+      document.getElementById('results-section').classList.remove('hidden');
+
+      trackEvent('phase_builder_complete', { goal, numPhases, totalBudget });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetBuilder() {
+      document.getElementById('form-section').classList.remove('hidden');
+      document.getElementById('results-section').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

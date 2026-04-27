@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Gym ROI Calculator — Is a Home Gym Worth It? | HomeGymCalc.com</title>
+  <meta name="description" content="Calculate exactly when your home gym pays for itself vs a gym membership. Enter your real numbers and see your break-even month, total savings, and 10-year ROI — free." />
+  <link rel="canonical" href="https://homegymcalc.com/pages/roi-calculator.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    .calc-page { padding-top: calc(var(--nav-height) + var(--space-7)); padding-bottom: var(--space-9); }
+
+    .roi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-7);
+      align-items: start;
+    }
+
+    .input-panel {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      position: sticky;
+      top: calc(var(--nav-height) + var(--space-4));
+    }
+
+    .input-panel__header {
+      background: var(--dark-2);
+      border-bottom: 1px solid var(--border);
+      padding: var(--space-4) var(--space-5);
+      font-family: var(--font-display);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+    }
+
+    .input-panel__body {
+      padding: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+
+    .input-section {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: var(--space-5);
+    }
+
+    .input-section:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .input-section__title {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--orange);
+      margin-bottom: var(--space-4);
+    }
+
+    /* Results Panel */
+    .result-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+
+    .verdict-card {
+      background: var(--dark);
+      border: 2px solid var(--orange);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-6);
+      text-align: center;
+    }
+
+    .verdict-card__icon { font-size: 3rem; margin-bottom: var(--space-3); }
+
+    .verdict-card__label {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--orange);
+      margin-bottom: var(--space-2);
+    }
+
+    .verdict-card__main {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: var(--space-3);
+    }
+
+    .verdict-card__sub { font-size: 0.9rem; color: var(--gray-light); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .stat-box {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius);
+      padding: var(--space-4);
+      text-align: center;
+    }
+
+    .stat-box__value {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--orange);
+    }
+
+    .stat-box__label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: var(--space-1);
+    }
+
+    /* Chart */
+    .chart-wrapper {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-5);
+    }
+
+    .chart-title {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-4);
+    }
+
+    canvas { width: 100% !important; }
+
+    .chart-legend {
+      display: flex;
+      gap: var(--space-5);
+      margin-top: var(--space-3);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 0.8rem;
+      color: var(--gray-light);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .roi-grid { grid-template-columns: 1fr; }
+      .input-panel { position: static; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="/index.html" class="nav__logo">HomeGym<span>Calc</span></a>
+        <ul class="nav__links">
+          <li><a href="/index.html" class="nav__link">Home</a></li>
+          <li><a href="/pages/calculators.html" class="nav__link active">Calculators</a></li>
+          <li><a href="/pages/blog.html" class="nav__link">Guides</a></li>
+          <li><a href="/pages/equipment-recommender.html" class="nav__link nav__cta">Get My Plan →</a></li>
+        </ul>
+        <button class="nav__mobile-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="calc-page">
+    <div class="container">
+
+      <div style="margin-bottom:var(--space-7);">
+        <div class="hero__eyebrow">💰 Free Calculator</div>
+        <h1 style="font-size:clamp(2rem,5vw,3.5rem);margin-bottom:var(--space-3);">Home Gym ROI Calculator</h1>
+        <p class="lead" style="max-width:600px;">Find out exactly when your home gym pays for itself — and how much you'll save over 5 and 10 years.</p>
+      </div>
+
+      <div class="roi-grid">
+
+        <!-- Input Panel -->
+        <div class="input-panel">
+          <div class="input-panel__header">📊 Your Numbers</div>
+          <div class="input-panel__body">
+
+            <div class="input-section">
+              <div class="input-section__title">🏢 Current Gym Membership</div>
+              <div class="form-group">
+                <label class="form-label">Monthly Membership Fee</label>
+                <div style="position:relative;">
+                  <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray-light);">$</span>
+                  <input type="number" id="membership" class="form-input" style="padding-left:30px;" value="50" min="0" max="500" oninput="calculate()" />
+                </div>
+              </div>
+              <div class="form-group mt-4">
+                <label class="form-label">Annual Initiation / Registration Fee</label>
+                <div style="position:relative;">
+                  <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray-light);">$</span>
+                  <input type="number" id="initiation" class="form-input" style="padding-left:30px;" value="0" min="0" oninput="calculate()" />
+                </div>
+              </div>
+            </div>
+
+            <div class="input-section">
+              <div class="input-section__title">🚗 Commute Costs</div>
+              <div class="form-group">
+                <label class="form-label">Round-Trip Miles to Gym</label>
+                <input type="number" id="commute-miles" class="form-input" value="5" min="0" oninput="calculate()" />
+              </div>
+              <div class="form-group mt-4">
+                <label class="form-label">Gym Visits Per Week</label>
+                <input type="number" id="visits" class="form-input" value="4" min="1" max="14" oninput="calculate()" />
+              </div>
+            </div>
+
+            <div class="input-section">
+              <div class="input-section__title">🏋️ Home Gym Investment</div>
+              <div class="form-group">
+                <label class="form-label">Total Equipment Cost</label>
+                <div style="position:relative;">
+                  <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray-light);">$</span>
+                  <input type="number" id="equipment" class="form-input" style="padding-left:30px;" value="1200" min="0" oninput="calculate()" />
+                </div>
+                <span class="form-hint">Not sure? <a href="/pages/equipment-recommender.html">Use our Equipment Recommender →</a></span>
+              </div>
+              <div class="form-group mt-4">
+                <label class="form-label">Monthly Maintenance / App Subscription</label>
+                <div style="position:relative;">
+                  <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray-light);">$</span>
+                  <input type="number" id="maintenance" class="form-input" style="padding-left:30px;" value="10" min="0" oninput="calculate()" />
+                </div>
+              </div>
+            </div>
+
+            <div class="input-section">
+              <div class="input-section__title">⚙️ Assumptions</div>
+              <div class="form-group">
+                <label class="form-label">Annual Membership Price Increase (%)</label>
+                <input type="number" id="inflation" class="form-input" value="3" min="0" max="20" oninput="calculate()" />
+              </div>
+              <div class="form-group mt-4">
+                <label class="form-label">Equipment Resale Value After 5 Years (%)</label>
+                <input type="number" id="resale" class="form-input" value="60" min="0" max="100" oninput="calculate()" />
+                <span class="form-hint">Quality iron retains 50–70% of value</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="result-panel" id="results">
+
+          <div class="verdict-card">
+            <div class="verdict-card__icon" id="verdict-icon">⏱️</div>
+            <div class="verdict-card__label">Break-Even Point</div>
+            <div class="verdict-card__main" id="break-even-display">14 months</div>
+            <div class="verdict-card__sub" id="verdict-text">After that, every month is money back in your pocket.</div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-box__value" id="monthly-savings">$65</div>
+              <div class="stat-box__label">Monthly Savings</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box__value" id="annual-savings">$780</div>
+              <div class="stat-box__label">Annual Savings</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box__value" id="five-year">$2,700</div>
+              <div class="stat-box__label">5-Year Net Savings</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box__value" id="ten-year">$6,900</div>
+              <div class="stat-box__label">10-Year Net Savings</div>
+            </div>
+          </div>
+
+          <!-- Chart -->
+          <div class="chart-wrapper">
+            <div class="chart-title">💵 Cumulative Cost Comparison</div>
+            <canvas id="roi-chart" height="200"></canvas>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:var(--orange);"></div>
+                <span>Gym Membership (cumulative)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#3B82F6;"></div>
+                <span>Home Gym (net cost)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Time saved -->
+          <div class="card">
+            <h4 style="font-family:var(--font-display);text-transform:uppercase;margin-bottom:var(--space-4);">⏰ Time You'll Also Save</h4>
+            <div class="stats-grid">
+              <div class="stat-box" style="background:var(--dark-2);">
+                <div class="stat-box__value" id="hours-monthly">8h</div>
+                <div class="stat-box__label">Hours / Month</div>
+              </div>
+              <div class="stat-box" style="background:var(--dark-2);">
+                <div class="stat-box__value" id="hours-yearly">96h</div>
+                <div class="stat-box__label">Hours / Year</div>
+              </div>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-top:var(--space-4);">Based on your commute distance. Time savings are not reflected in the financial calculation above.</p>
+          </div>
+
+          <!-- CTA -->
+          <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+            <a href="/pages/equipment-recommender.html" class="btn btn--primary btn--full">
+              Build My Equipment List →
+            </a>
+            <a href="/pages/phase-builder.html" class="btn btn--secondary btn--full">
+              Plan My Purchases Over Time →
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div style="margin-top:var(--space-9);max-width:700px;">
+        <h2 style="font-size:1.8rem;margin-bottom:var(--space-6);">Common Questions</h2>
+
+        <div style="display:flex;flex-direction:column;gap:var(--space-5);">
+          <div class="card">
+            <h4 style="font-family:var(--font-display);text-transform:uppercase;color:var(--white);margin-bottom:var(--space-3);">Does this include the cost of space?</h4>
+            <p style="font-size:0.9rem;">If you're using an existing room, the space is a sunk cost and shouldn't affect the calculation. If you're renting storage or building an extension, add that to your equipment cost above.</p>
+          </div>
+          <div class="card">
+            <h4 style="font-family:var(--font-display);text-transform:uppercase;color:var(--white);margin-bottom:var(--space-3);">Why does resale value matter?</h4>
+            <p style="font-size:0.9rem;">Unlike a gym membership (zero resale value), quality equipment retains 50–70% of its value. A barbell bought for $300 typically sells for $150–200 years later. This significantly improves your real ROI.</p>
+          </div>
+          <div class="card">
+            <h4 style="font-family:var(--font-family-display);text-transform:uppercase;color:var(--white);margin-bottom:var(--space-3);">What if I cancel my home gym too?</h4>
+            <p style="font-size:0.9rem;">The calculation accounts for resale value in the 5-year figures. Even if you sell everything, you're likely to recoup a significant portion of your investment — unlike a gym membership which returns nothing.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__logo">HomeGym<span>Calc</span></div>
+          <p class="footer__desc">Free home gym calculators and tools.</p>
+        </div>
+        <div>
+          <div class="footer__heading">Calculators</div>
+          <ul class="footer__links">
+            <li><a href="/pages/equipment-recommender.html" class="footer__link">Equipment Recommender</a></li>
+            <li><a href="/pages/roi-calculator.html" class="footer__link">ROI Calculator</a></li>
+            <li><a href="/pages/phase-builder.html" class="footer__link">Phase Builder</a></li>
+            <li><a href="/pages/dumbbells-quiz.html" class="footer__link">Dumbbells Quiz</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__heading">Legal</div>
+          <ul class="footer__links">
+            <li><a href="/pages/privacy.html" class="footer__link">Privacy Policy</a></li>
+            <li><a href="/pages/affiliate-disclosure.html" class="footer__link">Affiliate Disclosure</a></li>
+          </ul>
+        </div>
+        <div></div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 HomeGymCalc.com</p>
+        <p class="footer__disclaimer">As an Amazon Associate we earn from qualifying purchases.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/components.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    const GAS_PRICE_PER_MILE = 0.21; // IRS standard mileage rate approx
+    let chartInstance = null;
+
+    function calculate() {
+      const membership  = parseFloat(document.getElementById('membership').value) || 0;
+      const initiation  = parseFloat(document.getElementById('initiation').value) || 0;
+      const miles       = parseFloat(document.getElementById('commute-miles').value) || 0;
+      const visits      = parseFloat(document.getElementById('visits').value) || 4;
+      const equipment   = parseFloat(document.getElementById('equipment').value) || 0;
+      const maintenance = parseFloat(document.getElementById('maintenance').value) || 0;
+      const inflation   = parseFloat(document.getElementById('inflation').value) / 100 || 0.03;
+      const resalePct   = parseFloat(document.getElementById('resale').value) / 100 || 0.60;
+
+      // Monthly gym costs
+      const monthlyCommute = miles * GAS_PRICE_PER_MILE * visits * 4;
+      const monthlyGymTotal = membership + (initiation / 12) + monthlyCommute;
+
+      // Monthly home gym cost (just maintenance after initial)
+      const monthlyHomeGym = maintenance;
+
+      // Monthly net savings
+      const monthlySavings = monthlyGymTotal - monthlyHomeGym;
+
+      // Break-even calculation
+      const breakEvenMonths = monthlySavings > 0 ? Math.ceil(equipment / monthlySavings) : Infinity;
+
+      // Multi-year calculations with inflation on membership
+      let gymCumulative = [];
+      let homeCumulative = [];
+      let monthlyMembership = membership;
+      let gymRunning = 0;
+      let homeRunning = equipment;
+
+      for (let month = 1; month <= 120; month++) {
+        if (month % 12 === 1 && month > 1) monthlyMembership *= (1 + inflation);
+        gymRunning += monthlyMembership + (initiation / 12) + monthlyCommute;
+        homeRunning += maintenance;
+        gymCumulative.push(gymRunning);
+        homeCumulative.push(homeRunning);
+      }
+
+      const fiveYearGym = gymCumulative[59];
+      const tenYearGym = gymCumulative[119];
+      const fiveYearHome = homeCumulative[59] - (equipment * resalePct); // subtract resale
+      const tenYearHome = homeCumulative[119] - (equipment * resalePct * 0.5); // lower resale at 10yr
+
+      const fiveYearNet = fiveYearGym - fiveYearHome;
+      const tenYearNet = tenYearGym - tenYearHome;
+
+      // Time savings
+      const hoursPerVisit = (miles / 30) * 2; // assume 30mph avg
+      const hoursMonthly = hoursPerVisit * visits * 4;
+
+      // Update UI
+      document.getElementById('monthly-savings').textContent = '$' + Math.round(monthlySavings).toLocaleString();
+      document.getElementById('annual-savings').textContent = '$' + Math.round(monthlySavings * 12).toLocaleString();
+      document.getElementById('five-year').textContent = '$' + Math.round(fiveYearNet).toLocaleString();
+      document.getElementById('ten-year').textContent = '$' + Math.round(tenYearNet).toLocaleString();
+      document.getElementById('hours-monthly').textContent = Math.round(hoursMonthly) + 'h';
+      document.getElementById('hours-yearly').textContent = Math.round(hoursMonthly * 12) + 'h';
+
+      if (breakEvenMonths === Infinity || monthlySavings <= 0) {
+        document.getElementById('break-even-display').textContent = 'Check inputs';
+        document.getElementById('verdict-icon').textContent = '⚠️';
+        document.getElementById('verdict-text').textContent = 'Your home gym maintenance costs exceed current gym costs. Try reducing monthly expenses.';
+      } else if (breakEvenMonths <= 12) {
+        document.getElementById('break-even-display').textContent = breakEvenMonths + ' months';
+        document.getElementById('verdict-icon').textContent = '🚀';
+        document.getElementById('verdict-text').textContent = 'Excellent! You\'ll break even in under a year.';
+      } else if (breakEvenMonths <= 24) {
+        document.getElementById('break-even-display').textContent = breakEvenMonths + ' months';
+        document.getElementById('verdict-icon').textContent = '✅';
+        document.getElementById('verdict-text').textContent = 'Good investment. You\'ll break even in ' + Math.ceil(breakEvenMonths/12) + ' years.';
+      } else {
+        document.getElementById('break-even-display').textContent = Math.round(breakEvenMonths / 12 * 10) / 10 + ' years';
+        document.getElementById('verdict-icon').textContent = '📊';
+        document.getElementById('verdict-text').textContent = 'Consider a lower-cost equipment setup to reach break-even sooner.';
+      }
+
+      // Draw chart
+      drawChart(gymCumulative, homeCumulative);
+
+      trackEvent('roi_calculated', { membership, equipment, break_even: breakEvenMonths });
+    }
+
+    function drawChart(gymData, homeData) {
+      const canvas = document.getElementById('roi-chart');
+      const ctx = canvas.getContext('2d');
+
+      canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+      canvas.height = 200 * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+      const w = canvas.offsetWidth;
+      const h = 200;
+      const pad = { top: 20, right: 20, bottom: 30, left: 60 };
+      const innerW = w - pad.left - pad.right;
+      const innerH = h - pad.top - pad.bottom;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const allVals = [...gymData, ...homeData];
+      const maxVal = Math.max(...allVals);
+      const months = gymData.length;
+
+      // Year labels (every 12 months)
+      ctx.fillStyle = '#8A8A8A';
+      ctx.font = '11px Barlow, sans-serif';
+      ctx.textAlign = 'center';
+      for (let y = 1; y <= 10; y++) {
+        const x = pad.left + ((y * 12 - 1) / (months - 1)) * innerW;
+        ctx.fillText('Yr ' + y, x, h - 8);
+      }
+
+      // Y-axis labels
+      ctx.textAlign = 'right';
+      for (let i = 0; i <= 4; i++) {
+        const val = (maxVal * i) / 4;
+        const y = pad.top + innerH - (i / 4) * innerH;
+        ctx.fillText('$' + Math.round(val / 1000) + 'k', pad.left - 8, y + 4);
+
+        // Grid line
+        ctx.strokeStyle = '#2E2E2E';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(pad.left + innerW, y);
+        ctx.stroke();
+      }
+
+      function drawLine(data, color) {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2.5;
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        data.forEach((val, i) => {
+          const x = pad.left + (i / (data.length - 1)) * innerW;
+          const y = pad.top + innerH - (val / maxVal) * innerH;
+          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+      }
+
+      drawLine(gymData, '#FF5C00');
+      drawLine(homeData, '#3B82F6');
+    }
+
+    // Init
+    calculate();
+    window.addEventListener('resize', () => {
+      const gymData = [];
+      const homeData = [];
+      // Recalculate on resize
+      calculate();
+    });
+  </script>
+</body>
+</html>

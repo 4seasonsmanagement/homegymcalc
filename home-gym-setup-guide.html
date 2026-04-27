@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complete Beginner's Home Gym Setup Guide (2026) — HomeGymCalc</title>
+  <meta name="description" content="Everything you need to set up your first home gym in 2026. Budget templates for $300, $800, and $2,000 builds. Equipment checklists, space planning, and setup order." />
+  <link rel="canonical" href="https://homegymcalc.com/pages/blog/home-gym-setup-guide.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    .article-page { padding-top: calc(var(--nav-height) + var(--space-7)); padding-bottom: var(--space-9); }
+
+    .article-layout { display: grid; grid-template-columns: 1fr 300px; gap: var(--space-8); align-items: start; }
+
+    .article-header { margin-bottom: var(--space-7); padding-bottom: var(--space-7); border-bottom: 1px solid var(--border); }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    .article-meta__category { color: var(--orange); font-weight: 600; }
+
+    .article-body { font-size: 1rem; line-height: 1.8; color: var(--gray-light); }
+
+    .article-body h2 {
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      color: var(--white);
+      margin: var(--space-8) 0 var(--space-4);
+      padding-top: var(--space-5);
+      border-top: 1px solid var(--border);
+    }
+
+    .article-body h2:first-of-type { border-top: none; margin-top: 0; }
+
+    .article-body h3 {
+      font-size: 1.2rem;
+      color: var(--white);
+      margin: var(--space-5) 0 var(--space-3);
+    }
+
+    .article-body p { margin-bottom: var(--space-4); }
+
+    .article-body ul, .article-body ol {
+      list-style: none;
+      margin-bottom: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .article-body ul li, .article-body ol li {
+      display: flex;
+      gap: var(--space-3);
+      align-items: flex-start;
+      color: var(--gray-light);
+      line-height: 1.6;
+    }
+
+    .article-body ul li::before { content: '→'; color: var(--orange); flex-shrink: 0; margin-top: 2px; }
+    .article-body ol { counter-reset: list; }
+    .article-body ol li::before {
+      counter-increment: list;
+      content: counter(list);
+      background: var(--orange);
+      color: var(--white);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .article-body strong { color: var(--white); }
+
+    .callout {
+      background: rgba(255,92,0,0.08);
+      border: 1px solid rgba(255,92,0,0.25);
+      border-left: 3px solid var(--orange);
+      border-radius: var(--border-radius);
+      padding: var(--space-5);
+      margin: var(--space-5) 0;
+    }
+
+    .callout__label {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--orange);
+      margin-bottom: var(--space-3);
+    }
+
+    .callout p { margin-bottom: 0; }
+
+    .budget-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-5) 0;
+      font-size: 0.9rem;
+    }
+
+    .budget-table th {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      padding: var(--space-3) var(--space-3);
+      text-align: left;
+    }
+
+    .budget-table td { padding: var(--space-3); border-bottom: 1px solid rgba(51,51,51,0.5); color: var(--gray-light); vertical-align: top; }
+    .budget-table td:first-child { color: var(--white); font-weight: 500; }
+    .budget-table td strong { color: var(--orange); }
+
+    .budget-table tr:last-child td { border-bottom: none; background: rgba(255,92,0,0.05); font-weight: 600; }
+
+    /* Sidebar */
+    .sidebar { position: sticky; top: calc(var(--nav-height) + var(--space-4)); }
+
+    .sidebar-widget {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-5);
+      margin-bottom: var(--space-5);
+    }
+
+    .sidebar-widget__title {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .toc-link {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--gray-light);
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid rgba(51,51,51,0.5);
+      transition: var(--transition);
+    }
+
+    .toc-link:hover { color: var(--orange); }
+    .toc-link:last-child { border-bottom: none; }
+
+    @media (max-width: 900px) {
+      .article-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="/index.html" class="nav__logo">HomeGym<span>Calc</span></a>
+        <ul class="nav__links">
+          <li><a href="/index.html" class="nav__link">Home</a></li>
+          <li><a href="/pages/calculators.html" class="nav__link">Calculators</a></li>
+          <li><a href="/pages/blog.html" class="nav__link active">Guides</a></li>
+          <li><a href="/pages/equipment-recommender.html" class="nav__link nav__cta">Get My Plan →</a></li>
+        </ul>
+        <button class="nav__mobile-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="article-page">
+    <div class="container">
+      <div class="article-layout">
+
+        <!-- Main Content -->
+        <article>
+          <div class="article-header">
+            <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:var(--space-4);">
+              <a href="/index.html" style="color:var(--text-muted);">Home</a>
+              <span style="margin:0 8px;">›</span>
+              <a href="/pages/blog.html" style="color:var(--text-muted);">Guides</a>
+              <span style="margin:0 8px;">›</span>
+              <span>Beginner Setup Guide</span>
+            </nav>
+
+            <div class="article-meta">
+              <span class="article-meta__category">Setup Guides</span>
+              <span>January 2026</span>
+              <span>15 min read</span>
+              <span>Updated for 2026 prices</span>
+            </div>
+
+            <h1 style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:var(--space-4);">The Complete Beginner's Home Gym Setup Guide (2026)</h1>
+            <p class="lead">You don't need a lot of space or money to build a gym that rivals a commercial facility. This guide covers everything from picking a space to making your first purchase — with budget templates for $300, $800, and $2,000 builds.</p>
+          </div>
+
+          <div class="article-body">
+
+            <div class="callout">
+              <div class="callout__label">💡 Use Our Calculator First</div>
+              <p>Before reading further, try our <a href="/pages/equipment-recommender.html">Equipment Recommender</a>. Answer 5 questions and get a personalized list in 2 minutes. This guide provides the context — the calculator gives you the specific products.</p>
+            </div>
+
+            <h2>Why Build a Home Gym?</h2>
+            <p>The average gym membership costs $58/month. That's $696/year — and $6,960 over 10 years. A solid home gym pays for itself in 14–24 months and then saves you money forever.</p>
+            <p>But cost savings aren't even the biggest advantage. The biggest advantage is <strong>consistency</strong>. When your gym is 30 seconds from your bedroom, you eliminate every excuse. No commute. No waiting for equipment. No judging eyes. Just you and the work.</p>
+
+            <h2>Step 1: Choose and Prepare Your Space</h2>
+            <p>You can build a functional gym in almost any space. Here's what you need:</p>
+            <ul>
+              <li><strong>Minimum viable space:</strong> 6 feet × 6 feet (36 sq ft) — enough for a mat, dumbbells, and bodyweight work</li>
+              <li><strong>Comfortable space:</strong> 8 feet × 10 feet (80 sq ft) — adds a bench and pull-up bar</li>
+              <li><strong>Full gym setup:</strong> 12 feet × 15 feet (180 sq ft) — fits a rack, cardio machine, and free weights comfortably</li>
+            </ul>
+
+            <h3>Space Preparation Checklist</h3>
+            <ol>
+              <li>Clear the space completely and measure it accurately</li>
+              <li>Check ceiling height — you need at least 8 feet for overhead pressing and pull-ups</li>
+              <li>Inspect the floor — concrete is ideal; wood floors need protection</li>
+              <li>Consider ventilation — you'll want airflow, especially in garages</li>
+              <li>Check electrical access if you plan on treadmills or bikes</li>
+            </ol>
+
+            <h2>Step 2: Install Flooring First</h2>
+            <p>Flooring is the most overlooked purchase — and the one you'll regret skipping most. Good gym flooring protects your subfloor from dropped weights, reduces noise, prevents equipment from sliding, and makes your space feel like an actual gym.</p>
+
+            <div class="callout">
+              <div class="callout__label">🏆 Best Value: Horse Stall Mats</div>
+              <p>The best-value gym flooring isn't sold at fitness stores. It's sold at Tractor Supply and farm supply stores. <strong>Horse stall mats (4×6 feet, ¾ inch thick rubber)</strong> cost $45–55 each and are used in commercial gyms worldwide. Two mats cover a 6×8 foot area for under $110. They're dense, durable, and last decades.</p>
+            </div>
+
+            <h2>Step 3: Buy Equipment in the Right Order</h2>
+            <p>The biggest mistake beginners make is buying everything at once, or buying in the wrong order. Here's the proven sequence:</p>
+            <ol>
+              <li><strong>Flooring</strong> — Do this before anything else arrives</li>
+              <li><strong>Adjustable dumbbells or resistance bands</strong> — Start training immediately</li>
+              <li><strong>Bench</strong> — Multiplies your dumbbell exercises by 3x</li>
+              <li><strong>Pull-up bar</strong> — Adds upper back and bicep work</li>
+              <li><strong>Cardio machine</strong> — If you need dedicated cardio</li>
+              <li><strong>Rack and barbell</strong> — Only if serious strength training is a goal</li>
+            </ol>
+
+            <h2>Budget Build Templates</h2>
+            <p>Here are three realistic builds at different price points. All prices are estimated 2026 averages — actual costs will vary.</p>
+
+            <h3>$300 Starter Build</h3>
+            <table class="budget-table">
+              <thead><tr><th>Item</th><th>What to Buy</th><th>Est. Cost</th></tr></thead>
+              <tbody>
+                <tr><td>Resistance Bands</td><td>5-band set (different resistance levels)</td><td>$30–50</td></tr>
+                <tr><td>Yoga Mat</td><td>Thick (6mm+) exercise mat</td><td>$25–40</td></tr>
+                <tr><td>Pull-Up Bar</td><td>Doorway mounted, no-drill</td><td>$30–50</td></tr>
+                <tr><td>Jump Rope</td><td>Speed rope for conditioning</td><td>$15–25</td></tr>
+                <tr><td>Flooring</td><td>2 horse stall mats</td><td>$90–110</td></tr>
+                <tr><td><strong>Total</strong></td><td></td><td><strong>$190–275</strong></td></tr>
+              </tbody>
+            </table>
+
+            <h3>$800 Solid Starter Build</h3>
+            <table class="budget-table">
+              <thead><tr><th>Item</th><th>What to Buy</th><th>Est. Cost</th></tr></thead>
+              <tbody>
+                <tr><td>Adjustable Dumbbells</td><td>Bowflex 552 or NÜO Bell</td><td>$299–349</td></tr>
+                <tr><td>Flat Bench</td><td>Any sturdy flat bench (300+ lb capacity)</td><td>$80–120</td></tr>
+                <tr><td>Pull-Up Bar</td><td>Doorway mounted</td><td>$30–50</td></tr>
+                <tr><td>Resistance Bands</td><td>Loop bands for warm-up and accessories</td><td>$25–40</td></tr>
+                <tr><td>Flooring</td><td>3 horse stall mats (6×6 area)</td><td>$130–165</td></tr>
+                <tr><td><strong>Total</strong></td><td></td><td><strong>$564–724</strong></td></tr>
+              </tbody>
+            </table>
+
+            <h3>$2,000 Complete Build</h3>
+            <table class="budget-table">
+              <thead><tr><th>Item</th><th>What to Buy</th><th>Est. Cost</th></tr></thead>
+              <tbody>
+                <tr><td>Adjustable Dumbbells</td><td>PowerBlock Elite or NÜO 70s</td><td>$400–500</td></tr>
+                <tr><td>Adjustable Bench</td><td>Rogue or REP flat/incline bench</td><td>$200–280</td></tr>
+                <tr><td>Pull-Up Bar</td><td>Ceiling mount or doorway</td><td>$50–80</td></tr>
+                <tr><td>Barbell + 200lb Plates</td><td>Budget barbell with standard plates</td><td>$200–300</td></tr>
+                <tr><td>Squat Stand</td><td>Basic squat stands (not full rack)</td><td>$200–350</td></tr>
+                <tr><td>Cardio</td><td>Stationary bike or rowing machine</td><td>$300–600</td></tr>
+                <tr><td>Flooring</td><td>6 horse stall mats (full 8×12 area)</td><td>$270–330</td></tr>
+                <tr><td><strong>Total</strong></td><td></td><td><strong>$1,620–2,440</strong></td></tr>
+              </tbody>
+            </table>
+
+            <h2>What to Buy Used vs. New</h2>
+            <p>Not everything needs to be purchased new. Here's a practical breakdown:</p>
+
+            <h3>Always Buy Used If Possible</h3>
+            <ul>
+              <li><strong>Barbells and plates</strong> — Iron is iron. Used plates at 50 cents/lb beat new at $1.50+/lb</li>
+              <li><strong>Power racks and squat stands</strong> — These never wear out. Check Facebook Marketplace constantly</li>
+              <li><strong>Weight benches</strong> — A used commercial bench for $80 beats a new cheap bench every time</li>
+            </ul>
+
+            <h3>Buy New for These</h3>
+            <ul>
+              <li><strong>Adjustable dumbbells</strong> — The dial mechanism can wear out; warranty matters</li>
+              <li><strong>Cardio machines</strong> — Belt and electronics degrade; new warranties are valuable</li>
+              <li><strong>Flooring</strong> — Used mats may smell; new is worth the modest cost</li>
+            </ul>
+
+            <h2>Common Beginner Mistakes</h2>
+            <ul>
+              <li><strong>Buying too much too fast</strong> — You don't know your preferences until you've trained for 3 months. Start small</li>
+              <li><strong>Skipping flooring</strong> — Every beginner who skips this wishes they hadn't</li>
+              <li><strong>Cheap barbells</strong> — A $60 barbell will bend under heavy loads. Spend at least $150</li>
+              <li><strong>Too small a dumbbell range</strong> — Beginners underestimate how quickly they progress. Buy adjustable or plan to buy more</li>
+              <li><strong>No mirror</strong> — Even a cheap wall mirror dramatically improves form and gym feel</li>
+            </ul>
+
+            <h2>Next Steps</h2>
+            <p>You now have everything you need to build a plan. Here are the best next steps:</p>
+            <ul>
+              <li>Use the <a href="/pages/equipment-recommender.html">Equipment Recommender</a> to get a personalized list based on your specific goals</li>
+              <li>Run the <a href="/pages/roi-calculator.html">ROI Calculator</a> with your current membership cost to see when you break even</li>
+              <li>If budget is a concern, use the <a href="/pages/phase-builder.html">Phase Builder</a> to spread purchases over time</li>
+            </ul>
+
+          </div>
+
+          <!-- Bottom CTA -->
+          <div style="margin-top:var(--space-8);padding-top:var(--space-7);border-top:1px solid var(--border);">
+            <div class="email-capture">
+              <div class="hero__eyebrow">📥 Save This Guide</div>
+              <h3>Get the PDF Version + Equipment Checklists</h3>
+              <p>We'll email you this guide as a PDF plus printable checklists for each budget level.</p>
+              <form class="email-form" data-source="blog-setup-guide" novalidate>
+                <input type="email" class="form-input" placeholder="your@email.com" required autocomplete="email" />
+                <button type="submit" class="btn btn--primary">Send PDF</button>
+              </form>
+              <small style="display:block;margin-top:12px;text-align:center;">No spam. Unsubscribe anytime.</small>
+            </div>
+          </div>
+
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <div class="sidebar-widget">
+            <div class="sidebar-widget__title">📋 In This Guide</div>
+            <a href="#" class="toc-link">Why Build a Home Gym?</a>
+            <a href="#" class="toc-link">Step 1: Choose Your Space</a>
+            <a href="#" class="toc-link">Step 2: Install Flooring</a>
+            <a href="#" class="toc-link">Step 3: Buy in the Right Order</a>
+            <a href="#" class="toc-link">Budget Build Templates</a>
+            <a href="#" class="toc-link">Used vs. New Equipment</a>
+            <a href="#" class="toc-link">Common Mistakes</a>
+          </div>
+
+          <div class="sidebar-widget" style="background:rgba(255,92,0,0.05);border-color:rgba(255,92,0,0.3);">
+            <div class="sidebar-widget__title" style="color:var(--orange);">🏋️ Free Tool</div>
+            <p style="font-size:0.875rem;color:var(--gray-light);margin-bottom:var(--space-4);">Get a personalized equipment list for your exact goals, space, and budget.</p>
+            <a href="/pages/equipment-recommender.html" class="btn btn--primary btn--full btn--sm">Get My Plan →</a>
+          </div>
+
+          <div class="sidebar-widget">
+            <div class="sidebar-widget__title">📖 More Guides</div>
+            <a href="/pages/blog/small-space-gym.html" class="toc-link">Small Space Gym Guide</a>
+            <a href="/pages/blog/garage-gym-guide.html" class="toc-link">Garage Gym Guide</a>
+            <a href="/pages/blog/gym-vs-membership.html" class="toc-link">Gym vs. Membership</a>
+            <a href="/pages/blog/best-adjustable-dumbbells.html" class="toc-link">Best Adjustable Dumbbells</a>
+            <a href="/pages/blog/buying-used-gym-equipment.html" class="toc-link">Buying Used Equipment</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div><div class="footer__logo">HomeGym<span>Calc</span></div><p class="footer__desc">Free home gym calculators and tools.</p></div>
+        <div>
+          <div class="footer__heading">Calculators</div>
+          <ul class="footer__links">
+            <li><a href="/pages/equipment-recommender.html" class="footer__link">Equipment Recommender</a></li>
+            <li><a href="/pages/roi-calculator.html" class="footer__link">ROI Calculator</a></li>
+            <li><a href="/pages/phase-builder.html" class="footer__link">Phase Builder</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__heading">Legal</div>
+          <ul class="footer__links">
+            <li><a href="/pages/privacy.html" class="footer__link">Privacy Policy</a></li>
+            <li><a href="/pages/affiliate-disclosure.html" class="footer__link">Affiliate Disclosure</a></li>
+          </ul>
+        </div>
+        <div></div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 HomeGymCalc.com</p>
+        <p class="footer__disclaimer">As an Amazon Associate we earn from qualifying purchases.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/components.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

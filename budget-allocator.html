@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Gym Budget Allocator — How to Split Your Budget | HomeGymCalc</title>
+  <meta name="description" content="Not sure how to split your home gym budget? Enter your total and goals — get the exact recommended percentage and dollar amount for each equipment category." />
+  <link rel="canonical" href="https://homegymcalc.com/pages/budget-allocator.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    .calc-page { padding-top: calc(var(--nav-height) + var(--space-7)); padding-bottom: var(--space-9); }
+
+    .allocator-grid { display: grid; grid-template-columns: 380px 1fr; gap: var(--space-7); align-items: start; }
+
+    .input-panel {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      position: sticky;
+      top: calc(var(--nav-height) + var(--space-4));
+    }
+
+    .input-panel__header {
+      background: var(--dark-2);
+      border-bottom: 1px solid var(--border);
+      padding: var(--space-4) var(--space-5);
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .input-panel__body { padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-4); }
+
+    .alloc-category {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      margin-bottom: var(--space-4);
+      transition: var(--transition);
+    }
+
+    .alloc-category:hover { border-color: rgba(255,92,0,0.3); }
+
+    .alloc-header {
+      display: flex;
+      align-items: center;
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--border);
+      gap: var(--space-3);
+    }
+
+    .alloc-icon { font-size: 1.4rem; }
+
+    .alloc-name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      flex: 1;
+    }
+
+    .alloc-pct {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--orange);
+      margin-left: auto;
+    }
+
+    .alloc-amount {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--white);
+      margin-left: var(--space-3);
+    }
+
+    .alloc-bar { height: 6px; background: var(--dark-3); margin: 0; }
+    .alloc-bar-fill { height: 100%; background: var(--orange); transition: width 0.5s ease; }
+
+    .alloc-body { padding: var(--space-4) var(--space-5); }
+
+    .alloc-reason { font-size: 0.875rem; color: var(--gray-light); margin-bottom: var(--space-3); line-height: 1.5; }
+
+    .alloc-items { display: flex; flex-direction: column; gap: var(--space-2); }
+
+    .alloc-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-2) var(--space-3);
+      background: var(--dark-2);
+      border-radius: var(--border-radius);
+    }
+
+    .alloc-item__name { font-size: 0.85rem; color: var(--gray-light); }
+    .alloc-item__est { font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; color: var(--orange); }
+
+    .budget-donut-wrapper {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-6);
+      margin-bottom: var(--space-5);
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+
+    .donut-legend { flex: 1; display: flex; flex-direction: column; gap: var(--space-3); }
+
+    .legend-row { display: flex; align-items: center; gap: var(--space-3); }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .legend-label { font-size: 0.85rem; color: var(--gray-light); flex: 1; }
+    .legend-pct { font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; color: var(--white); }
+
+    @media (max-width: 900px) {
+      .allocator-grid { grid-template-columns: 1fr; }
+      .input-panel { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="/index.html" class="nav__logo">HomeGym<span>Calc</span></a>
+        <ul class="nav__links">
+          <li><a href="/index.html" class="nav__link">Home</a></li>
+          <li><a href="/pages/calculators.html" class="nav__link active">Calculators</a></li>
+          <li><a href="/pages/blog.html" class="nav__link">Guides</a></li>
+          <li><a href="/pages/equipment-recommender.html" class="nav__link nav__cta">Get My Plan →</a></li>
+        </ul>
+        <button class="nav__mobile-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="calc-page">
+    <div class="container">
+
+      <div style="margin-bottom:var(--space-7);">
+        <div class="hero__eyebrow">📊 Free Calculator</div>
+        <h1 style="font-size:clamp(2rem,5vw,3.5rem);margin-bottom:var(--space-3);">Budget Allocator</h1>
+        <p class="lead" style="max-width:580px;">Enter your total budget and goals. Get the recommended split across every equipment category — with specific items to buy.</p>
+      </div>
+
+      <div class="allocator-grid">
+
+        <!-- Input Panel -->
+        <div class="input-panel">
+          <div class="input-panel__header">⚙️ Your Details</div>
+          <div class="input-panel__body">
+            <div class="form-group">
+              <label class="form-label">Total Budget</label>
+              <div style="position:relative;">
+                <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray-light);">$</span>
+                <input type="number" id="ba-budget" class="form-input" style="padding-left:30px;" value="1500" min="200" max="20000" step="100" oninput="allocate()" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Primary Goal</label>
+              <select id="ba-goal" class="form-select" onchange="allocate()">
+                <option value="strength">Build Strength & Muscle</option>
+                <option value="cardio">Cardio & Weight Loss</option>
+                <option value="general" selected>General Fitness</option>
+                <option value="powerlifting">Powerlifting</option>
+                <option value="crossfit">CrossFit / Functional</option>
+                <option value="minimal">Minimal / Travel-Friendly</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Space Size</label>
+              <select id="ba-space" class="form-select" onchange="allocate()">
+                <option value="tiny">Very Small (under 50 sq ft)</option>
+                <option value="small">Small (50–100 sq ft)</option>
+                <option value="medium" selected>Medium (100–200 sq ft)</option>
+                <option value="large">Large (200+ sq ft)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Include Flooring?</label>
+              <select id="ba-flooring" class="form-select" onchange="allocate()">
+                <option value="yes">Yes — include flooring budget</option>
+                <option value="no">No — flooring already done</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Include Cardio Machine?</label>
+              <select id="ba-cardio" class="form-select" onchange="allocate()">
+                <option value="yes">Yes — budget for a cardio machine</option>
+                <option value="no">No — weights/resistance only</option>
+              </select>
+            </div>
+
+            <div style="padding-top:var(--space-4);border-top:1px solid var(--border);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:var(--space-2);">
+                <span style="font-size:0.85rem;color:var(--gray-light);">Total Allocated</span>
+                <span id="total-allocated" style="font-family:var(--font-display);font-weight:700;color:var(--orange);">$0</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <span style="font-size:0.85rem;color:var(--gray-light);">Remaining</span>
+                <span id="total-remaining" style="font-family:var(--font-display);font-weight:700;color:var(--success);">$0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div id="results">
+          <!-- Budget donut chart placeholder -->
+          <div class="budget-donut-wrapper" id="donut-wrapper">
+            <canvas id="donut-canvas" width="160" height="160" style="flex-shrink:0;"></canvas>
+            <div class="donut-legend" id="donut-legend"></div>
+          </div>
+
+          <!-- Category cards -->
+          <div id="category-cards"></div>
+
+          <!-- Bottom CTA -->
+          <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-5);">
+            <a href="/pages/equipment-recommender.html" class="btn btn--primary">Get Full Equipment List →</a>
+            <a href="/pages/phase-builder.html" class="btn btn--secondary">Plan Phases →</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div><div class="footer__logo">HomeGym<span>Calc</span></div><p class="footer__desc">Free home gym calculators and tools.</p></div>
+        <div>
+          <div class="footer__heading">Calculators</div>
+          <ul class="footer__links">
+            <li><a href="/pages/equipment-recommender.html" class="footer__link">Equipment Recommender</a></li>
+            <li><a href="/pages/budget-allocator.html" class="footer__link">Budget Allocator</a></li>
+            <li><a href="/pages/phase-builder.html" class="footer__link">Phase Builder</a></li>
+            <li><a href="/pages/roi-calculator.html" class="footer__link">ROI Calculator</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__heading">Legal</div>
+          <ul class="footer__links">
+            <li><a href="/pages/privacy.html" class="footer__link">Privacy Policy</a></li>
+            <li><a href="/pages/affiliate-disclosure.html" class="footer__link">Affiliate Disclosure</a></li>
+          </ul>
+        </div>
+        <div></div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 HomeGymCalc.com</p>
+        <p class="footer__disclaimer">As an Amazon Associate we earn from qualifying purchases.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/components.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    const ALLOCATION_PROFILES = {
+      strength: {
+        categories: [
+          { icon:'🏋️', name:'Free Weights', desc:'Dumbbells, barbell, and plates — the core of strength training.', basePct:40, items:[{name:'Adjustable Dumbbells or Barbell Set',key:'adjustable-dumbbells'},{name:'Olympic Weight Plates',key:'weight-plates'}], color:'#FF5C00' },
+          { icon:'🏗️', name:'Rack & Bench', desc:'Power rack or squat stand plus an adjustable bench.', basePct:30, items:[{name:'Power Rack or Squat Stand',key:'power-rack'},{name:'Adjustable Bench',key:'weight-bench'}], color:'#F59E0B' },
+          { icon:'🪵', name:'Flooring', desc:'Rubber flooring to protect your floor and reduce noise.', basePct:10, items:[{name:'Horse Stall Mats (4x6ft)',key:'stall-mats'}], color:'#3B82F6' },
+          { icon:'🎽', name:'Accessories', desc:'Belts, straps, pull-up bar, bands.', basePct:15, items:[{name:'Pull-Up Bar',key:'pull-up-bar'},{name:'Resistance Bands',key:'resistance-bands'}], color:'#8B5CF6' },
+          { icon:'🚴', name:'Cardio', desc:'Minimal cardio — jump rope or assault bike for conditioning.', basePct:5, items:[{name:'Jump Rope',key:'jump-rope'}], color:'#22C55E' }
+        ]
+      },
+      cardio: {
+        categories: [
+          { icon:'🚴', name:'Cardio Machine', desc:'Your primary machine — rower, treadmill, or bike.', basePct:50, items:[{name:'Rowing Machine or Stationary Bike',key:'rowing-machine'}], color:'#FF5C00' },
+          { icon:'🏋️', name:'Resistance Training', desc:'Dumbbells and bands for strength work between cardio sessions.', basePct:25, items:[{name:'Adjustable Dumbbells',key:'adjustable-dumbbells'},{name:'Resistance Bands',key:'resistance-bands'}], color:'#F59E0B' },
+          { icon:'🪵', name:'Flooring', desc:'Rubber tiles to protect floor under cardio machine.', basePct:10, items:[{name:'Rubber Gym Flooring Tiles',key:'rubber-flooring'}], color:'#3B82F6' },
+          { icon:'🧘', name:'Recovery & Mobility', desc:'Foam roller, yoga mat, and stretching tools.', basePct:10, items:[{name:'Yoga Mat',key:'yoga-mat'},{name:'Foam Roller',key:'foam-roller'}], color:'#8B5CF6' },
+          { icon:'🎽', name:'Accessories', desc:'Ab roller, jump rope, minor tools.', basePct:5, items:[{name:'Ab Roller',key:'ab-roller'},{name:'Jump Rope',key:'jump-rope'}], color:'#22C55E' }
+        ]
+      },
+      general: {
+        categories: [
+          { icon:'🏋️', name:'Free Weights', desc:'Adjustable dumbbells — the most versatile single purchase.', basePct:35, items:[{name:'Adjustable Dumbbells',key:'adjustable-dumbbells'},{name:'Kettlebell',key:'kettlebell'}], color:'#FF5C00' },
+          { icon:'🏗️', name:'Bench & Pull-Up', desc:'Adjustable bench and pull-up bar.', basePct:20, items:[{name:'Adjustable Bench',key:'weight-bench'},{name:'Pull-Up Bar',key:'pull-up-bar'}], color:'#F59E0B' },
+          { icon:'🚴', name:'Cardio Machine', desc:'Stationary bike or rowing machine.', basePct:25, items:[{name:'Stationary Bike or Rower',key:'stationary-bike'}], color:'#22C55E' },
+          { icon:'🪵', name:'Flooring', desc:'Protective rubber flooring for your workout area.', basePct:10, items:[{name:'Rubber Gym Tiles',key:'rubber-flooring'}], color:'#3B82F6' },
+          { icon:'🎽', name:'Accessories', desc:'Bands, mat, foam roller, and small tools.', basePct:10, items:[{name:'Resistance Bands',key:'resistance-bands'},{name:'Foam Roller',key:'foam-roller'}], color:'#8B5CF6' }
+        ]
+      },
+      powerlifting: {
+        categories: [
+          { icon:'🏋️', name:'Barbell & Plates', desc:'Olympic barbell and as many plates as budget allows.', basePct:40, items:[{name:'Olympic Barbell (quality)',key:'barbell'},{name:'Weight Plates Set',key:'weight-plates'}], color:'#FF5C00' },
+          { icon:'🏗️', name:'Rack', desc:'Power rack — the most important structural piece.', basePct:30, items:[{name:'Power Rack',key:'power-rack'},{name:'Adjustable Bench',key:'weight-bench'}], color:'#F59E0B' },
+          { icon:'🪵', name:'Flooring / Platform', desc:'Deadlift platform and protective matting.', basePct:15, items:[{name:'Stall Mats (deadlift area)',key:'stall-mats'}], color:'#3B82F6' },
+          { icon:'🎽', name:'Safety Accessories', desc:'Belt, straps, wrist wraps, chalk.', basePct:10, items:[{name:'Lifting Belt',key:'weight-lifting-belt'},{name:'Lifting Straps',key:'lifting-straps'}], color:'#8B5CF6' },
+          { icon:'🚴', name:'Conditioning', desc:'Minimal — just enough for GPP work.', basePct:5, items:[{name:'Jump Rope or Assault Bike',key:'jump-rope'}], color:'#22C55E' }
+        ]
+      },
+      crossfit: {
+        categories: [
+          { icon:'🏋️', name:'Barbell & Bumpers', desc:'Olympic barbell with bumper plates for WODs.', basePct:30, items:[{name:'Barbell + Bumper Plates Set',key:'bumper-plates'}], color:'#FF5C00' },
+          { icon:'🏗️', name:'Rig / Rack', desc:'Pull-up rig or power rack for gymnastics movements.', basePct:25, items:[{name:'Pull-Up Rig or Power Rack',key:'power-rack'}], color:'#F59E0B' },
+          { icon:'🚴', name:'Cardio Machine', desc:'Assault bike or rower for conditioning work.', basePct:25, items:[{name:'Assault Bike or Rower',key:'assault-bike'}], color:'#22C55E' },
+          { icon:'🪵', name:'Flooring', desc:'Rubber flooring — you\'ll be dropping weight.', basePct:10, items:[{name:'Heavy Rubber Flooring',key:'rubber-flooring'}], color:'#3B82F6' },
+          { icon:'🎽', name:'Accessories', desc:'Jump rope, bands, rings, kettle bells.', basePct:10, items:[{name:'Jump Rope + Resistance Bands',key:'jump-rope'},{name:'Adjustable Dumbbells',key:'adjustable-dumbbells'}], color:'#8B5CF6' }
+        ]
+      },
+      minimal: {
+        categories: [
+          { icon:'🎽', name:'Resistance Bands', desc:'Full-body training in a bag — the ultimate space saver.', basePct:20, items:[{name:'Resistance Bands Set (5 levels)',key:'resistance-bands'}], color:'#FF5C00' },
+          { icon:'🏋️', name:'Adjustable Dumbbells', desc:'One pair replaces 15+ fixed sets.', basePct:40, items:[{name:'Bowflex or NÜO Adjustable Dumbbells',key:'adjustable-dumbbells'}], color:'#F59E0B' },
+          { icon:'🧘', name:'Mat & Mobility', desc:'Yoga mat, foam roller, and stretching tools.', basePct:15, items:[{name:'Thick Yoga Mat',key:'yoga-mat'},{name:'Foam Roller',key:'foam-roller'}], color:'#3B82F6' },
+          { icon:'🏗️', name:'Doorframe Bar', desc:'Pull-up bar — no drilling required.', basePct:10, items:[{name:'Doorway Pull-Up Bar',key:'pull-up-bar'}], color:'#8B5CF6' },
+          { icon:'🚴', name:'Jump Rope', desc:'Highest calorie burn per dollar in fitness.', basePct:15, items:[{name:'Speed Jump Rope',key:'jump-rope'}], color:'#22C55E' }
+        ]
+      }
+    };
+
+    function allocate() {
+      const budget = parseFloat(document.getElementById('ba-budget').value) || 1500;
+      const goal = document.getElementById('ba-goal').value;
+      const space = document.getElementById('ba-space').value;
+      const includeFlooring = document.getElementById('ba-flooring').value === 'yes';
+      const includeCardio = document.getElementById('ba-cardio').value === 'yes';
+
+      let profile = JSON.parse(JSON.stringify(ALLOCATION_PROFILES[goal] || ALLOCATION_PROFILES.general));
+
+      // Adjust for space
+      if (space === 'tiny') {
+        profile.categories.forEach(c => {
+          if (c.name === 'Rack & Bench') c.basePct = Math.max(5, c.basePct - 15);
+          if (c.name === 'Cardio Machine') c.basePct = Math.max(5, c.basePct - 10);
+          if (c.name === 'Free Weights' || c.name === 'Accessories') c.basePct += 10;
+        });
+      }
+
+      // Remove flooring if not wanted
+      if (!includeFlooring) {
+        const floorCat = profile.categories.find(c => c.name === 'Flooring');
+        if (floorCat) {
+          const freed = floorCat.basePct;
+          floorCat.basePct = 0;
+          profile.categories[0].basePct += freed;
+        }
+      }
+
+      // Remove cardio if not wanted
+      if (!includeCardio) {
+        const cardioCat = profile.categories.find(c => c.name === 'Cardio Machine' || c.name === 'Cardio');
+        if (cardioCat) {
+          const freed = cardioCat.basePct;
+          cardioCat.basePct = 0;
+          profile.categories[0].basePct += freed;
+        }
+      }
+
+      // Normalize percentages
+      const total = profile.categories.reduce((s, c) => s + c.basePct, 0);
+      const categories = profile.categories
+        .filter(c => c.basePct > 0)
+        .map(c => ({
+          ...c,
+          pct: Math.round((c.basePct / total) * 100),
+          amount: Math.round((c.basePct / total) * budget)
+        }));
+
+      const totalAllocated = categories.reduce((s, c) => s + c.amount, 0);
+      const remaining = budget - totalAllocated;
+
+      // Update sidebar totals
+      document.getElementById('total-allocated').textContent = '$' + totalAllocated.toLocaleString();
+      document.getElementById('total-remaining').textContent = '$' + remaining.toLocaleString();
+
+      // Draw donut chart
+      drawDonut(categories);
+
+      // Legend
+      document.getElementById('donut-legend').innerHTML = categories.map(c => `
+        <div class="legend-row">
+          <div class="legend-dot" style="background:${c.color};"></div>
+          <div class="legend-label">${c.name}</div>
+          <div class="legend-pct">${c.pct}%</div>
+        </div>
+      `).join('');
+
+      // Category cards
+      document.getElementById('category-cards').innerHTML = categories.map(c => `
+        <div class="alloc-category">
+          <div class="alloc-header">
+            <div class="alloc-icon">${c.icon}</div>
+            <div class="alloc-name">${c.name}</div>
+            <div class="alloc-pct">${c.pct}%</div>
+            <div class="alloc-amount">$${c.amount.toLocaleString()}</div>
+          </div>
+          <div class="alloc-bar">
+            <div class="alloc-bar-fill" style="width:${c.pct}%;background:${c.color};"></div>
+          </div>
+          <div class="alloc-body">
+            <p class="alloc-reason">${c.desc}</p>
+            <div class="alloc-items">
+              ${c.items.map(item => `
+                <div class="alloc-item">
+                  <div class="alloc-item__name">${item.name}</div>
+                  <a href="${getAffiliateLink(item.key)}" target="_blank" rel="noopener sponsored"
+                     class="btn btn--primary btn--sm"
+                     onclick="trackEvent('affiliate_click',{item:'${item.key}',source:'budget-allocator'})">
+                    Shop →
+                  </a>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      trackEvent('budget_allocated', { budget, goal });
+    }
+
+    function drawDonut(categories) {
+      const canvas = document.getElementById('donut-canvas');
+      const ctx = canvas.getContext('2d');
+      const w = 160, h = 160, cx = 80, cy = 80, r = 65, innerR = 42;
+
+      ctx.clearRect(0, 0, w, h);
+
+      let startAngle = -Math.PI / 2;
+      const total = categories.reduce((s, c) => s + c.pct, 0);
+
+      categories.forEach(c => {
+        const slice = (c.pct / total) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, r, startAngle, startAngle + slice);
+        ctx.closePath();
+        ctx.fillStyle = c.color;
+        ctx.fill();
+        startAngle += slice;
+      });
+
+      // Donut hole
+      ctx.beginPath();
+      ctx.arc(cx, cy, innerR, 0, Math.PI * 2);
+      ctx.fillStyle = '#1A1A1A';
+      ctx.fill();
+
+      // Center text
+      const budget = parseFloat(document.getElementById('ba-budget').value) || 1500;
+      ctx.fillStyle = '#FF5C00';
+      ctx.font = 'bold 14px Barlow Condensed, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('$' + budget.toLocaleString(), cx, cy - 8);
+      ctx.fillStyle = '#8A8A8A';
+      ctx.font = '10px Barlow, sans-serif';
+      ctx.fillText('TOTAL', cx, cy + 8);
+    }
+
+    // Init
+    allocate();
+  </script>
+</body>
+</html>

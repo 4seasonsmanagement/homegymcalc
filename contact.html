@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact HomeGymCalc</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="/index.html" class="nav__logo">HomeGym<span>Calc</span></a>
+        <ul class="nav__links">
+          <li><a href="/index.html" class="nav__link">Home</a></li>
+          <li><a href="/pages/calculators.html" class="nav__link">Calculators</a></li>
+          <li><a href="/pages/about.html" class="nav__link">About</a></li>
+          <li><a href="/pages/equipment-recommender.html" class="nav__link nav__cta">Get My Plan →</a></li>
+        </ul>
+        <button class="nav__mobile-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main style="padding-top:calc(var(--nav-height) + var(--space-7));padding-bottom:var(--space-9);">
+    <div class="container--narrow">
+      <div class="hero__eyebrow">📬 Get In Touch</div>
+      <h1 style="font-size:clamp(2rem,5vw,3rem);margin-bottom:var(--space-3);">Contact Us</h1>
+      <p class="lead" style="margin-bottom:var(--space-7);">Questions, feedback, or partnership inquiries — we'd love to hear from you.</p>
+
+      <div class="grid-2" style="gap:var(--space-7);align-items:start;">
+
+        <!-- Contact Form -->
+        <div class="card">
+          <h3 style="font-family:var(--font-display);text-transform:uppercase;font-size:1.1rem;color:var(--white);margin-bottom:var(--space-5);">Send a Message</h3>
+          <form id="contact-form" style="display:flex;flex-direction:column;gap:var(--space-4);" novalidate>
+            <div class="form-group">
+              <label class="form-label">Your Name</label>
+              <input type="text" id="cf-name" class="form-input" placeholder="First and last name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" id="cf-email" class="form-input" placeholder="your@email.com" required autocomplete="email" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <select id="cf-subject" class="form-select">
+                <option value="feedback">Feedback / Suggestion</option>
+                <option value="bug">Bug Report</option>
+                <option value="partnership">Partnership Inquiry</option>
+                <option value="press">Press / Media</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea id="cf-message" class="form-input" rows="5" placeholder="Your message..." style="resize:vertical;" required></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full">Send Message</button>
+          </form>
+          <div id="form-success" class="hidden" style="text-align:center;padding:var(--space-7) 0;">
+            <div style="font-size:3rem;margin-bottom:var(--space-4);">✅</div>
+            <h4 style="font-family:var(--font-display);font-size:1.3rem;text-transform:uppercase;margin-bottom:var(--space-3);">Message Sent!</h4>
+            <p style="font-size:0.9rem;">We'll get back to you within 24–48 hours.</p>
+          </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+          <div class="card">
+            <h4 style="font-family:var(--font-display);text-transform:uppercase;color:var(--white);margin-bottom:var(--space-3);">📧 Email</h4>
+            <p style="font-size:0.875rem;">For general questions: <a href="mailto:hello@homegymcalc.com">hello@homegymcalc.com</a></p>
+            <p style="font-size:0.875rem;margin-top:var(--space-2);">For privacy: <a href="mailto:privacy@homegymcalc.com">privacy@homegymcalc.com</a></p>
+          </div>
+          <div class="card">
+            <h4 style="font-family:var(--font-display);text-transform:uppercase;color:var(--white);margin-bottom:var(--space-3);">⏱️ Response Time</h4>
+            <p style="font-size:0.875rem;">We typically respond within 24–48 hours on business days.</p>
+          </div>
+          <div class="card">
+            <h4 style="font-family:var(--font-display);text-transform:uppercase;color:var(--white);margin-bottom:var(--space-3);">🤝 Partnerships</h4>
+            <p style="font-size:0.875rem;">We don't accept paid brand placements. If you have a genuinely useful tool or resource for home gym builders, we're open to discussing editorial coverage.</p>
+          </div>
+          <div class="card card--orange">
+            <h4 style="font-family:var(--font-display);text-transform:uppercase;color:var(--white);margin-bottom:var(--space-3);">💡 Quick Help</h4>
+            <p style="font-size:0.875rem;margin-bottom:var(--space-3);">Most questions are answered by our tools and guides:</p>
+            <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+              <a href="/pages/equipment-recommender.html" style="font-size:0.85rem;color:var(--orange);">→ Equipment Recommender</a>
+              <a href="/pages/roi-calculator.html" style="font-size:0.85rem;color:var(--orange);">→ ROI Calculator</a>
+              <a href="/pages/blog/home-gym-setup-guide.html" style="font-size:0.85rem;color:var(--orange);">→ Beginner's Setup Guide</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom" style="border-top:1px solid var(--border);padding-top:var(--space-5);">
+        <p class="footer__copy">© 2026 HomeGymCalc.com</p>
+        <p class="footer__disclaimer">As an Amazon Associate we earn from qualifying purchases.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // In production: send to a Netlify form or Formspree endpoint
+      // For now: show success state
+      this.classList.add('hidden');
+      document.getElementById('form-success').classList.remove('hidden');
+      trackEvent('contact_form_submit', { subject: document.getElementById('cf-subject').value });
+    });
+  </script>
+</body>
+</html>

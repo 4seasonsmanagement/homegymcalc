@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Gym Equipment Recommender — HomeGymCalc.com</title>
+  <meta name="description" content="Get a personalized home gym equipment plan in 2 minutes. Answer 5 questions about your goals, space, and budget. Free AI-powered recommendations with buy links." />
+  <link rel="canonical" href="https://homegymcalc.com/pages/equipment-recommender.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    .calc-page {
+      padding-top: calc(var(--nav-height) + var(--space-7));
+      padding-bottom: var(--space-9);
+      min-height: 100vh;
+    }
+
+    .calc-header {
+      margin-bottom: var(--space-8);
+    }
+
+    .calc-wrapper {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+    }
+
+    .calc-wrapper__header {
+      background: var(--dark-2);
+      border-bottom: 1px solid var(--border);
+      padding: var(--space-5) var(--space-6);
+    }
+
+    .calc-wrapper__body {
+      padding: var(--space-7) var(--space-6);
+    }
+
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: var(--space-2);
+    }
+
+    .step-subtitle {
+      color: var(--gray-light);
+      margin-bottom: var(--space-6);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: var(--space-6);
+      padding-top: var(--space-6);
+      border-top: 1px solid var(--border);
+    }
+
+    /* Results */
+    .results-header {
+      text-align: center;
+      padding: var(--space-6) 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--space-6);
+    }
+
+    .results-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+
+    .summary-stat {
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius);
+      padding: var(--space-4);
+      text-align: center;
+    }
+
+    .summary-stat__value {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--orange);
+    }
+
+    .summary-stat__label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: var(--space-1);
+    }
+
+    .equipment-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+
+    .equipment-item {
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--space-5);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--space-4);
+      align-items: start;
+      transition: var(--transition);
+    }
+
+    .equipment-item:hover { border-color: var(--orange); }
+
+    .equipment-item--essential { border-left: 3px solid var(--orange); }
+    .equipment-item--recommended { border-left: 3px solid var(--info); }
+    .equipment-item--optional { border-left: 3px solid var(--border); }
+
+    .equipment-item__priority {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .priority--essential { background: rgba(255,92,0,0.15); color: var(--orange); }
+    .priority--recommended { background: rgba(59,130,246,0.15); color: var(--info); }
+    .priority--optional { background: rgba(90,90,90,0.3); color: var(--gray-light); }
+
+    .equipment-item__name {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: var(--space-2);
+    }
+
+    .equipment-item__why {
+      font-size: 0.875rem;
+      color: var(--gray-light);
+      line-height: 1.5;
+    }
+
+    .equipment-item__price-range {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--orange);
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: var(--space-6);
+      padding-top: var(--space-6);
+      border-top: 1px solid var(--border);
+    }
+
+    .ai-note {
+      background: rgba(255,92,0,0.08);
+      border: 1px solid rgba(255,92,0,0.2);
+      border-radius: var(--border-radius);
+      padding: var(--space-4);
+      font-size: 0.85rem;
+      color: var(--gray-light);
+      display: flex;
+      gap: var(--space-3);
+      align-items: flex-start;
+      margin-bottom: var(--space-6);
+    }
+
+    @media (max-width: 640px) {
+      .results-summary { grid-template-columns: 1fr 1fr; }
+      .equipment-item { grid-template-columns: 1fr; }
+      .calc-wrapper__body { padding: var(--space-5) var(--space-4); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav" role="navigation">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="/index.html" class="nav__logo">HomeGym<span>Calc</span></a>
+        <ul class="nav__links" role="list">
+          <li><a href="/index.html" class="nav__link">Home</a></li>
+          <li><a href="/pages/calculators.html" class="nav__link">Calculators</a></li>
+          <li><a href="/pages/blog.html" class="nav__link">Guides</a></li>
+          <li><a href="/pages/about.html" class="nav__link">About</a></li>
+          <li><a href="/pages/equipment-recommender.html" class="nav__link nav__cta active">Get My Plan →</a></li>
+        </ul>
+        <button class="nav__mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="calc-page">
+    <div class="container--narrow">
+
+      <!-- Header -->
+      <div class="calc-header">
+        <div class="hero__eyebrow">🏋️ Free Calculator</div>
+        <h1 style="font-size:clamp(2rem,5vw,3.5rem);">Equipment Recommender</h1>
+        <p class="lead">Answer 5 quick questions. Get a complete, personalized equipment list — with specific products and prices.</p>
+      </div>
+
+      <!-- Calculator Wrapper -->
+      <div class="calc-wrapper" id="calculator">
+
+        <!-- Step Indicator Header -->
+        <div class="calc-wrapper__header">
+          <div class="steps" id="step-indicator">
+            <div class="step active" data-step-indicator="0">
+              <div class="step__num">1</div>
+              <div class="step__label">Goals</div>
+            </div>
+            <div class="step__line"></div>
+            <div class="step" data-step-indicator="1">
+              <div class="step__num">2</div>
+              <div class="step__label">Experience</div>
+            </div>
+            <div class="step__line"></div>
+            <div class="step" data-step-indicator="2">
+              <div class="step__num">3</div>
+              <div class="step__label">Space</div>
+            </div>
+            <div class="step__line"></div>
+            <div class="step" data-step-indicator="3">
+              <div class="step__num">4</div>
+              <div class="step__label">Budget</div>
+            </div>
+            <div class="step__line"></div>
+            <div class="step" data-step-indicator="4">
+              <div class="step__num">5</div>
+              <div class="step__label">Priorities</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calculator Body -->
+        <div class="calc-wrapper__body">
+
+          <!-- Step 1: Goals -->
+          <div class="step-panel active" data-step="0" id="step-0">
+            <h2 class="step-title">What Are Your Main Goals?</h2>
+            <p class="step-subtitle">Select all that apply. This shapes everything we recommend.</p>
+
+            <div class="option-grid option-grid--2" id="goals-grid">
+              <label class="option-card">
+                <input type="checkbox" name="goals" value="build_muscle" />
+                <div class="option-card__inner">
+                  <div class="option-card__emoji">💪</div>
+                  <div class="option-card__label">Build Muscle</div>
+                  <div class="option-card__desc">Grow size and strength through resistance training</div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" name="goals" value="lose_weight" />
+                <div class="option-card__inner">
+                  <div class="option-card__emoji">🔥</div>
+                  <div class="option-card__label">Lose Weight</div>
+                  <div class="option-card__desc">Burn fat through cardio and metabolic conditioning</div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" name="goals" value="get_stronger" />
+                <div class="option-card__inner">
+                  <div class="option-card__emoji">🏆</div>
+                  <div class="option-card__label">Get Stronger</div>
+                  <div class="option-card__desc">Increase power and strength in core lifts</div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" name="goals" value="general_fitness" />
+                <div class="option-card__inner">
+                  <div class="option-card__emoji">⚡</div>
+                  <div class="option-card__label">General Fitness</div>
+                  <div class="option-card__desc">Stay active, healthy, and feel good overall</div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" name="goals" value="cardio_endurance" />
+                <div class="option-card__inner">
+                  <div class="option-card__emoji">🚴</div>
+                  <div class="option-card__label">Cardio & Endurance</div>
+                  <div class="option-card__desc">Improve heart health and stamina</div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" name="goals" value="flexibility_mobility" />
+                <div class="option-card__inner">
+                  <div class="option-card__emoji">🧘</div>
+                  <div class="option-card__label">Flexibility & Mobility</div>
+                  <div class="option-card__desc">Improve range of motion, reduce pain</div>
+                </div>
+              </label>
+            </div>
+
+            <div class="nav-buttons">
+              <div></div><!-- spacer -->
+              <button class="btn btn--primary" onclick="nextStep(0)">
+                Next: Experience Level →
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Experience -->
+          <div class="step-panel" data-step="1" id="step-1">
+            <h2 class="step-title">What's Your Experience Level?</h2>
+            <p class="step-subtitle">Be honest — this helps us recommend the right equipment complexity.</p>
+
+            <div class="option-grid" style="grid-template-columns:1fr;">
+              <label class="option-card">
+                <input type="radio" name="experience" value="beginner" />
+                <div class="option-card__inner" style="flex-direction:row;align-items:center;">
+                  <div style="font-size:1.8rem;flex-shrink:0;">🌱</div>
+                  <div>
+                    <div class="option-card__label">Beginner</div>
+                    <div class="option-card__desc">Just starting out or returning after a long break. Less than 1 year of consistent training.</div>
+                  </div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="experience" value="intermediate" />
+                <div class="option-card__inner" style="flex-direction:row;align-items:center;">
+                  <div style="font-size:1.8rem;flex-shrink:0;">📈</div>
+                  <div>
+                    <div class="option-card__label">Intermediate</div>
+                    <div class="option-card__desc">1–3 years of consistent training. Know the basics, ready to push harder.</div>
+                  </div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="experience" value="advanced" />
+                <div class="option-card__inner" style="flex-direction:row;align-items:center;">
+                  <div style="font-size:1.8rem;flex-shrink:0;">🏅</div>
+                  <div>
+                    <div class="option-card__label">Advanced</div>
+                    <div class="option-card__desc">3+ years of serious training. Know what you want and need serious kit.</div>
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <div class="nav-buttons">
+              <button class="btn btn--secondary" onclick="prevStep(1)">← Back</button>
+              <button class="btn btn--primary" onclick="nextStep(1)">Next: Your Space →</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Space -->
+          <div class="step-panel" data-step="2" id="step-2">
+            <h2 class="step-title">How Much Space Do You Have?</h2>
+            <p class="step-subtitle">This determines whether we recommend compact or full-size equipment.</p>
+
+            <div class="option-grid" style="grid-template-columns:1fr;">
+              <label class="option-card">
+                <input type="radio" name="space" value="tiny" />
+                <div class="option-card__inner" style="flex-direction:row;align-items:center;">
+                  <div style="font-size:1.8rem;flex-shrink:0;">🏠</div>
+                  <div>
+                    <div class="option-card__label">Very Small (Under 50 sq ft)</div>
+                    <div class="option-card__desc">Bedroom corner, small apartment, or limited open floor space. Storage matters a lot.</div>
+                  </div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="space" value="small" />
+                <div class="option-card__inner" style="flex-direction:row;align-items:center;">
+                  <div style="font-size:1.8rem;flex-shrink:0;">🛋️</div>
+                  <div>
+                    <div class="option-card__label">Small (50–100 sq ft)</div>
+                    <div class="option-card__desc">Spare room, large bedroom, or defined workout area with some dedicated space.</div>
+                  </div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="space" value="medium" />
+                <div class="option-card__inner" style="flex-direction:row;align-items:center;">
+                  <div style="font-size:1.8rem;flex-shrink:0;">🏗️</div>
+                  <div>
+                    <div class="option-card__label">Medium (100–200 sq ft)</div>
+                    <div class="option-card__desc">Basement area, one-car garage half, or full dedicated room.</div>
+                  </div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="space" value="large" />
+                <div class="option-card__inner" style="flex-direction:row;align-items:center;">
+                  <div style="font-size:1.8rem;flex-shrink:0;">🏭</div>
+                  <div>
+                    <div class="option-card__label">Large (200+ sq ft)</div>
+                    <div class="option-card__desc">Full garage, large basement, or dedicated gym room. Space is not a limiting factor.</div>
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <div class="nav-buttons">
+              <button class="btn btn--secondary" onclick="prevStep(2)">← Back</button>
+              <button class="btn btn--primary" onclick="nextStep(2)">Next: Budget →</button>
+            </div>
+          </div>
+
+          <!-- Step 4: Budget -->
+          <div class="step-panel" data-step="3" id="step-3">
+            <h2 class="step-title">What's Your Total Budget?</h2>
+            <p class="step-subtitle">Including everything — equipment, flooring, accessories. Be realistic.</p>
+
+            <div class="form-group" style="margin-bottom:var(--space-6);">
+              <input
+                type="range"
+                class="form-range"
+                id="budget-range"
+                min="200"
+                max="5000"
+                step="100"
+                value="1000"
+                data-prefix="$"
+                data-range-output="budget-display"
+              />
+              <div class="range-value" id="budget-display">$1,000</div>
+              <div class="range-labels">
+                <span>$200 — Starter</span>
+                <span>$5,000 — Full Build</span>
+              </div>
+            </div>
+
+            <div class="option-grid option-grid--2" style="margin-top:var(--space-4);">
+              <label class="option-card" onclick="setBudget(500)">
+                <input type="radio" name="budget_tier" value="500" />
+                <div class="option-card__inner">
+                  <div class="option-card__label">Under $500</div>
+                  <div class="option-card__desc">Essentials only — resistance training and bodyweight focus</div>
+                </div>
+              </label>
+              <label class="option-card" onclick="setBudget(1000)">
+                <input type="radio" name="budget_tier" value="1000" />
+                <div class="option-card__inner">
+                  <div class="option-card__label">$500–$1,000</div>
+                  <div class="option-card__desc">Solid starter setup with dumbbells and a bench</div>
+                </div>
+              </label>
+              <label class="option-card" onclick="setBudget(2500)">
+                <input type="radio" name="budget_tier" value="2500" />
+                <div class="option-card__inner">
+                  <div class="option-card__label">$1,000–$2,500</div>
+                  <div class="option-card__desc">Complete setup with rack, weights, and cardio</div>
+                </div>
+              </label>
+              <label class="option-card" onclick="setBudget(5000)">
+                <input type="radio" name="budget_tier" value="5000" />
+                <div class="option-card__inner">
+                  <div class="option-card__label">$2,500+</div>
+                  <div class="option-card__desc">Premium full gym with all the gear you want</div>
+                </div>
+              </label>
+            </div>
+
+            <div class="nav-buttons">
+              <button class="btn btn--secondary" onclick="prevStep(3)">← Back</button>
+              <button class="btn btn--primary" onclick="nextStep(3)">Next: Final Details →</button>
+            </div>
+          </div>
+
+          <!-- Step 5: Priorities -->
+          <div class="step-panel" data-step="4" id="step-4">
+            <h2 class="step-title">Any Special Considerations?</h2>
+            <p class="step-subtitle">Help us fine-tune your plan. Select all that apply.</p>
+
+            <div class="option-grid option-grid--2">
+              <label class="option-card">
+                <input type="checkbox" name="priorities" value="joint_friendly" />
+                <div class="option-card__inner">
+                  <div class="option-card__emoji">🦵</div>
+                  <div class="option-card__label">Joint-Friendly</div>
+                  <div class="option-card__desc">I have knee, back, or shoulder issues — low impact is important</div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" name="priorities" value="quiet" />
+                <div class="option-card__inner">
+                  <div class="option-card__emoji">🔇</div>
+                  <div class="option-card__label">Low Noise</div>
+                  <div class="option-card__desc">Apartment or shared space — noise and vibration matter</div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" name="priorities" value="versatile" />
+                <div class="option-card__inner">
+                  <div class="option-card__emoji">🔄</div>
+                  <div class="option-card__label">Maximum Versatility</div>
+                  <div class="option-card__desc">I want equipment that does the most with the least pieces</div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" name="priorities" value="durability" />
+                <div class="option-card__inner">
+                  <div class="option-card__emoji">🛡️</div>
+                  <div class="option-card__label">Buy Once, Buy Right</div>
+                  <div class="option-card__desc">I prefer premium quality over saving a few dollars</div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" name="priorities" value="quick_storage" />
+                <div class="option-card__inner">
+                  <div class="option-card__emoji">📦</div>
+                  <div class="option-card__label">Easy Storage</div>
+                  <div class="option-card__desc">Equipment needs to be storable when not in use</div>
+                </div>
+              </label>
+              <label class="option-card">
+                <input type="checkbox" name="priorities" value="home_use" />
+                <div class="option-card__inner">
+                  <div class="option-card__emoji">👨‍👩‍👧</div>
+                  <div class="option-card__label">Multiple Users</div>
+                  <div class="option-card__desc">Spouse, family, or roommates will also use the equipment</div>
+                </div>
+              </label>
+            </div>
+
+            <div class="nav-buttons">
+              <button class="btn btn--secondary" onclick="prevStep(4)">← Back</button>
+              <button class="btn btn--primary btn--lg" onclick="generatePlan()" id="generate-btn">
+                🚀 Generate My Equipment Plan
+              </button>
+            </div>
+          </div>
+
+          <!-- Loading -->
+          <div class="step-panel" data-step="5" id="step-5">
+            <div class="loading">
+              <div class="spinner"></div>
+              <p class="loading-text" id="loading-text">Analyzing your goals...</p>
+            </div>
+          </div>
+
+          <!-- Results -->
+          <div class="step-panel" data-step="6" id="step-6">
+            <div class="results-header">
+              <div class="hero__eyebrow">✅ Your Plan Is Ready</div>
+              <h2 id="results-title" style="font-size:2rem;">Your Personalized Equipment Plan</h2>
+              <p id="results-subtitle">Based on your goals and budget</p>
+            </div>
+
+            <div class="ai-note">
+              <div>🤖</div>
+              <div>This plan was generated by AI based on your specific inputs. Links go to Amazon search results — we earn a small commission if you purchase, at no extra cost to you. Always read product reviews before buying.</div>
+            </div>
+
+            <div class="results-summary" id="results-summary">
+              <!-- Injected by JS -->
+            </div>
+
+            <div class="equipment-list" id="equipment-list">
+              <!-- Injected by JS -->
+            </div>
+
+            <div id="results-extra">
+              <!-- AI-generated tips injected here -->
+            </div>
+
+            <div class="result-actions">
+              <button class="btn btn--secondary" data-share="copy">📋 Copy Link</button>
+              <button class="btn btn--secondary" data-share="twitter">🐦 Share on X</button>
+              <button class="btn btn--secondary" data-print>🖨️ Print Plan</button>
+              <button class="btn btn--ghost" onclick="resetCalculator()">↩ Start Over</button>
+            </div>
+          </div>
+
+        </div><!-- /calc-wrapper__body -->
+      </div><!-- /calc-wrapper -->
+
+      <!-- Email capture below results -->
+      <div id="email-section" style="display:none;margin-top:var(--space-7);">
+        <div class="email-capture">
+          <div class="hero__eyebrow">📖 Free Download</div>
+          <h3>Save Your Plan + Get the Full Guide</h3>
+          <p>Get your plan emailed to you plus our 22-page Home Gym Starter Guide — free for subscribers.</p>
+          <form class="email-form" data-source="recommender-results" novalidate>
+            <input type="email" class="form-input" placeholder="your@email.com" aria-label="Email" required autocomplete="email" />
+            <button type="submit" class="btn btn--primary">Send My Plan</button>
+          </form>
+          <small style="display:block;margin-top:12px;text-align:center;">No spam. Unsubscribe anytime.</small>
+        </div>
+      </div>
+
+      <!-- Related calculators -->
+      <div style="margin-top:var(--space-8);">
+        <h3 style="font-family:var(--font-display);text-transform:uppercase;margin-bottom:var(--space-5);font-size:1.3rem;">Other Tools You Might Like</h3>
+        <div class="grid-3" id="related-calcs"></div>
+      </div>
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__logo">HomeGym<span>Calc</span></div>
+          <p class="footer__desc">Free home gym calculators and tools to help you build smarter, spend less, and train better.</p>
+        </div>
+        <div>
+          <div class="footer__heading">Calculators</div>
+          <ul class="footer__links">
+            <li><a href="/pages/equipment-recommender.html" class="footer__link">Equipment Recommender</a></li>
+            <li><a href="/pages/roi-calculator.html" class="footer__link">ROI Calculator</a></li>
+            <li><a href="/pages/phase-builder.html" class="footer__link">Phase Builder</a></li>
+            <li><a href="/pages/dumbbells-quiz.html" class="footer__link">Dumbbells Quiz</a></li>
+            <li><a href="/pages/cardio-quiz.html" class="footer__link">Cardio Quiz</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__heading">Site</div>
+          <ul class="footer__links">
+            <li><a href="/index.html" class="footer__link">Home</a></li>
+            <li><a href="/pages/blog.html" class="footer__link">Guides</a></li>
+            <li><a href="/pages/about.html" class="footer__link">About</a></li>
+            <li><a href="/pages/affiliate-disclosure.html" class="footer__link">Affiliate Disclosure</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__heading">Legal</div>
+          <ul class="footer__links">
+            <li><a href="/pages/privacy.html" class="footer__link">Privacy Policy</a></li>
+            <li><a href="/pages/affiliate-disclosure.html" class="footer__link">Affiliate Disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 HomeGymCalc.com. All rights reserved.</p>
+        <p class="footer__disclaimer">HomeGymCalc.com is an Amazon Associate. We earn from qualifying purchases at no extra cost to you.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/components.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    // ── State ──────────────────────────────────────
+    let currentStep = 0;
+    const totalSteps = 7; // 0-4 form, 5 loading, 6 results
+
+    const answers = {
+      goals: [],
+      experience: '',
+      space: '',
+      budget: 1000,
+      priorities: []
+    };
+
+    // ── Navigation ─────────────────────────────────
+    function showStep(step) {
+      document.querySelectorAll('.step-panel').forEach((panel, i) => {
+        panel.classList.toggle('active', i === step);
+      });
+
+      // Update indicator (only for steps 0-4)
+      document.querySelectorAll('[data-step-indicator]').forEach(indicator => {
+        const idx = parseInt(indicator.dataset.stepIndicator);
+        indicator.classList.remove('active', 'done');
+        if (idx === step) indicator.classList.add('active');
+        else if (idx < step) indicator.classList.add('done');
+      });
+
+      currentStep = step;
+    }
+
+    function nextStep(from) {
+      // Validate
+      if (from === 0) {
+        answers.goals = [...document.querySelectorAll('input[name="goals"]:checked')].map(i => i.value);
+        if (answers.goals.length === 0) {
+          showToast('Please select at least one goal.', 'error');
+          return;
+        }
+      }
+
+      if (from === 1) {
+        const exp = document.querySelector('input[name="experience"]:checked');
+        if (!exp) { showToast('Please select your experience level.', 'error'); return; }
+        answers.experience = exp.value;
+      }
+
+      if (from === 2) {
+        const space = document.querySelector('input[name="space"]:checked');
+        if (!space) { showToast('Please select your available space.', 'error'); return; }
+        answers.space = space.value;
+      }
+
+      if (from === 3) {
+        answers.budget = parseInt(document.getElementById('budget-range').value);
+      }
+
+      showStep(from + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function prevStep(from) {
+      showStep(from - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── Budget Quick-Set ───────────────────────────
+    function setBudget(value) {
+      const range = document.getElementById('budget-range');
+      const display = document.getElementById('budget-display');
+      range.value = Math.min(value, 5000);
+      display.textContent = '$' + parseInt(range.value).toLocaleString();
+      answers.budget = parseInt(range.value);
+    }
+
+    // Init range display
+    document.getElementById('budget-range').addEventListener('input', function() {
+      document.getElementById('budget-display').textContent = '$' + parseInt(this.value).toLocaleString();
+      answers.budget = parseInt(this.value);
+    });
+
+    // ── Generate Plan ──────────────────────────────
+    async function generatePlan() {
+      // Collect final answers
+      answers.priorities = [...document.querySelectorAll('input[name="priorities"]:checked')].map(i => i.value);
+
+      // Save to storage for future use
+      Storage.set('last_answers', answers);
+      trackEvent('calculator_submit', { step: 'generate', goals: answers.goals.join(',') });
+
+      // Show loading
+      showStep(5);
+
+      const loadingTexts = [
+        'Analyzing your goals...',
+        'Matching equipment to your space...',
+        'Optimizing for your budget...',
+        'Building your personalized plan...',
+        'Almost ready...'
+      ];
+
+      let textIdx = 0;
+      const loadingInterval = setInterval(() => {
+        textIdx = (textIdx + 1) % loadingTexts.length;
+        const el = document.getElementById('loading-text');
+        if (el) el.textContent = loadingTexts[textIdx];
+      }, 1500);
+
+      try {
+        const result = await getEquipmentRecommendations(answers);
+        clearInterval(loadingInterval);
+        renderResults(result);
+      } catch (err) {
+        clearInterval(loadingInterval);
+        console.error('Generation error:', err);
+        // Fallback to rule-based recommendations
+        const fallback = getFallbackRecommendations(answers);
+        renderResults(fallback);
+      }
+    }
+
+    // ── API Call ───────────────────────────────────
+    async function getEquipmentRecommendations(data) {
+      const systemPrompt = `You are HomeGymCalc.com's equipment recommendation engine. You help people build personalized home gyms.
+
+Your task: Generate a JSON equipment recommendation based on the user's inputs.
+
+Return ONLY valid JSON in this exact structure:
+{
+  "title": "Your [goal] Home Gym Plan",
+  "subtitle": "Optimized for [space] space, [experience] level",
+  "totalEstimate": 950,
+  "itemCount": 5,
+  "equipment": [
+    {
+      "name": "Adjustable Dumbbells",
+      "priority": "essential",
+      "why": "The single most versatile piece for your goals. Replaces 15+ fixed dumbbell pairs.",
+      "priceRange": "$200–$350",
+      "estimatedCost": 280,
+      "affiliateKey": "adjustable-dumbbells",
+      "alternatives": "Fixed hex dumbbells if you prefer simplicity"
+    }
+  ],
+  "tips": [
+    "Buy the adjustable dumbbells first — everything else can wait.",
+    "Your space limits large cardio machines, so focus on free weights."
+  ],
+  "phaseNote": "You can start training with items 1–2 and add the rest over time."
+}
+
+Priority levels: "essential" (must have), "recommended" (highly useful), "optional" (nice to have)
+Affiliate keys must be one of: adjustable-dumbbells, bowflex-dumbbells, powerblock-dumbbells, fixed-dumbbells, dumbbell-rack, barbell, weight-plates, bumper-plates, power-rack, squat-stand, weight-bench, flat-bench, treadmill, rowing-machine, stationary-bike, elliptical, assault-bike, kettlebell, adjustable-kettlebell, resistance-bands, pull-up-bar, jump-rope, ab-roller, foam-roller, dip-station, trx-suspension, yoga-mat, rubber-flooring, stall-mats, foam-tiles, whey-protein, creatine, gym-mirror, weight-lifting-belt, lifting-straps
+
+Always stay within the stated budget. Include flooring if space > tiny. For tiny spaces, focus on compact stackable equipment.`;
+
+      const userPrompt = `Generate equipment recommendations for:
+Goals: ${data.goals.join(', ')}
+Experience: ${data.experience}
+Space: ${data.space}
+Budget: $${data.budget}
+Special considerations: ${data.priorities.join(', ') || 'none'}
+
+Recommend 4–7 items that fit the budget. Be specific and practical.`;
+
+      const response = await fetch('/api/claude', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: userPrompt, systemPrompt })
+      });
+
+      if (!response.ok) throw new Error('API unavailable');
+
+      const data2 = await response.json();
+      const text = data2.content?.[0]?.text || data2.text || '';
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error('Invalid response format');
+      return JSON.parse(jsonMatch[0]);
+    }
+
+    // ── Fallback Recommendations (no API) ──────────
+    function getFallbackRecommendations(data) {
+      const budget = data.budget;
+      const space = data.space;
+      const goals = data.goals;
+      const experience = data.experience;
+
+      const equipment = [];
+
+      // Core recommendations based on goals
+      if (goals.includes('build_muscle') || goals.includes('get_stronger') || goals.includes('general_fitness')) {
+        if (budget >= 200) {
+          equipment.push({
+            name: 'Adjustable Dumbbells',
+            priority: 'essential',
+            why: 'The most versatile single purchase for your goals. A quality adjustable set replaces 15+ pairs of fixed dumbbells and takes up minimal space.',
+            priceRange: '$200–$350',
+            estimatedCost: 280,
+            affiliateKey: 'adjustable-dumbbells',
+            alternatives: 'Fixed hex dumbbell set if you prefer simplicity'
+          });
+        }
+
+        if (budget >= 400 && (space === 'medium' || space === 'large' || space === 'small')) {
+          equipment.push({
+            name: 'Adjustable Weight Bench',
+            priority: 'essential',
+            why: 'Multiplies the value of your dumbbells by 5x. Enables chest press, rows, incline work, and dozens more exercises.',
+            priceRange: '$150–$250',
+            estimatedCost: 189,
+            affiliateKey: 'weight-bench',
+            alternatives: 'Flat bench if budget is tight ($80–$120)'
+          });
+        }
+
+        if (budget >= 600 && experience !== 'beginner' && (space === 'medium' || space === 'large')) {
+          equipment.push({
+            name: 'Pull-Up Bar',
+            priority: 'recommended',
+            why: 'The best back and bicep exercise you can do at home. Doorway mounted options need zero extra space.',
+            priceRange: '$30–$60',
+            estimatedCost: 45,
+            affiliateKey: 'pull-up-bar',
+            alternatives: 'TRX suspension trainer for more variety'
+          });
+        }
+
+        if (experience === 'advanced' && budget >= 1500 && space !== 'tiny') {
+          equipment.push({
+            name: 'Power Rack + Barbell + Plates',
+            priority: 'recommended',
+            why: 'For serious strength training, nothing replaces a barbell. A rack lets you safely squat and bench heavy alone.',
+            priceRange: '$400–$800',
+            estimatedCost: 600,
+            affiliateKey: 'power-rack',
+            alternatives: 'Squat stand if space is limited'
+          });
+        }
+      }
+
+      if (goals.includes('lose_weight') || goals.includes('cardio_endurance')) {
+        if (space === 'tiny' || space === 'small') {
+          equipment.push({
+            name: 'Jump Rope',
+            priority: 'essential',
+            why: 'Pound for pound the best calorie burner per dollar. Burns more calories than running at the same perceived effort.',
+            priceRange: '$15–$40',
+            estimatedCost: 25,
+            affiliateKey: 'jump-rope',
+            alternatives: 'Resistance bands for lower impact'
+          });
+        }
+
+        if (space === 'medium' || space === 'large') {
+          const cardioKey = goals.includes('flexibility_mobility') ? 'stationary-bike' : 'rowing-machine';
+          equipment.push({
+            name: cardioKey === 'rowing-machine' ? 'Rowing Machine' : 'Stationary Bike',
+            priority: 'recommended',
+            why: cardioKey === 'rowing-machine'
+              ? 'Full-body cardio that burns more calories per minute than a bike while being easy on joints.'
+              : 'Low-impact cardio that\'s easy on knees and great for all fitness levels.',
+            priceRange: '$400–$900',
+            estimatedCost: 550,
+            affiliateKey: cardioKey,
+            alternatives: 'Treadmill if you prefer walking/running'
+          });
+        }
+      }
+
+      if (goals.includes('flexibility_mobility')) {
+        equipment.push({
+          name: 'Yoga Mat + Foam Roller',
+          priority: 'essential',
+          why: 'Foundation of any mobility routine. The foam roller alone can significantly reduce soreness and improve range of motion.',
+          priceRange: '$30–$70',
+          estimatedCost: 50,
+          affiliateKey: 'yoga-mat',
+          alternatives: 'Dedicated stretching strap for more targeted work'
+        });
+      }
+
+      // Always add resistance bands for small spaces
+      if (space === 'tiny' && !equipment.find(e => e.name.includes('Band'))) {
+        equipment.push({
+          name: 'Resistance Bands Set',
+          priority: 'essential',
+          why: 'The most space-efficient equipment available. A full set covers virtually every muscle group and stores in a drawer.',
+          priceRange: '$25–$50',
+          estimatedCost: 35,
+          affiliateKey: 'resistance-bands',
+          alternatives: 'TRX if you want more resistance variety'
+        });
+      }
+
+      // Add flooring for medium/large spaces
+      if ((space === 'medium' || space === 'large') && budget > 400) {
+        equipment.push({
+          name: 'Rubber Gym Flooring',
+          priority: 'recommended',
+          why: 'Protects your floor, reduces noise, and makes your space feel like a real gym. Horse stall mats are the best value option.',
+          priceRange: '$80–$200',
+          estimatedCost: 120,
+          affiliateKey: 'stall-mats',
+          alternatives: 'Interlocking foam tiles for lighter use'
+        });
+      }
+
+      const totalEstimate = equipment.reduce((sum, item) => sum + item.estimatedCost, 0);
+
+      return {
+        title: `Your ${experience.charAt(0).toUpperCase() + experience.slice(1)} Home Gym Plan`,
+        subtitle: `Optimized for ${space} space • ${goals[0]?.replace(/_/g, ' ')} focus`,
+        totalEstimate,
+        itemCount: equipment.length,
+        equipment,
+        tips: [
+          'Buy items in priority order — start with essentials and add recommended items over time.',
+          space === 'tiny' ? 'For your space, focus on equipment that stores vertically or in a bag.' : 'Consider laying rubber flooring before bringing in heavy equipment.',
+          budget < 500 ? 'Check Facebook Marketplace and Craigslist for used equipment at 30–50% off retail.' : 'Buy quality for items you\'ll use daily (dumbbells, bench) and budget for accessories.'
+        ],
+        phaseNote: 'You can start training effectively with just items 1–2. Add the rest as budget allows.'
+      };
+    }
+
+    // ── Render Results ─────────────────────────────
+    function renderResults(data) {
+      // Update header
+      document.getElementById('results-title').textContent = data.title;
+      document.getElementById('results-subtitle').textContent = data.subtitle;
+
+      // Summary stats
+      document.getElementById('results-summary').innerHTML = `
+        <div class="summary-stat">
+          <div class="summary-stat__value">${data.itemCount}</div>
+          <div class="summary-stat__label">Items Recommended</div>
+        </div>
+        <div class="summary-stat">
+          <div class="summary-stat__value">$${data.totalEstimate.toLocaleString()}</div>
+          <div class="summary-stat__label">Estimated Total</div>
+        </div>
+        <div class="summary-stat">
+          <div class="summary-stat__value">$${Math.max(0, answers.budget - data.totalEstimate).toLocaleString()}</div>
+          <div class="summary-stat__label">Remaining Budget</div>
+        </div>
+      `;
+
+      // Equipment list
+      document.getElementById('equipment-list').innerHTML = data.equipment.map(item => `
+        <div class="equipment-item equipment-item--${item.priority}">
+          <div style="flex-shrink:0;">
+            <span class="equipment-item__priority priority--${item.priority}">
+              ${item.priority}
+            </span>
+          </div>
+          <div>
+            <div class="equipment-item__name">${item.name}</div>
+            <p class="equipment-item__why">${item.why}</p>
+            ${item.alternatives ? `<p style="font-size:0.8rem;color:var(--text-muted);margin-top:8px;">Alternative: ${item.alternatives}</p>` : ''}
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+              <a href="${getAffiliateLink(item.affiliateKey)}"
+                 target="_blank"
+                 rel="noopener sponsored"
+                 class="btn btn--primary btn--sm"
+                 onclick="trackEvent('affiliate_click',{item:'${item.affiliateKey}'})">
+                View on Amazon →
+              </a>
+            </div>
+          </div>
+          <div class="equipment-item__price-range">${item.priceRange}</div>
+        </div>
+      `).join('');
+
+      // Tips section
+      if (data.tips || data.phaseNote) {
+        document.getElementById('results-extra').innerHTML = `
+          <div class="card card--orange" style="margin-top:var(--space-5);">
+            <h4 style="font-family:var(--font-display);text-transform:uppercase;margin-bottom:var(--space-4);">💡 Pro Tips For Your Setup</h4>
+            <ul style="display:flex;flex-direction:column;gap:var(--space-3);">
+              ${(data.tips || []).map(tip => `
+                <li style="display:flex;gap:12px;align-items:flex-start;">
+                  <span style="color:var(--orange);flex-shrink:0;">→</span>
+                  <span style="font-size:0.9rem;color:var(--gray-light);">${tip}</span>
+                </li>
+              `).join('')}
+              ${data.phaseNote ? `
+                <li style="display:flex;gap:12px;align-items:flex-start;">
+                  <span style="color:var(--orange);flex-shrink:0;">→</span>
+                  <span style="font-size:0.9rem;color:var(--gray-light);">${data.phaseNote}</span>
+                </li>
+              ` : ''}
+            </ul>
+          </div>
+        `;
+      }
+
+      // Show results
+      showStep(6);
+
+      // Show email capture
+      document.getElementById('email-section').style.display = 'block';
+
+      // Show related calculators
+      const relatedGrid = document.getElementById('related-calcs');
+      if (relatedGrid) {
+        relatedGrid.innerHTML = [
+          { icon: '💰', title: 'ROI Calculator', desc: 'See when your gym pays for itself.', href: '/pages/roi-calculator.html', tag: 'Free' },
+          { icon: '📅', title: 'Phase Builder', desc: 'Plan your purchases over time.', href: '/pages/phase-builder.html', tag: 'Free' },
+          { icon: '🤔', title: 'Dumbbells Quiz', desc: 'Adjustable vs. fixed — which is right?', href: '/pages/dumbbells-quiz.html', tag: 'Free' }
+        ].map(c => COMPONENTS.calcCard(c)).join('');
+      }
+
+      // Track completion
+      trackEvent('calculator_complete', {
+        goals: answers.goals.join(','),
+        budget: answers.budget,
+        item_count: data.itemCount
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── Reset ──────────────────────────────────────
+    function resetCalculator() {
+      // Reset all form inputs
+      document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
+        input.checked = false;
+      });
+
+      document.getElementById('budget-range').value = 1000;
+      document.getElementById('budget-display').textContent = '$1,000';
+
+      Object.assign(answers, { goals: [], experience: '', space: '', budget: 1000, priorities: [] });
+
+      document.getElementById('email-section').style.display = 'none';
+
+      showStep(0);
+      trackEvent('calculator_reset');
+    }
+  </script>
+</body>
+</html>
