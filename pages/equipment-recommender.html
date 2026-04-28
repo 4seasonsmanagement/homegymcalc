@@ -839,6 +839,7 @@ Recommend 4–7 items that fit the budget. Be specific and practical.`;
 
       const data2 = await response.json();
 const text = data2.content?.[0]?.text || data2.text || '';
+console.log('Raw Claude response:', text);
 const jsonMatch = text.match(/\{[\s\S]*\}/);
 if (!jsonMatch) throw new Error('Invalid response format');
 // Clean common JSON issues before parsing
