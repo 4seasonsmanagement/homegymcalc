@@ -838,10 +838,16 @@ Recommend 4–7 items that fit the budget. Be specific and practical.`;
       if (!response.ok) throw new Error('API unavailable');
 
       const data2 = await response.json();
-      const text = data2.content?.[0]?.text || data2.text || '';
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) throw new Error('Invalid response format');
-      return JSON.parse(jsonMatch[0]);
+const text = data2.content?.[0]?.text || data2.text || '';
+const jsonMatch = text.match(/\{[\s\S]*\}/);
+if (!jsonMatch) throw new Error('Invalid response format');
+// Clean common JSON issues before parsing
+const cleaned = jsonMatch[0]
+  .replace(/,\s*]/g, ']')
+  .replace(/,\s*}/g, '}')
+  .replace(/[\u0000-\u001F\u007F-\u009F]/g, ' ')
+  .trim();
+return JSON.parse(cleaned);
     }
 
     // ── Fallback Recommendations (no API) ──────────
