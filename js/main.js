@@ -7,9 +7,9 @@
 
 // ── Config ──────────────────────────────────
 const CONFIG = {
-  AMAZON_TAG:     'homegymcalc20-20',           // Replace with your Amazon Associates tag
+  AMAZON_TAG:     'homegymcalc-20',           // Replace with your Amazon Associates tag
   MAILCHIMP_URL:  'YOUR_MAILCHIMP_URL',   // Replace after Mailchimp setup
-  CLAUDE_API_URL: '/.netlify/functions/claude',      // Netlify function endpoint
+  CLAUDE_API_URL: '/.netlify/functions/claude',          // Netlify function endpoint
   SITE_NAME:      'HomeGymCalc',
   VERSION:        '1.0.0'
 };
@@ -98,7 +98,7 @@ function initEmailCapture() {
 
       try {
         // Mailchimp integration via Netlify function
-        const response = await fetch('/api/subscribe', {
+        const response = await fetch('/.netlify/functions/subscribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, source, tags: [source] })

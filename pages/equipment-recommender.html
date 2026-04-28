@@ -829,7 +829,7 @@ Special considerations: ${data.priorities.join(', ') || 'none'}
 
 Recommend 4–7 items that fit the budget. Be specific and practical.`;
 
-      const response = await fetch('/api/claude', {
+      const response = await fetch('/.netlify/functions/claude', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt: userPrompt, systemPrompt })
