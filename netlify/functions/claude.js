@@ -62,7 +62,7 @@ exports.handler = async (event, context) => {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
-        max_tokens: 1000,
+        max_tokens: 2500,
         system: systemPrompt || 'You are a helpful home gym equipment advisor. Always respond with valid JSON only.',
         messages: [
           {
