@@ -1069,3 +1069,9 @@ small { font-size: 0.85rem; color: var(--text-muted); }
 /* Feedback widget mobile fix */
 .fb-overlay { overflow: hidden; }
 body { overflow-x: hidden; }
+
+/* Mobile overflow fixes */
+.equipment-item { word-break: break-word; }
+.equipment-item__price-range { white-space: normal; text-align: left; }
+.results-summary { grid-template-columns: repeat(2, 1fr); }
+* { box-sizing: border-box; }
