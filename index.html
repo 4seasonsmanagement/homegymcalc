@@ -207,10 +207,37 @@
     }
 
     @media (max-width: 900px) {
-      .featured-calc { grid-template-columns: 1fr; }
-      .why-grid { grid-template-columns: 1fr; }
-      .testimonials { grid-template-columns: 1fr; }
-    }
+  .featured-calc { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+  .testimonials { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .featured-calc { padding: var(--space-4); }
+  .mock-result__header {
+    font-size: 0.8rem;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    text-transform: none;
+  }
+  .mock-item__name {
+    font-size: 0.75rem;
+    white-space: normal;
+    word-break: break-word;
+    text-transform: none;
+  }
+  .mock-result__items { padding: var(--space-3); }
+  .featured-step__text {
+    font-size: 0.85rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  .featured-calc h2 {
+    font-size: 1.4rem !important;
+    word-break: break-word;
+  }
+}
   </style>
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-00P20HQQF9"></script>
