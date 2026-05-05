@@ -1065,3 +1065,7 @@ small { font-size: 0.85rem; color: var(--text-muted); }
   .card, .calc-card { padding: var(--space-4); }
   .email-capture { padding: var(--space-5); }
 }
+
+/* Feedback widget mobile fix */
+.fb-overlay { overflow: hidden; }
+body { overflow-x: hidden; }
