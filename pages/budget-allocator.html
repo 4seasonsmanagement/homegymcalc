@@ -45,7 +45,7 @@
       transition: var(--transition);
     }
 
-    .alloc-category:hover { border-color: rgba(255,92,0,0.3); }
+    .alloc-category:hover { border-color: rgba(0,180,255,0.25); }
 
     .alloc-header {
       display: flex;
@@ -133,6 +133,14 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-00P20HQQF9');
+  </script>
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wm51e3da2u");
   </script>
 </head>
 <body>
@@ -283,7 +291,7 @@
     const ALLOCATION_PROFILES = {
       strength: {
         categories: [
-          { icon:'🏋️', name:'Free Weights', desc:'Dumbbells, barbell, and plates — the core of strength training.', basePct:40, items:[{name:'Adjustable Dumbbells or Barbell Set',key:'adjustable-dumbbells'},{name:'Olympic Weight Plates',key:'weight-plates'}], color:'#FF5C00' },
+          { icon:'🏋️', name:'Free Weights', desc:'Dumbbells, barbell, and plates — the core of strength training.', basePct:40, items:[{name:'Adjustable Dumbbells or Barbell Set',key:'adjustable-dumbbells'},{name:'Olympic Weight Plates',key:'weight-plates'}], color:'#00B4FF' },
           { icon:'🏗️', name:'Rack & Bench', desc:'Power rack or squat stand plus an adjustable bench.', basePct:30, items:[{name:'Power Rack or Squat Stand',key:'power-rack'},{name:'Adjustable Bench',key:'weight-bench'}], color:'#F59E0B' },
           { icon:'🪵', name:'Flooring', desc:'Rubber flooring to protect your floor and reduce noise.', basePct:10, items:[{name:'Horse Stall Mats (4x6ft)',key:'stall-mats'}], color:'#3B82F6' },
           { icon:'🎽', name:'Accessories', desc:'Belts, straps, pull-up bar, bands.', basePct:15, items:[{name:'Pull-Up Bar',key:'pull-up-bar'},{name:'Resistance Bands',key:'resistance-bands'}], color:'#8B5CF6' },
@@ -292,7 +300,7 @@
       },
       cardio: {
         categories: [
-          { icon:'🚴', name:'Cardio Machine', desc:'Your primary machine — rower, treadmill, or bike.', basePct:50, items:[{name:'Rowing Machine or Stationary Bike',key:'rowing-machine'}], color:'#FF5C00' },
+          { icon:'🚴', name:'Cardio Machine', desc:'Your primary machine — rower, treadmill, or bike.', basePct:50, items:[{name:'Rowing Machine or Stationary Bike',key:'rowing-machine'}], color:'#00B4FF' },
           { icon:'🏋️', name:'Resistance Training', desc:'Dumbbells and bands for strength work between cardio sessions.', basePct:25, items:[{name:'Adjustable Dumbbells',key:'adjustable-dumbbells'},{name:'Resistance Bands',key:'resistance-bands'}], color:'#F59E0B' },
           { icon:'🪵', name:'Flooring', desc:'Rubber tiles to protect floor under cardio machine.', basePct:10, items:[{name:'Rubber Gym Flooring Tiles',key:'rubber-flooring'}], color:'#3B82F6' },
           { icon:'🧘', name:'Recovery & Mobility', desc:'Foam roller, yoga mat, and stretching tools.', basePct:10, items:[{name:'Yoga Mat',key:'yoga-mat'},{name:'Foam Roller',key:'foam-roller'}], color:'#8B5CF6' },
@@ -301,7 +309,7 @@
       },
       general: {
         categories: [
-          { icon:'🏋️', name:'Free Weights', desc:'Adjustable dumbbells — the most versatile single purchase.', basePct:35, items:[{name:'Adjustable Dumbbells',key:'adjustable-dumbbells'},{name:'Kettlebell',key:'kettlebell'}], color:'#FF5C00' },
+          { icon:'🏋️', name:'Free Weights', desc:'Adjustable dumbbells — the most versatile single purchase.', basePct:35, items:[{name:'Adjustable Dumbbells',key:'adjustable-dumbbells'},{name:'Kettlebell',key:'kettlebell'}], color:'#00B4FF' },
           { icon:'🏗️', name:'Bench & Pull-Up', desc:'Adjustable bench and pull-up bar.', basePct:20, items:[{name:'Adjustable Bench',key:'weight-bench'},{name:'Pull-Up Bar',key:'pull-up-bar'}], color:'#F59E0B' },
           { icon:'🚴', name:'Cardio Machine', desc:'Stationary bike or rowing machine.', basePct:25, items:[{name:'Stationary Bike or Rower',key:'stationary-bike'}], color:'#22C55E' },
           { icon:'🪵', name:'Flooring', desc:'Protective rubber flooring for your workout area.', basePct:10, items:[{name:'Rubber Gym Tiles',key:'rubber-flooring'}], color:'#3B82F6' },
@@ -310,7 +318,7 @@
       },
       powerlifting: {
         categories: [
-          { icon:'🏋️', name:'Barbell & Plates', desc:'Olympic barbell and as many plates as budget allows.', basePct:40, items:[{name:'Olympic Barbell (quality)',key:'barbell'},{name:'Weight Plates Set',key:'weight-plates'}], color:'#FF5C00' },
+          { icon:'🏋️', name:'Barbell & Plates', desc:'Olympic barbell and as many plates as budget allows.', basePct:40, items:[{name:'Olympic Barbell (quality)',key:'barbell'},{name:'Weight Plates Set',key:'weight-plates'}], color:'#00B4FF' },
           { icon:'🏗️', name:'Rack', desc:'Power rack — the most important structural piece.', basePct:30, items:[{name:'Power Rack',key:'power-rack'},{name:'Adjustable Bench',key:'weight-bench'}], color:'#F59E0B' },
           { icon:'🪵', name:'Flooring / Platform', desc:'Deadlift platform and protective matting.', basePct:15, items:[{name:'Stall Mats (deadlift area)',key:'stall-mats'}], color:'#3B82F6' },
           { icon:'🎽', name:'Safety Accessories', desc:'Belt, straps, wrist wraps, chalk.', basePct:10, items:[{name:'Lifting Belt',key:'weight-lifting-belt'},{name:'Lifting Straps',key:'lifting-straps'}], color:'#8B5CF6' },
@@ -319,7 +327,7 @@
       },
       crossfit: {
         categories: [
-          { icon:'🏋️', name:'Barbell & Bumpers', desc:'Olympic barbell with bumper plates for WODs.', basePct:30, items:[{name:'Barbell + Bumper Plates Set',key:'bumper-plates'}], color:'#FF5C00' },
+          { icon:'🏋️', name:'Barbell & Bumpers', desc:'Olympic barbell with bumper plates for WODs.', basePct:30, items:[{name:'Barbell + Bumper Plates Set',key:'bumper-plates'}], color:'#00B4FF' },
           { icon:'🏗️', name:'Rig / Rack', desc:'Pull-up rig or power rack for gymnastics movements.', basePct:25, items:[{name:'Pull-Up Rig or Power Rack',key:'power-rack'}], color:'#F59E0B' },
           { icon:'🚴', name:'Cardio Machine', desc:'Assault bike or rower for conditioning work.', basePct:25, items:[{name:'Assault Bike or Rower',key:'assault-bike'}], color:'#22C55E' },
           { icon:'🪵', name:'Flooring', desc:'Rubber flooring — you\'ll be dropping weight.', basePct:10, items:[{name:'Heavy Rubber Flooring',key:'rubber-flooring'}], color:'#3B82F6' },
@@ -328,7 +336,7 @@
       },
       minimal: {
         categories: [
-          { icon:'🎽', name:'Resistance Bands', desc:'Full-body training in a bag — the ultimate space saver.', basePct:20, items:[{name:'Resistance Bands Set (5 levels)',key:'resistance-bands'}], color:'#FF5C00' },
+          { icon:'🎽', name:'Resistance Bands', desc:'Full-body training in a bag — the ultimate space saver.', basePct:20, items:[{name:'Resistance Bands Set (5 levels)',key:'resistance-bands'}], color:'#00B4FF' },
           { icon:'🏋️', name:'Adjustable Dumbbells', desc:'One pair replaces 15+ fixed sets.', basePct:40, items:[{name:'Bowflex or NÜO Adjustable Dumbbells',key:'adjustable-dumbbells'}], color:'#F59E0B' },
           { icon:'🧘', name:'Mat & Mobility', desc:'Yoga mat, foam roller, and stretching tools.', basePct:15, items:[{name:'Thick Yoga Mat',key:'yoga-mat'},{name:'Foam Roller',key:'foam-roller'}], color:'#3B82F6' },
           { icon:'🏗️', name:'Doorframe Bar', desc:'Pull-up bar — no drilling required.', basePct:10, items:[{name:'Doorway Pull-Up Bar',key:'pull-up-bar'}], color:'#8B5CF6' },
@@ -466,7 +474,7 @@
 
       // Center text
       const budget = parseFloat(document.getElementById('ba-budget').value) || 1500;
-      ctx.fillStyle = '#FF5C00';
+      ctx.fillStyle = '#00B4FF';
       ctx.font = 'bold 14px Barlow Condensed, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';

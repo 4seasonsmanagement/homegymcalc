@@ -31,7 +31,7 @@
     .article-body ul li { display: flex; gap: var(--space-3); align-items: flex-start; color: var(--gray-light); line-height: 1.6; }
     .article-body ul li::before { content: '→'; color: var(--orange); flex-shrink: 0; margin-top: 2px; }
     .article-body strong { color: var(--white); }
-    .callout { background: rgba(255,92,0,0.08); border: 1px solid rgba(255,92,0,0.25); border-left: 3px solid var(--orange); border-radius: var(--border-radius); padding: var(--space-5); margin: var(--space-5) 0; }
+    .callout { background: rgba(0,180,255,0.07); border: 1px solid rgba(0,180,255,0.18); border-left: 3px solid var(--orange); border-radius: var(--border-radius); padding: var(--space-5); margin: var(--space-5) 0; }
     .callout__label { font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--orange); margin-bottom: var(--space-3); }
     .callout p { margin-bottom: 0; }
     .callout--warning { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.25); border-left-color: var(--error); }
@@ -57,6 +57,14 @@
     .toc-link:last-child { border-bottom: none; }
     @media (max-width: 900px) { .article-layout { grid-template-columns: 1fr; } .sidebar { position: static; } .price-guide__row { grid-template-columns: 1fr 1fr; } }
   </style>
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wm51e3da2u");
+  </script>
 </head>
 <body>
   <nav class="nav">
@@ -321,7 +329,7 @@
             <a href="#" class="toc-link">How to Negotiate</a>
             <a href="#" class="toc-link">Best Time to Buy</a>
           </div>
-          <div class="sidebar-widget" style="background:rgba(255,92,0,0.05);border-color:rgba(255,92,0,0.3);">
+          <div class="sidebar-widget" style="background:rgba(0,180,255,0.05);border-color:rgba(0,180,255,0.25);">
             <div class="sidebar-widget__title" style="color:var(--orange);">📊 Free Tool</div>
             <p style="font-size:0.875rem;color:var(--gray-light);margin-bottom:var(--space-4);">Plan your budget across every equipment category.</p>
             <a href="/pages/budget-allocator.html" class="btn btn--primary btn--full btn--sm">Open Budget Allocator →</a>

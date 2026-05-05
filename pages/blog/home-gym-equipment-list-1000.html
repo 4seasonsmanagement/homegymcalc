@@ -32,14 +32,14 @@
     .article-body ul li { display: flex; gap: var(--space-3); align-items: flex-start; color: var(--gray-light); line-height: 1.6; }
     .article-body ul li::before { content: '→'; color: var(--orange); flex-shrink: 0; margin-top: 2px; }
     .article-body strong { color: var(--white); }
-    .callout { background: rgba(255,92,0,0.08); border: 1px solid rgba(255,92,0,0.25); border-left: 3px solid var(--orange); border-radius: var(--border-radius); padding: var(--space-5); margin: var(--space-5) 0; }
+    .callout { background: rgba(0,180,255,0.07); border: 1px solid rgba(0,180,255,0.18); border-left: 3px solid var(--orange); border-radius: var(--border-radius); padding: var(--space-5); margin: var(--space-5) 0; }
     .callout__label { font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--orange); margin-bottom: var(--space-3); }
     .callout p { margin-bottom: 0; }
     .equipment-card { background: var(--dark); border: 1px solid var(--border); border-radius: var(--border-radius-lg); padding: var(--space-5); margin: var(--space-4) 0; }
     .equipment-card__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); flex-wrap: wrap; gap: var(--space-3); }
     .equipment-card__name { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; text-transform: uppercase; color: var(--white); }
     .equipment-card__price { font-family: var(--font-display); font-size: 1.1rem; font-weight: 900; color: var(--orange); }
-    .equipment-card__priority { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; background: rgba(255,92,0,0.15); color: var(--orange); padding: 2px 10px; border-radius: 100px; }
+    .equipment-card__priority { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; background: rgba(0,180,255,0.12); color: var(--orange); padding: 2px 10px; border-radius: 100px; }
     .budget-total { background: var(--dark-2); border: 2px solid var(--orange); border-radius: var(--border-radius-lg); padding: var(--space-5); margin: var(--space-6) 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4); }
     .budget-total__label { font-family: var(--font-display); font-size: 1rem; font-weight: 700; text-transform: uppercase; color: var(--white); }
     .budget-total__amount { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: var(--orange); }
@@ -51,6 +51,14 @@
     .toc-link:last-child { border-bottom: none; }
     @media (max-width: 900px) { .article-layout { grid-template-columns: 1fr; } .sidebar { position: static; } }
   </style>
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wm51e3da2u");
+  </script>
 </head>
 <body>
   <nav class="nav">
@@ -284,7 +292,7 @@
             <a href="#" class="toc-link">How to Save Money</a>
             <a href="#" class="toc-link">Is It Worth It?</a>
           </div>
-          <div class="sidebar-widget" style="background:rgba(255,92,0,0.05);border-color:rgba(255,92,0,0.3);">
+          <div class="sidebar-widget" style="background:rgba(0,180,255,0.05);border-color:rgba(0,180,255,0.25);">
             <div class="sidebar-widget__title" style="color:var(--orange);">🏋️ Free Tool</div>
             <p style="font-size:0.875rem;color:var(--gray-light);margin-bottom:var(--space-4);">Get a personalized equipment list for your exact goals, space, and budget.</p>
             <a href="/pages/equipment-recommender.html" class="btn btn--primary btn--full btn--sm">Get My Plan →</a>
