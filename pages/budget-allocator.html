@@ -487,5 +487,131 @@
     // Init
     allocate();
   </script>
+  <!-- FEEDBACK WIDGET — paste just before </body> -->
+<style>
+  .fb-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #0EA5E9;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(14,165,233,0.35);
+    z-index: 9000;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .fb-btn:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(14,165,233,0.45); }
+  .fb-btn svg { width: 22px; height: 22px; }
+  .fb-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 9001; align-items: flex-end; justify-content: center; padding-bottom: 90px; }
+  .fb-overlay.open { display: flex; }
+  .fb-card { background: #ffffff; border-radius: 20px; padding: 28px 28px 24px; width: 100%; max-width: 420px; box-shadow: 0 8px 40px rgba(0,0,0,0.18); animation: fb-slide-up 0.25s ease; }
+  @keyframes fb-slide-up { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .fb-card__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .fb-card__title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; font-weight: 700; color: #0F172A; }
+  .fb-card__close { width: 28px; height: 28px; border-radius: 50%; background: #F1F5F9; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #64748B; font-size: 1rem; transition: background 0.15s; }
+  .fb-card__close:hover { background: #E2E8F0; }
+  .fb-stars { display: flex; gap: 6px; margin-bottom: 18px; }
+  .fb-star { font-size: 1.6rem; cursor: pointer; color: #CBD5E1; transition: color 0.15s, transform 0.15s; background: none; border: none; padding: 0; line-height: 1; }
+  .fb-star:hover, .fb-star.active { color: #F59E0B; transform: scale(1.15); }
+  .fb-questions { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+  .fb-label { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8rem; font-weight: 600; color: #475569; margin-bottom: 6px; display: block; }
+  .fb-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .fb-pill { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.78rem; font-weight: 500; padding: 5px 12px; border-radius: 100px; border: 1.5px solid #E2E8F0; background: #F8FAFC; color: #475569; cursor: pointer; transition: all 0.15s; }
+  .fb-pill:hover { border-color: #0EA5E9; color: #0EA5E9; }
+  .fb-pill.selected { background: #EFF8FF; border-color: #0EA5E9; color: #0EA5E9; font-weight: 600; }
+  .fb-textarea { width: 100%; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 10px 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.875rem; color: #0F172A; resize: none; height: 80px; transition: border-color 0.15s; background: #F8FAFC; }
+  .fb-textarea:focus { outline: none; border-color: #0EA5E9; background: #fff; }
+  .fb-textarea::placeholder { color: #94A3B8; }
+  .fb-submit { width: 100%; padding: 11px; background: #0EA5E9; color: #fff; border: none; border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: background 0.15s; }
+  .fb-submit:hover { background: #0284C7; }
+  .fb-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .fb-success { text-align: center; padding: 16px 0 8px; }
+  .fb-success__icon { font-size: 2.5rem; margin-bottom: 10px; }
+  .fb-success__title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; font-weight: 700; color: #0F172A; margin-bottom: 6px; }
+  .fb-success__sub { font-size: 0.85rem; color: #64748B; }
+  @media (max-width: 480px) { .fb-card { border-radius: 20px 20px 0 0; } .fb-overlay { padding-bottom: 0; align-items: flex-end; } .fb-btn { bottom: 20px; right: 20px; } }
+</style>
+
+<button class="fb-btn" id="fb-open" aria-label="Give feedback" title="Share feedback">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+
+<div class="fb-overlay" id="fb-overlay">
+  <div class="fb-card" id="fb-card">
+    <div class="fb-card__header">
+      <div class="fb-card__title">💬 Quick Feedback</div>
+      <button class="fb-card__close" id="fb-close">✕</button>
+    </div>
+    <div class="fb-stars" id="fb-stars">
+      <button class="fb-star" data-val="1">★</button>
+      <button class="fb-star" data-val="2">★</button>
+      <button class="fb-star" data-val="3">★</button>
+      <button class="fb-star" data-val="4">★</button>
+      <button class="fb-star" data-val="5">★</button>
+    </div>
+    <div class="fb-questions">
+      <div>
+        <span class="fb-label">What brought you here today?</span>
+        <div class="fb-pills" data-group="reason">
+          <button class="fb-pill" data-val="planning">Planning a home gym</button>
+          <button class="fb-pill" data-val="cost">Checking costs</button>
+          <button class="fb-pill" data-val="equipment">Comparing equipment</button>
+          <button class="fb-pill" data-val="browsing">Just browsing</button>
+        </div>
+      </div>
+      <div>
+        <span class="fb-label">Did you find what you needed?</span>
+        <div class="fb-pills" data-group="found">
+          <button class="fb-pill" data-val="yes">Yes, totally</button>
+          <button class="fb-pill" data-val="mostly">Mostly</button>
+          <button class="fb-pill" data-val="no">Not really</button>
+        </div>
+      </div>
+      <div>
+        <span class="fb-label">What would make this site more useful? (optional)</span>
+        <textarea class="fb-textarea" id="fb-text" placeholder="Any suggestions, missing tools, or ideas..."></textarea>
+      </div>
+    </div>
+    <form name="site-feedback" netlify netlify-honeypot="bot-field" hidden>
+      <input name="rating" /><input name="reason" /><input name="found" /><input name="message" /><input name="page" />
+    </form>
+    <button class="fb-submit" id="fb-submit">Send Feedback</button>
+    <div class="fb-success" id="fb-success" style="display:none;">
+      <div class="fb-success__icon">🙏</div>
+      <div class="fb-success__title">Thank you!</div>
+      <p class="fb-success__sub">Your feedback helps us build better tools for home gym builders.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const btn=document.getElementById('fb-open'),overlay=document.getElementById('fb-overlay'),close=document.getElementById('fb-close'),submit=document.getElementById('fb-submit'),success=document.getElementById('fb-success'),stars=document.querySelectorAll('.fb-star');
+    let rating=0,answers={reason:'',found:''};
+    btn.addEventListener('click',()=>overlay.classList.add('open'));
+    close.addEventListener('click',()=>overlay.classList.remove('open'));
+    overlay.addEventListener('click',(e)=>{if(e.target===overlay)overlay.classList.remove('open');});
+    stars.forEach(star=>{star.addEventListener('click',()=>{rating=parseInt(star.dataset.val);stars.forEach((s,i)=>s.classList.toggle('active',i<rating));});});
+    document.querySelectorAll('.fb-pills').forEach(group=>{group.querySelectorAll('.fb-pill').forEach(pill=>{pill.addEventListener('click',()=>{group.querySelectorAll('.fb-pill').forEach(p=>p.classList.remove('selected'));pill.classList.add('selected');answers[group.dataset.group]=pill.dataset.val;});});});
+    submit.addEventListener('click',async()=>{
+      submit.disabled=true;submit.textContent='Sending...';
+      const body=new URLSearchParams({'form-name':'site-feedback','rating':rating||'Not rated','reason':answers.reason||'Not selected','found':answers.found||'Not selected','message':document.getElementById('fb-text').value||'','page':window.location.pathname});
+      try{await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()});}catch(e){}
+      document.getElementById('fb-card').querySelector('.fb-questions').style.display='none';
+      document.getElementById('fb-stars').style.display='none';
+      submit.style.display='none';success.style.display='block';
+      setTimeout(()=>overlay.classList.remove('open'),3000);
+      if(typeof gtag!=='undefined')gtag('event','feedback_submitted',{rating,reason:answers.reason});
+    });
+  })();
+</script>
+<!-- END FEEDBACK WIDGET -->
 </body>
 </html>
